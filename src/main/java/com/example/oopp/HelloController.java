@@ -71,39 +71,39 @@ public class HelloController {
 
     private int currentState = 1; // You can use integers to represent different states
 
-    @FXML
-    private void initialize() {
-        // Set the initial state (e.g., showing the sign-in form)
-        showSignInForm();
-    }
+//    @FXML
+//    private void initialize() {
+//        // Set the initial state (e.g., showing the sign-in form)
+//        showSignInForm();
+//    }
 
-    @FXML
-    private void handleHyperlinkClick(ActionEvent event) {
-        if (event.getSource() == student_signin_link) {
-            // Switch to the student sign-in form
-            showSignInForm();
-        } else if (event.getSource() == create_account_link) {
-            // Switch to the student create account form
-            showStudentCreateAccountForm();
-        } else if (event.getSource() == advisor_signin_link) {
-            // Switch to the advisor sign-in form
-            showSignInForm();
-        }
-    }
-
-    private void showSignInForm() {
-        signin_form.setVisible(true);
-        std_create_account_form.setVisible(false);
-        advisor_form.setVisible(false);
-        currentState = 1; // Set the current state to sign-in
-    }
-
-    private void showStudentCreateAccountForm() {
-        signin_form.setVisible(false);
-        std_create_account_form.setVisible(true);
-        advisor_form.setVisible(false);
-        currentState = 2; // Set the current state to student create account
-    }
+//    @FXML
+//    private void handleHyperlinkClick(ActionEvent event) {
+//        if (event.getSource() == student_signin_link) {
+//            // Switch to the student sign-in form
+//            showSignInForm();
+//        } else if (event.getSource() == create_account_link) {
+//            // Switch to the student create account form
+//            showStudentCreateAccountForm();
+//        } else if (event.getSource() == advisor_signin_link) {
+//            // Switch to the advisor sign-in form
+//            showSignInForm();
+//        }
+//    }
+//
+//    private void showSignInForm() {
+//        signin_form.setVisible(true);
+//        std_create_account_form.setVisible(false);
+//        advisor_form.setVisible(false);
+//        currentState = 1; // Set the current state to sign-in
+//    }
+//
+//    private void showStudentCreateAccountForm() {
+//        signin_form.setVisible(false);
+//        std_create_account_form.setVisible(true);
+//        advisor_form.setVisible(false);
+//        currentState = 2; // Set the current state to student create account
+//    }
 
 //    private int currentState = 1;
 //        switch (currentState) {

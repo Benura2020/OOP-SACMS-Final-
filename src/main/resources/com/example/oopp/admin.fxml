@@ -77,7 +77,7 @@
    <center>
       <StackPane prefHeight="550.0" prefWidth="550.0" styleClass="advisor-main-pane" stylesheets="@cadvisor.css" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" visible="false">
+            <AnchorPane fx:id="Membership" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Text layoutX="28.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Club Membership Report">
                      <font>
@@ -94,7 +94,7 @@
                   <Button layoutX="215.0" layoutY="451.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" styleClass="search-button" stylesheets="@cadvisor.css" text="Get Report" />
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0" visible="false">
+            <AnchorPane fx:id="Attendance" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
                   <Text layoutX="26.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Event Attendance Report">
                      <font>
@@ -112,7 +112,7 @@
                   <Button layoutX="225.0" layoutY="461.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" styleClass="search-button" stylesheets="@cadvisor.css" text="Get Report" />
                </children>
             </AnchorPane>
-            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane fx:id="Activiities" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
                   <Text layoutX="28.0" layoutY="40.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Club Activity Report">
                      <font>
