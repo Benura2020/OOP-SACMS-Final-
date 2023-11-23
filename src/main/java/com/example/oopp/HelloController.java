@@ -71,7 +71,7 @@ public class HelloController {
 
     private int currentState = 1; // You can use integers to represent different states
 
-    @FXML
+    /*@FXML
     private void initialize() {
         // Set the initial state (e.g., showing the sign-in form)
         showSignInForm();
@@ -103,7 +103,7 @@ public class HelloController {
         std_create_account_form.setVisible(true);
         advisor_form.setVisible(false);
         currentState = 2; // Set the current state to student create account
-    }
+    }*/
 
 //    private int currentState = 1;
 //        switch (currentState) {
