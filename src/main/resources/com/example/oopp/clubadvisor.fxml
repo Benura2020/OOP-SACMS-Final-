@@ -90,11 +90,10 @@
    <center>
       <StackPane prefHeight="550.0" prefWidth="550.0" styleClass="advisor-main-pane" stylesheets="@cadvisor.css" BorderPane.alignment="CENTER">
          <children>
-<<<<<<< HEAD
+
             <AnchorPane fx:id="createClubAnchorPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@cadvisor.css" visible="false">
-=======
+
             <AnchorPane fx:id="Manage" prefHeight="200.0" prefWidth="200.0" stylesheets="@cadvisor.css">
->>>>>>> Manusha
                <children>
                   <TextField layoutX="112.0" layoutY="59.0" prefHeight="25.0" prefWidth="306.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
                   <Text layoutX="30.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Club">
@@ -135,6 +134,7 @@
                   <Button layoutX="444.0" layoutY="236.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" styleClass="update-button" stylesheets="@cadvisor.css" text="Update" />
                   <Button layoutX="444.0" layoutY="289.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" styleClass="delete-button" stylesheets="@cadvisor.css" text="Delete" />
                </children></AnchorPane>
+            </AnchorPane>
             <AnchorPane fx:id="eventSchedulingPane" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
                   <Text layoutX="29.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Event Scheduling">
@@ -226,11 +226,8 @@
                   </Text>
                </children>
             </AnchorPane>
-<<<<<<< HEAD
             <AnchorPane fx:id="JoinRequestsPane" prefHeight="200.0" prefWidth="200.0">
-=======
             <AnchorPane fx:id="JoinRequests" prefHeight="200.0" prefWidth="200.0" visible="false">
->>>>>>> Manusha
                <children>
                   <TableView layoutX="23.0" layoutY="125.0" prefHeight="387.0" prefWidth="503.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
                      <columns>
@@ -247,6 +244,7 @@
                   <Button layoutX="137.0" layoutY="72.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" styleClass="add-button" stylesheets="@cadvisor.css" text="Accept" />
                   <Button layoutX="293.0" layoutY="72.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" styleClass="delete-button" stylesheets="@cadvisor.css" text="Decline" />
                </children>
+            </AnchorPane>
             </AnchorPane>
          </children>
       </StackPane>
