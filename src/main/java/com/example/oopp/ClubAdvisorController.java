@@ -17,6 +17,10 @@ public class ClubAdvisorController {
 
     @FXML
     private Button SheduleEventsButton;
+    @FXML
+    private AnchorPane eventUpdatePane;
+    @FXML
+    private Button EventDeleteUpdateButton;
 
     @FXML
     private Button clubAttendenceButton;
@@ -37,12 +41,14 @@ public class ClubAdvisorController {
             AttendencePane.setVisible(false);
             eventSchedulingPane.setVisible(false);
             JoinRequestsPane.setVisible(false);
+            eventUpdatePane.setVisible(false);
         }
         if (event.getSource()==SheduleEventsButton){
             eventSchedulingPane.setVisible(true);
             createClubAnchorPane.setVisible(false);
             JoinRequestsPane.setVisible(false);
             AttendencePane.setVisible(false);
+            eventUpdatePane.setVisible(false);
 
         }
         if (event.getSource()==clubJoinRequestButton) {
@@ -50,6 +56,7 @@ public class ClubAdvisorController {
             createClubAnchorPane.setVisible(false);
             JoinRequestsPane.setVisible(true);
             AttendencePane.setVisible(false);
+            eventUpdatePane.setVisible(false);
         }
 
         if (event.getSource()==clubAttendenceButton){
@@ -57,6 +64,15 @@ public class ClubAdvisorController {
             createClubAnchorPane.setVisible(false);
             JoinRequestsPane.setVisible(false);
             AttendencePane.setVisible(true);
+            eventUpdatePane.setVisible(false);
+        }
+        if (event.getSource()==EventDeleteUpdateButton){
+            eventUpdatePane.setVisible(true);
+            eventSchedulingPane.setVisible(false);
+            createClubAnchorPane.setVisible(false);
+            JoinRequestsPane.setVisible(false);
+            AttendencePane.setVisible(false);
+
         }
 
 
