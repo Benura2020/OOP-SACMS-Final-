@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b5d82f76-8c2e-4b9a-8e9d-218124c9c6dc" name="Changes" comment="" />
-    <list default="true" id="a8ad899c-2f36-415c-ae07-f10b528afecb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/DatabaseConnection.java" afterDir="false" />
+    <list default="true" id="b5d82f76-8c2e-4b9a-8e9d-218124c9c6dc" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/ClubAdvisorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/ClubAdvisorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/EventSheduleDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/EventSheduleDatabaseConnection.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +48,7 @@
       <recent name="C:\Users\asus\Java CW OOD main\OOP-SACMS-Final-\src\main\resources\Pictures" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Clubadvisor">
+  <component name="RunManager" selected="Application.ClubadvisorApplication">
     <configuration name="Clubadvisor" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.oopp.Clubadvisor" />
       <module name="OOP-SACMS-Final-" />
@@ -58,7 +58,7 @@
     </configuration>
     <configuration name="ClubadvisorApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.oopp.ClubadvisorApplication" />
-      <module name="OOPP" />
+      <module name="OOP-SACMS-Final-" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.example.oopp.*" />

@@ -47,16 +47,19 @@ public class EventSheduleDatabaseConnection {
         return false;
     }
 
-    public List<String> getClubsByAdvisorId(String advisorId) {
-        List<String> clubs = new ArrayList<>();
+    public List<Club> getClubsByAdvisorId(String advisorId) {
+        List<Club> clubs = new ArrayList<>();
         try {
-            String query = "SELECT clubName FROM club WHERE teacherId = ?";
+            String query = "SELECT clubId, clubName, clubDescription FROM club WHERE teacherId = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setString(1, advisorId);
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
+                        String clubId = resultSet.getString("clubId");
                         String clubName = resultSet.getString("clubName");
-                        clubs.add(clubName);
+                        String clubDescription = resultSet.getString("clubDescription");
+                        Club club = new Club(clubId, clubName, clubDescription);
+                        clubs.add(club);
                     }
                 }
             }
@@ -65,4 +68,5 @@ public class EventSheduleDatabaseConnection {
         }
         return clubs;
     }
+
 }

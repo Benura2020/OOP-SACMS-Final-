@@ -7,8 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.util.StringConverter;
 
-import java.sql.Connection;
 import java.util.List;
 
 public class ClubAdvisorController {
@@ -23,10 +23,6 @@ public class ClubAdvisorController {
 
     @FXML
     private Button SheduleEventsButton;
-    @FXML
-    private AnchorPane eventUpdatePane;
-    @FXML
-    private Button EventDeleteUpdateButton;
 
     @FXML
     private Button clubAttendenceButton;
@@ -40,11 +36,11 @@ public class ClubAdvisorController {
     @FXML
     private AnchorPane eventSchedulingPane;
     @FXML
+    private AnchorPane eventSchedulingSecondPane;
+    @FXML
     private TextField eventSchedulingEnterField;
     @FXML
-    private ChoiceBox<String> eventSchedulingChoiceBox;
-    @FXML
-    private AnchorPane eventSchedulingSecondPane;
+    private ChoiceBox<Club> eventSchedulingChoiceBox;
 
     @FXML
     public void mainClick(ActionEvent event){
@@ -53,14 +49,12 @@ public class ClubAdvisorController {
             AttendencePane.setVisible(false);
             eventSchedulingPane.setVisible(false);
             JoinRequestsPane.setVisible(false);
-            eventUpdatePane.setVisible(false);
         }
         if (event.getSource()==SheduleEventsButton){
             eventSchedulingPane.setVisible(true);
             createClubAnchorPane.setVisible(false);
             JoinRequestsPane.setVisible(false);
             AttendencePane.setVisible(false);
-            eventUpdatePane.setVisible(false);
 
         }
         if (event.getSource()==clubJoinRequestButton) {
@@ -68,7 +62,6 @@ public class ClubAdvisorController {
             createClubAnchorPane.setVisible(false);
             JoinRequestsPane.setVisible(true);
             AttendencePane.setVisible(false);
-            eventUpdatePane.setVisible(false);
         }
 
         if (event.getSource()==clubAttendenceButton){
@@ -76,38 +69,49 @@ public class ClubAdvisorController {
             createClubAnchorPane.setVisible(false);
             JoinRequestsPane.setVisible(false);
             AttendencePane.setVisible(true);
-            eventUpdatePane.setVisible(false);
-        }
-        if (event.getSource()==EventDeleteUpdateButton){
-            eventUpdatePane.setVisible(true);
-            eventSchedulingPane.setVisible(false);
-            createClubAnchorPane.setVisible(false);
-            JoinRequestsPane.setVisible(false);
-            AttendencePane.setVisible(false);
-
         }
     }
-
-    EventSheduleDatabaseConnection dbConnection = new EventSheduleDatabaseConnection();EventSheduleDatabaseConnection dbConnector = new EventSheduleDatabaseConnection();
-
-    // Use the connection
-    
+    EventSheduleDatabaseConnection dbConnection = new EventSheduleDatabaseConnection();
     @FXML
-    public void enterAdvisorIdClick(ActionEvent event){
+    public void enterAdvisorIdClick(ActionEvent event) {
         String advisorId = eventSchedulingEnterField.getText();
 
+        // Check if advisor ID exists
         if (dbConnection.isAdvisorIdExists(advisorId)) {
             // If advisor ID exists, set the second pane visible
             eventSchedulingSecondPane.setVisible(true);
 
-            // Retrieve and load all club names to the ChoiceBox
-            List<String> clubs = dbConnection.getClubsByAdvisorId(advisorId);
-            eventSchedulingChoiceBox.getItems().addAll(clubs);
+            // Retrieve and load all clubs to the ChoiceBox
+            List<Club> clubs = dbConnection.getClubsByAdvisorId(advisorId);
+
+            // Clear existing items in the ChoiceBox
+            eventSchedulingChoiceBox.getItems().clear();
+
+
+            for (Club club : clubs) {
+                if (club != null) {
+                    eventSchedulingChoiceBox.getItems().add(club);
+                }
+            }
+
+            // Set a custom cell factory for the ChoiceBox to display club names
+            eventSchedulingChoiceBox.setConverter(new StringConverter<Club>() {
+                @Override
+                public String toString(Club club) {
+                    return club == null ? "" : club.getClubName();
+                }
+
+                @Override
+                public Club fromString(String string) {
+                    return null;
+                }
+            });
         } else {
             // If advisor ID doesn't exist, show an alert
             showAlert("Advisor ID Not Found", "The provided Advisor ID does not exist in the database.");
         }
     }
+
 
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -116,10 +120,5 @@ public class ClubAdvisorController {
         alert.setContentText(content);
         alert.showAndWait();
     }
-
-
-
-
-
 
 }
