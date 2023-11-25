@@ -2,8 +2,13 @@ package com.example.oopp;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+
+import java.util.List;
 
 public class ClubAdvisorController {
     @FXML
@@ -33,6 +38,12 @@ public class ClubAdvisorController {
 
     @FXML
     private AnchorPane eventSchedulingPane;
+    @FXML
+    private TextField eventSchedulingEnterField;
+    @FXML
+    private ChoiceBox<String> eventSchedulingChoiceBox;
+    @FXML
+    private AnchorPane eventSchedulingSecondPane;
 
     @FXML
     public void mainClick(ActionEvent event){
@@ -74,11 +85,37 @@ public class ClubAdvisorController {
             AttendencePane.setVisible(false);
 
         }
-
-
-
-
-
     }
+
+    EventSheduleDatabaseConnection dbConnection = new EventSheduleDatabaseConnection();
+    @FXML
+    public void enterAdvisorIdClick(ActionEvent event){
+        String advisorId = eventSchedulingEnterField.getText();
+
+        if (dbConnection.isAdvisorIdExists(advisorId)) {
+            // If advisor ID exists, set the second pane visible
+            eventSchedulingSecondPane.setVisible(true);
+
+            // Retrieve and load all club names to the ChoiceBox
+            List<String> clubs = dbConnection.getClubsByAdvisorId(advisorId);
+            eventSchedulingChoiceBox.getItems().addAll(clubs);
+        } else {
+            // If advisor ID doesn't exist, show an alert
+            showAlert("Advisor ID Not Found", "The provided Advisor ID does not exist in the database.");
+        }
+    }
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
+
+
+
+
 
 }

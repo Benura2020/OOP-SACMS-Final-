@@ -135,9 +135,9 @@
                   <Button layoutX="444.0" layoutY="289.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" styleClass="delete-button" stylesheets="@cadvisor.css" text="Delete" />
                </children></AnchorPane>
             </AnchorPane>
-            <AnchorPane fx:id="eventSchedulingPane" visible="false">
+            <AnchorPane fx:id="eventSchedulingPane">
                <children>
-                  <AnchorPane prefHeight="550.0" prefWidth="550.0">
+                  <AnchorPane fx:id="eventSchedulingSecondPane" prefHeight="550.0" prefWidth="550.0" visible="false">
                      <children>
                         <Text layoutX="24.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name             :" />
                         <Text layoutX="24.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type               :" />
@@ -151,7 +151,7 @@
                         <Button layoutX="389.0" layoutY="192.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" styleClass="search-button" stylesheets="@cadvisor.css" text="Schedule" />
                         <ChoiceBox layoutX="137.0" layoutY="129.0" prefWidth="150.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
                         <Text layoutX="25.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Club               :" wrappingWidth="92.18164443969727" />
-                        <ChoiceBox layoutX="136.0" layoutY="91.0" prefWidth="150.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                        <ChoiceBox fx:id="eventSchedulingChoiceBox" layoutX="136.0" layoutY="91.0" prefWidth="150.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
                         <Text layoutX="24.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type/Agenda :" wrappingWidth="103.944580078125" />
                         <TextField layoutX="139.0" layoutY="337.0" prefWidth="150.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
                         <Text layoutX="25.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Event ID         :" wrappingWidth="86.25701904296875" />
@@ -175,8 +175,8 @@
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <TextField alignment="CENTER" layoutX="139.0" layoutY="47.0" promptText="Enter Advisor ID" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
-                  <Button layoutX="321.0" layoutY="47.0" mnemonicParsing="false" text="Enter" />
+                  <TextField fx:id="eventSchedulingEnterField" alignment="CENTER" layoutX="139.0" layoutY="47.0" promptText="Enter Advisor ID" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                  <Button layoutX="321.0" layoutY="47.0" mnemonicParsing="false" onAction="#enterAdvisorIdClick" text="Enter" />
                   <Button fx:id="EventDeleteUpdateButton" layoutX="368.0" layoutY="11.0" mnemonicParsing="false" onAction="#mainClick" prefHeight="26.0" prefWidth="158.0" text="Delete/Update" />
                   <ImageView disable="true" fitHeight="23.0" fitWidth="41.0" layoutX="493.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -235,7 +235,7 @@
                </children>
             </AnchorPane>
             </AnchorPane>
-            <AnchorPane fx:id="eventUpdatePane">
+            <AnchorPane fx:id="eventUpdatePane" visible="false">
                <children>
                   <AnchorPane prefHeight="550.0" prefWidth="551.0">
                      <children>
