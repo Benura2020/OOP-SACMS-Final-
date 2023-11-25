@@ -9,10 +9,7 @@ import java.io.IOException;
 import java.sql.Connection;
 
 public class Clubadvisor extends Application {
-    EventSheduleDatabaseConnection dbConnector = new EventSheduleDatabaseConnection();
 
-    // Use the connection
-    Connection connection = dbConnector.getConnection();
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("clubadvisor.fxml"));

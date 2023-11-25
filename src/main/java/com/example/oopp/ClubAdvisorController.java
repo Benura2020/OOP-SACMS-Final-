@@ -8,6 +8,7 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
+import java.sql.Connection;
 import java.util.List;
 
 public class ClubAdvisorController {
@@ -87,7 +88,10 @@ public class ClubAdvisorController {
         }
     }
 
-    EventSheduleDatabaseConnection dbConnection = new EventSheduleDatabaseConnection();
+    EventSheduleDatabaseConnection dbConnection = new EventSheduleDatabaseConnection();EventSheduleDatabaseConnection dbConnector = new EventSheduleDatabaseConnection();
+
+    // Use the connection
+    
     @FXML
     public void enterAdvisorIdClick(ActionEvent event){
         String advisorId = eventSchedulingEnterField.getText();
