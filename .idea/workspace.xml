@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b5d82f76-8c2e-4b9a-8e9d-218124c9c6dc" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/ClubAdvisorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/ClubAdvisorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/Clubadvisor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/Clubadvisor.java" afterDir="false" />
-    </list>
+    <list default="true" id="b5d82f76-8c2e-4b9a-8e9d-218124c9c6dc" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
