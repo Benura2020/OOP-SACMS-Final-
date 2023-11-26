@@ -206,8 +206,31 @@ public class HelloController {
         toggleVisibility(advisor_signin_form, false);
     }
 
+    // student signin
     public void studentSigninButtonOnAction(ActionEvent event){
-        if(signinStudentIdTextField.getText().isBlank())
+        if(signinStudentIdTextField.getText().isBlank() == false && signinStudentPasswordField.getText().isBlank() == false){
+
+        }else{
+            studentSigninMessageLabel.setText("Please enter StudentId and password");
+        }
+    }
+
+    //validate student signin from database
+    public void validateStudentLogin(){
+
+    }
+
+    // teacher signin
+    public void teacherSigninButtonOnAction(ActionEvent event){
+        if(signinStudentIdTextField.getText().isBlank() == false && signinStudentPasswordField.getText().isBlank() == false){
+            validateTeacherLogin();
+        }else{
+            teacherSigninMessageLabel.setText("Please enter TeacherId and password");
+        }
+    }
+
+    //validate teacher signin from database
+    public void validateTeacherLogin(){
 
     }
 }
