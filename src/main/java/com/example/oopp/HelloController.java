@@ -206,6 +206,8 @@ public class HelloController {
         toggleVisibility(advisor_signin_form, false);
     }
 
+    public void studentSigninButtonOnAction(ActionEvent event){
+        if(signinStudentIdTextField.getText().isBlank())
 
-
+    }
 }
