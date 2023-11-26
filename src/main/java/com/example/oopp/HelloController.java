@@ -207,7 +207,7 @@ public class HelloController {
     }
 
     public void studentSigninButtonOnAction(ActionEvent event){
-        if(signinStudentIdTextField.getText().isBlank())
+        if(signinStudentIdTextField.getText().isBlank());
 
     }
 }
