@@ -11,9 +11,10 @@ public class Meeting extends ScheduleActivity{
         this.agenda = agenda;
     }
 
-    public Meeting(int scheduleId, String title, String date, String time, String location, String descrition, String agenda) {
-        super(scheduleId, title, date, time, location, descrition);
+    public Meeting(int eventId, String title, String date, String time, String location, String description,int clubId,String advisorId, String agenda) {
+        super(eventId, title, date, time, location, description,clubId,advisorId);
         this.agenda = agenda;
     }
 
 }
+

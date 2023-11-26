@@ -7,6 +7,26 @@ public abstract class ScheduleActivity {
     private String time;
     private String location;
     private String description;
+    private int clubId;
+    private String advisorId;
+
+    public int getClubId() {
+        return clubId;
+    }
+
+    public void setClubId(int clubId) {
+        this.clubId = clubId;
+    }
+
+    public String getAdvisorId() {
+        return advisorId;
+    }
+
+    public void setAdvisorId(String advisorId) {
+        this.advisorId = advisorId;
+    }
+
+
 
 
     public  int getEventId() {
@@ -57,13 +77,15 @@ public abstract class ScheduleActivity {
         this.description = description;
     }
 
-    public ScheduleActivity(int scheduleId, String title, String date, String time, String location, String description) {
+    public ScheduleActivity(int scheduleId, String title, String date, String time, String location, String description,int clubId,String advisorId) {
         this.eventId = scheduleId;
         this.title = title;
         this.date = date;
         this.time = time;
         this.location = location;
         this.description = description;
+        this.clubId = clubId;
+        this.advisorId = advisorId;
 
     }
 

@@ -11,8 +11,8 @@ public class Activity extends ScheduleActivity{
         this.activityType = activityType;
     }
 
-    public Activity(int scheduleId, String title, String date, String time, String location, String descrition, String activityType) {
-        super(scheduleId, title, date, time, location, descrition);
+    public Activity(int eventId, String title, String date, String time, String location, String descrition,int clubId,String advisorId, String activityType) {
+        super(eventId, title, date, time, location, descrition,clubId,advisorId);
         this.activityType = activityType;
     }
 }
