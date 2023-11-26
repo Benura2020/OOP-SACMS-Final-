@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EventSheduleDatabaseConnection {
-    private static final String URL = "jdbc:mysql://localhost:3306/database";
+
+
+    private static final String URL = "jdbc:mysql://localhost:3306/ood";
+
     private static final String USER = "root";
     private static final String PASSWORD = "1234";
 
