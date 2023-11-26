@@ -107,8 +107,8 @@ public class HelloController {
     private Button teacherSignupBackButton;
 
 
-    // method for showing and hiding anchor panes
-    private void toggleVisibility(AnchorPane pane, boolean isVisible) {
+    // method for showing and hiding anchor panes . also used in other classes
+    public static void toggleVisibility(AnchorPane pane, boolean isVisible) {
         pane.setVisible(isVisible);
     }
 
