@@ -55,4 +55,10 @@ public class StudentController {
 
 
 
+    //save student data to database
+    public void saveStudentToDatabase(){
+
+    }
+
+
 }
