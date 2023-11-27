@@ -206,6 +206,41 @@ public class HelloController {
         toggleVisibility(advisor_signin_form, false);
     }
 
+
+    // student signup
+
+    public void studentSignupButtonOnAction(){
+        //get user inputs from textfields and passwordfields
+        String studentId = signupStudentIdTextField.getText();
+        String studentName = signupStudentNameTextField.getText();
+        String studentPassword = signupStudentPasswordField.getText();
+        String studentConfirmPassword = signupStudentConfirmPasswordField.getText();
+
+        // Validate student ID
+        if (!InputValidations.validateId(studentId)) {
+            showAlert("Invalid student ID. Enter a valid one.");
+
+            // Clear all text and password fields
+            signupStudentIdTextField.clear();
+            signupStudentNameTextField.clear();
+            signupStudentPasswordField.clear();
+            signupStudentConfirmPasswordField.clear();
+
+            return;
+        }
+
+        // Validate password and confirmPassword
+        if (!InputValidations.arePasswordsEqual(studentPassword, studentConfirmPassword)) {
+            showAlert("Passwords do not match");
+            return null;
+        }
+
+
+    }
+
+    //public void
+
+
     // student signin
     public void studentSigninButtonOnAction(ActionEvent event){
         if(signinStudentIdTextField.getText().isBlank() == false && signinStudentPasswordField.getText().isBlank() == false){
