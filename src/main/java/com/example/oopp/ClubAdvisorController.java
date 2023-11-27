@@ -8,6 +8,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 
+import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -224,58 +225,171 @@ public class ClubAdvisorController {
         }
     }
     @FXML
-    public void eventScheduleClick(ActionEvent event){
-        int eventId = Integer.parseInt(EventSchedulingEventId.getText());
-        String eventName = EventSchedulingEventName.getText();
-        String eventDate = String.valueOf(EventSchedulingDatePicker.getValue());
-        String time = EventSchedulingTime.getText();
-        String description = EventSchedulingDescription.getText();
-        String location = EventSchedulingLocation.getText();
-        String TypeOrAgenda = EventSchedulingTypeOrAgenda.getText();
-        String clubName = eventSchedulingChoiceBox.getValue().getClubName();
-        String advisorId = eventSchedulingEnterField.getText();
-        int clubId = dbConnection.getClubIdByClubName(clubName);
+    public void eventScheduleClick(ActionEvent event) {
+        try {
+            // Validate other fields (non-empty check)
+            String eventName = EventSchedulingEventName.getText();
+            String time = EventSchedulingTime.getText();
+            String description = EventSchedulingDescription.getText();
+            String location = EventSchedulingLocation.getText();
+            String TypeOrAgenda = EventSchedulingTypeOrAgenda.getText();
+            String advisorId = eventSchedulingEnterField.getText();
+            String selectedType = EventSchedulingTypeChoiceBox.getValue();
+
+            boolean hasEmptyFields = false;
+
+            // Set red border color for empty fields
+            if (eventName.isEmpty()) {
+                EventSchedulingEventName.setStyle("-fx-border-color: red;");
+                hasEmptyFields = true;
+            } else {
+                EventSchedulingEventName.setStyle(null);
+            }
+
+            if (time.isEmpty()) {
+                EventSchedulingTime.setStyle("-fx-border-color: red;");
+                hasEmptyFields = true;
+            } else {
+                // Validate time format (e.g., 12am)
+                if (!time.matches("^\\d{1,2}(am|pm)$")) {
+                    showAlert("Invalid Time Format", "Please enter a valid time format (e.g., 12am).");
+                    EventSchedulingTime.setStyle("-fx-border-color: red;");
+                    return;
+                } else {
+                    EventSchedulingTime.setStyle(null);
+                }
+            }
+
+            if (description.isEmpty()) {
+                EventSchedulingDescription.setStyle("-fx-border-color: red;");
+                hasEmptyFields = true;
+            } else {
+                EventSchedulingDescription.setStyle(null);
+            }
+
+            if (location.isEmpty()) {
+                EventSchedulingLocation.setStyle("-fx-border-color: red;");
+                hasEmptyFields = true;
+            } else {
+                EventSchedulingLocation.setStyle(null);
+            }
+
+            if (TypeOrAgenda.isEmpty()) {
+                EventSchedulingTypeOrAgenda.setStyle("-fx-border-color: red;");
+                hasEmptyFields = true;
+            } else {
+                EventSchedulingTypeOrAgenda.setStyle(null);
+            }
+
+            if (advisorId.isEmpty()) {
+                eventSchedulingEnterField.setStyle("-fx-border-color: red;");
+                hasEmptyFields = true;
+            } else {
+                eventSchedulingEnterField.setStyle(null);
+            }
+
+            if (selectedType == null) {
+                EventSchedulingTypeChoiceBox.setStyle("-fx-border-color: red;");
+                hasEmptyFields = true;
+            } else {
+                EventSchedulingTypeChoiceBox.setStyle(null);
+            }
+
+            // Check if ClubName is selected
+            if (eventSchedulingChoiceBox.getValue() == null) {
+                eventSchedulingChoiceBox.setStyle("-fx-border-color: red;");
+                hasEmptyFields = true;
+            } else {
+                eventSchedulingChoiceBox.setStyle(null);
+            }
+
+            if (hasEmptyFields) {
+                showAlert("Incomplete Form", "Please fill in all required fields.");
+                return;
+            }
+
+            // Reset border color for non-empty fields
+            EventSchedulingEventName.setStyle(null);
+            EventSchedulingTime.setStyle(null);
+            EventSchedulingDescription.setStyle(null);
+            EventSchedulingLocation.setStyle(null);
+            EventSchedulingTypeOrAgenda.setStyle(null);
+            eventSchedulingEnterField.setStyle(null);
+            EventSchedulingTypeChoiceBox.setStyle(null);
+            eventSchedulingChoiceBox.setStyle(null);
+
+            // Validate Event ID (if not empty)
+            String eventIdText = EventSchedulingEventId.getText();
+            int eventId = eventIdText.isEmpty() ? 0 : Integer.parseInt(eventIdText);
+
+            // Validate Event Date (if not empty)
+            LocalDate eventDateLocal = EventSchedulingDatePicker.getValue();
+            if (eventDateLocal == null) {
+                EventSchedulingDatePicker.setStyle("-fx-border-color: red;");
+                showAlert("Invalid Input", "Please select a valid Event Date.");
+                return;
+            } else {
+                // Reset border color for EventSchedulingDatePicker
+                EventSchedulingDatePicker.setStyle(null);
+            }
+
+// Convert LocalDate to String
+            String eventDate = eventDateLocal.toString();
 
 
-        String selectedType = EventSchedulingTypeChoiceBox.getValue();
-        if (isDuplicateEventId(eventId)) {
-            // Set red border color for EventSchedulingEventId
+            if (isDuplicateEventId(eventId)) {
+                // Set red border color for EventSchedulingEventId
+                EventSchedulingEventId.setStyle("-fx-border-color: red;");
+                showAlert("Duplicate Event ID", "Event ID already exists. Please choose a different one.");
+                return;
+            } else {
+                // Reset border color for EventSchedulingEventId
+                EventSchedulingEventId.setStyle(null);
+            }
+
+            int clubId = dbConnection.getClubIdByClubName(eventSchedulingChoiceBox.getValue().getClubName());
+
+            switch (selectedType) {
+                case "Meeting":
+                    Meeting meeting = new Meeting(eventId, eventName, eventDate, time, location, description, clubId, advisorId, TypeOrAgenda);
+                    meetingList.add(meeting);
+                    dbConnection.insertMeetings(meetingList);
+                    meetingList.clear();
+                    break;
+                case "Event":
+                    Event events = new Event(eventId, eventName, eventDate, time, location, description, clubId, advisorId, TypeOrAgenda);
+                    eventList.add(events);
+                    dbConnection.insertEvents(eventList);
+                    eventList.clear();
+                    break;
+                case "Activity":
+                    Activity activity = new Activity(eventId, eventName, eventDate, time, location, description, clubId, advisorId, TypeOrAgenda);
+                    activityList.add(activity);
+                    dbConnection.insertActivities(activityList);
+                    activityList.clear();
+                    break;
+                default:
+                    showAlert("Please Choose a Type", "Please select a type (Meeting, Event, or Activity).");
+                    break;
+            }
+
+            // Clear input fields
+            clearInputFields();
+
+            // Populate the table
+            populateEventSchedulingTable(advisorId);
+
+        } catch (NumberFormatException e) {
             EventSchedulingEventId.setStyle("-fx-border-color: red;");
-            
-            return;
-        } else {
-            // Reset border color for EventSchedulingEventId
-            EventSchedulingEventId.setStyle(null);
+            // The input is not a valid integer for Event ID
+            // Show an error message or alert to the user
+            showAlert("Invalid Event ID", "Please enter a valid integer for Event ID.");
         }
-
-        switch (selectedType){
-            case "Meeting":
-                Meeting meeting = new Meeting(eventId, eventName,eventDate,time,location,description,clubId, advisorId,TypeOrAgenda);
-                meetingList.add(meeting);
-                dbConnection.insertMeetings(meetingList);
-                meetingList.clear();
-                break;
-            case "Event":
-                Event events = new Event(eventId, eventName,eventDate,time,location,description,clubId,advisorId,TypeOrAgenda);
-                eventList.add(events);
-                dbConnection.insertEvents(eventList);
-                eventList.clear();
-                break;
-            case "Activity":
-                Activity activity = new Activity(eventId,eventName, eventDate,time,location,description,clubId,advisorId,TypeOrAgenda);
-                activityList.add(activity);
-                dbConnection.insertActivities(activityList);
-                activityList.clear();
-                break;
-            default:
-                showAlert("Please Choose a Type", "Please select a type (Meeting, Event, or Activity).");
-                break;
-
-        }
+    }
 
 
 
-
+    private void clearInputFields() {
 
         EventSchedulingEventId.clear();
         EventSchedulingEventId.setStyle(null);
@@ -292,9 +406,8 @@ public class ClubAdvisorController {
         EventSchedulingDescription.setStyle(null);
         EventSchedulingTypeOrAgenda.clear();
         EventSchedulingTypeOrAgenda.setStyle(null);
-        populateEventSchedulingTable(advisorId);
-
     }
+
 
     public boolean isDuplicateEventId(int eventId) {
         // Get all events, meetings, and activities
@@ -394,7 +507,7 @@ public class ClubAdvisorController {
 
         } else {
             // If advisor ID doesn't exist, show an alert
-            showAlert("Advisor ID Not Found", "The provided Advisor ID does not exist in the database.");
+            showAlert("Advisor ID Not Found", "Provide valid Advisor ID");
         }
     }
 
@@ -464,17 +577,23 @@ public class ClubAdvisorController {
     }
     @FXML
     public void eventDeleteClick(ActionEvent event){
-        int eventId2 = Integer.parseInt(EventUpdateDeleteEventId.getText());
+        try {
+            int eventId2 = Integer.parseInt(EventUpdateDeleteEventId.getText());
+            setEventFieldsByEventId(eventId2);
+            deleteEventByEventId(eventId2);
+            EventUpdateDeleteTable.refresh();
+            EventUpdateDeleteEventId.clear();
+            EventUpdateName.clear();
+            EventUpdateTime.clear();
+            EventUpdateDate.setValue(null);
+            EventUpdateLocation.clear();
+            EventUpdateDescription.clear();
+            EventUpdateTypeOrAgenda.clear();
+        } catch (NumberFormatException e) {
+            showAlert("Invalid Input", "Please enter a valid integer for Event ID.");
+        }
 
-        deleteEventByEventId(eventId2);
-        EventUpdateDeleteTable.refresh();
-        EventUpdateDeleteEventId.clear();
-        EventUpdateName.clear();
-        EventUpdateTime.clear();
-        EventUpdateDate.setValue(null);
-        EventUpdateLocation.clear();
-        EventUpdateDescription.clear();
-        EventUpdateTypeOrAgenda.clear();
+
     }
 
     public void deleteEventByEventId(int eventId) {
@@ -542,10 +661,13 @@ public class ClubAdvisorController {
         }
     }
     @FXML
-    public void eventSearchClick(ActionEvent event){
-        int eventId = Integer.parseInt(EventUpdateDeleteEventId.getText());
-        setEventFieldsByEventId(eventId);
-
+    public void eventSearchClick(ActionEvent event) {
+        try {
+            int eventId = Integer.parseInt(EventUpdateDeleteEventId.getText());
+            setEventFieldsByEventId(eventId);
+        } catch (NumberFormatException e) {
+            showAlert("Invalid Input", "Please enter a valid integer for Event ID.");
+        }
     }
 
     public void setEventFieldsByEventId(int eventId) {
@@ -643,20 +765,94 @@ public class ClubAdvisorController {
     }
     @FXML
     public void updateEventsClick(ActionEvent event){
-        int eventId1 = Integer.parseInt(EventUpdateDeleteEventId.getText());
-        updateEvents(eventId1);
+        try {
+            int eventId1 = Integer.parseInt(EventUpdateDeleteEventId.getText());
+            updateEvents(eventId1);
+        } catch (NumberFormatException e) {
+            showAlert("Invalid Input", "Please enter a valid integer for Event ID.");
+        }
+
 
     }
 
-    public void updateEvents(int eventId){
+    public void updateEvents(int eventId) {
         String advisorId = EventDeleteAdvisorId.getText();
         String newEventName = EventUpdateName.getText();
-        String newEventDate = String.valueOf(EventUpdateDate.getValue());
         String newEventTime = EventUpdateTime.getText();
         String newEventLocation = EventUpdateLocation.getText();
         String newEventDescription = EventUpdateDescription.getText();
         String newEventAgendaOrType = EventUpdateTypeOrAgenda.getText();
 
+        boolean hasEmptyFields = false;
+
+        // Validate other fields (non-empty check)
+        if (newEventName.isEmpty() || newEventLocation.isEmpty()
+                || newEventDescription.isEmpty() || newEventAgendaOrType.isEmpty()) {
+            hasEmptyFields = true;
+
+            // Set red border color for empty fields
+            if (newEventName.isEmpty()) {
+                EventUpdateName.setStyle("-fx-border-color: red;");
+            } else {
+                EventUpdateName.setStyle(null);
+            }
+
+            if (newEventLocation.isEmpty()) {
+                EventUpdateLocation.setStyle("-fx-border-color: red;");
+            } else {
+                EventUpdateLocation.setStyle(null);
+            }
+
+            if (newEventDescription.isEmpty()) {
+                EventUpdateDescription.setStyle("-fx-border-color: red;");
+            } else {
+                EventUpdateDescription.setStyle(null);
+            }
+
+            if (newEventAgendaOrType.isEmpty()) {
+                EventUpdateTypeOrAgenda.setStyle("-fx-border-color: red;");
+            } else {
+                EventUpdateTypeOrAgenda.setStyle(null);
+            }
+        } else {
+            // Reset border color for non-empty fields
+            EventUpdateName.setStyle(null);
+            EventUpdateLocation.setStyle(null);
+            EventUpdateDescription.setStyle(null);
+            EventUpdateTypeOrAgenda.setStyle(null);
+        }
+
+        // Validate Date
+        LocalDate newEventDateLocal = EventUpdateDate.getValue();
+        if (newEventDateLocal == null) {
+            EventUpdateDate.setStyle("-fx-border-color: red;");
+            showAlert("Invalid Input", "Please select a valid Event Date.");
+            return;
+        } else {
+            // Reset border color for EventSchedulingDatePicker
+            EventUpdateDate.setStyle(null);
+        }
+        String newEventDate = newEventDateLocal.toString();
+
+        // Validate Time
+        if (newEventTime.isEmpty()) {
+            EventUpdateTime.setStyle("-fx-border-color: red;");
+            hasEmptyFields = true;
+        } else {
+            // Validate time format (e.g., 12am)
+            if (!newEventTime.matches("^\\d{1,2}(am|pm)$")) {
+                showAlert("Invalid Time Format", "Please enter a valid time format (e.g., 12am).");
+                EventUpdateTime.setStyle("-fx-border-color: red;");
+                return;
+            } else {
+                EventUpdateTime.setStyle(null);
+            }
+        }
+
+        if (hasEmptyFields) {
+            showAlert("Incomplete Form", "Please fill in all required fields.");
+            return;
+        }
 
         List<Event> events = dbConnection.getEventsByAdvisorId(advisorId);
         List<Meeting> meetings = dbConnection.getMeetingsByAdvisorId(advisorId);
@@ -670,7 +866,7 @@ public class ClubAdvisorController {
             Event event = eventIterator.next();
             if (event.getEventId() == eventId) {
                 // Delete the event from the database
-                dbConnection.updateEventByEventId(eventId,newEventName, newEventDate , newEventTime, newEventLocation, newEventDescription, newEventAgendaOrType);
+                dbConnection.updateEventByEventId(eventId, newEventName, newEventDate, newEventTime, newEventLocation, newEventDescription, newEventAgendaOrType);
                 // Remove the event from the list
                 eventIterator.remove();
                 eventFound = true;
@@ -679,24 +875,20 @@ public class ClubAdvisorController {
             }
         }
 
-        boolean meetingFound = false;
-
         // Similar changes for meetings
         Iterator<Meeting> meetingIterator = meetings.iterator();
         while (meetingIterator.hasNext()) {
             Meeting meeting = meetingIterator.next();
             if (meeting.getEventId() == eventId) {
                 // Delete the meeting from the database
-                dbConnection.updateMeetingByEventId(eventId,newEventName, newEventDate , newEventTime, newEventLocation, newEventDescription, newEventAgendaOrType);
+                dbConnection.updateMeetingByEventId(eventId, newEventName, newEventDate, newEventTime, newEventLocation, newEventDescription, newEventAgendaOrType);
                 // Remove the meeting from the list
                 meetingIterator.remove();
-                meetingFound = true;
+                eventFound = true;
                 eventUpdateDeleteTable(advisorId);
                 break; // Exit the loop once the meeting is found and deleted
             }
         }
-
-        boolean activityFound = false;
 
         // Similar changes for activities
         Iterator<Activity> activityIterator = activities.iterator();
@@ -704,25 +896,21 @@ public class ClubAdvisorController {
             Activity activity = activityIterator.next();
             if (activity.getEventId() == eventId) {
                 // Delete the activity from the database
-                dbConnection.updateActivityByEventId(eventId,newEventName, newEventDate , newEventTime, newEventLocation, newEventDescription, newEventAgendaOrType);
+                dbConnection.updateActivityByEventId(eventId, newEventName, newEventDate, newEventTime, newEventLocation, newEventDescription, newEventAgendaOrType);
                 // Remove the activity from the list
                 activityIterator.remove();
-                activityFound = true;
+                eventFound = true;
                 eventUpdateDeleteTable(advisorId);
                 break; // Exit the loop once the activity is found and deleted
             }
         }
 
         // Show the "Event Not Found" alert if the event is not found in any of the lists
-        if (!eventFound && !meetingFound && !activityFound) {
+        if (!eventFound) {
             showAlert("Event Not Found", "The specified Event ID was not found for the advisor.");
         }
-
-
-
-
-
     }
+
 
 
 
