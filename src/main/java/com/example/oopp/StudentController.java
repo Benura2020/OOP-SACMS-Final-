@@ -52,7 +52,7 @@ public class StudentController {
         stage.close();
     }
 
-    
+
 
 
 }
