@@ -2,20 +2,19 @@ package com.example.oopp;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.SplittableRandom;
 
 public class Student {
     private String studentId;
-    private String name;
-    private String password;
+    private String studentName;
+    private String studentPassword;
 
     //store the clubs that the student has joined
     private List<Club> joinedClubs;
 
-    public Student(String studentId, String name, String password) {
+    public Student(String studentId, String studentName, String studentPassword) {
         this.studentId = studentId;
-        this.name = name;
-        this.password = password;
+        this.studentName = studentName;
+        this.studentPassword = studentPassword;
         this.joinedClubs = new ArrayList<>();
     }
 
@@ -27,20 +26,20 @@ public class Student {
         this.studentId = studentId;
     }
 
-    public String getName() {
-        return name;
+    public String getStudentName() {
+        return studentName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
-    public String getPassword() {
-        return password;
+    public String getStudentPassword() {
+        return studentPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setStudentPassword(String studentPassword) {
+        this.studentPassword = studentPassword;
     }
 
     public List<Club> getJoinedClubs() {

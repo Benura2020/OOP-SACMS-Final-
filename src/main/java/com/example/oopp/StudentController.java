@@ -6,6 +6,11 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.sql.*;
+
+import static com.example.oopp.Database.getDBConnection;
+import static com.example.oopp.HelloController.showAlertSuccess;
+
 public class StudentController {
     @FXML
     private Button studentClubButton;
@@ -52,13 +57,87 @@ public class StudentController {
         stage.close();
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
+ //----------------------------save student data to database------------------------------------------------------------
+
+    public static void insertStudent(Student student) {
+
+        // Check if the student already exists in the database
+        if (isStudentExists(student.getStudentId())) {
+            showAlertSuccess("Student with ID " + student.getStudentId() + " already exists.");
+            return;
+        }
+        String insertQuery = "INSERT INTO student (studentId, studentName, userPassword) VALUES (?, ?, ?)";
+        // ? is parameterized placeholder for the values to be inserted . It helps to prevent SQL injection attacks.
+
+        try (Connection connection = getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+
+            preparedStatement.setString(1, student.getStudentId());
+            preparedStatement.setString(2, student.getStudentName());
+            preparedStatement.setString(3, student.getStudentPassword());
+
+            int affectedRows = preparedStatement.executeUpdate(); //If affectedRows > 0 , it means student was successfully registered
+            if (affectedRows > 0) {
+                showAlertSuccess("Student registered successfully!");
 
 
+                // Load student FXML after successful registration
+                FXMLLoaderUtil.loadFXML("student.fxml", "Student");
+            }
 
-    //save student data to database
-    public void saveStudentToDatabase(){
-
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlertSuccess("Error occurred while registering the student.");
+        }
     }
 
+    // Check if the student already exists in the database
+    private static boolean isStudentExists(String studentId) {
+        String query = "SELECT COUNT(*) FROM student WHERE studentId = ?";
+        try (Connection connection = getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, studentId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int count = resultSet.getInt(1);
+                    return count > 0;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+//-------------------------------get student data from the database-----------------------------------------------------
+
+    private static final String GET_STUDENT_QUERY = "SELECT studentId, studentName, userPassword FROM student WHERE studentId = ?";
+
+    static Student getStudentFromDatabase(String studentId){
+        try (Connection connection = Database.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(GET_STUDENT_QUERY)) {
+
+            preparedStatement.setString(1, studentId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    String retrievedStudentId = resultSet.getString("studentId");
+                    String retrievedStudentName = resultSet.getString("studentName");
+                    String retrievedStudentPassword = resultSet.getString("userPassword");
+
+                    return new Student(retrievedStudentId, retrievedStudentName, retrievedStudentPassword);
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlertSuccess("Error retrieving student data from the database.");
+        }
+
+        return null;
+    }
 
 }

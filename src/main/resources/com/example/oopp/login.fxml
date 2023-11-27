@@ -15,7 +15,7 @@
 
 <StackPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" styleClass="main-stack" stylesheets="@Login.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.oopp.HelloController">
     <children>
-      <AnchorPane fx:id="selection_MainMenu" prefHeight="200.0" prefWidth="340.0" styleClass="transparent-pane" stylesheets="@Login.css">
+      <AnchorPane fx:id="selection_MainMenu" prefHeight="200.0" prefWidth="340.0" styleClass="transparent-pane" stylesheets="@Login.css" visible="false">
          <children>
             <Text layoutX="100.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-labels" text="Student">
                <font>
@@ -71,7 +71,7 @@
                     </font>
                 </Text>
                 <TextField fx:id="signupStudentIdTextField" layoutX="59.0" layoutY="174.0" prefHeight="26.0" prefWidth="282.0" promptText="Student ID" styleClass="transparent-text-field" />
-                <Button fx:id="studentSignupButton" layoutX="59.0" layoutY="348.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="282.0" styleClass="transparent-button" stylesheets="@Login.css" text="Sign Up" />
+                <Button fx:id="studentSignupButton" layoutX="59.0" layoutY="348.0" mnemonicParsing="false" onAction="#studentSignupButtonOnAction" prefHeight="26.0" prefWidth="282.0" styleClass="transparent-button" stylesheets="@Login.css" text="Sign Up" />
                 <Text layoutX="79.0" layoutY="407.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-labels" text="Already have an account?" />
                 <Hyperlink fx:id="studentSigninLink" layoutX="214.0" layoutY="390.0" onAction="#studentSigninLinkOnAction" text="Sign In Here" />
                 <TextField fx:id="signupStudentNameTextField" layoutX="59.0" layoutY="214.0" prefHeight="26.0" prefWidth="282.0" promptText="Student Name" styleClass="transparent-text-field" />
@@ -107,7 +107,7 @@
                     </font>
                 </Text>
                 <TextField fx:id="signupTeacherIdTextField" layoutX="59.0" layoutY="174.0" prefHeight="26.0" prefWidth="282.0" promptText="Teacher ID" styleClass="transparent-text-field" />
-                <Button fx:id="teacherSignupButton" layoutX="58.0" layoutY="348.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="282.0" styleClass="transparent-button" stylesheets="@Login.css" text="Sign Up" />
+                <Button fx:id="teacherSignupButton" layoutX="58.0" layoutY="348.0" mnemonicParsing="false" onAction="#teacherSignupButtonOnAction" prefHeight="26.0" prefWidth="282.0" styleClass="transparent-button" stylesheets="@Login.css" text="Sign Up" />
                 <Text layoutX="79.0" layoutY="407.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-labels" text="Already have an account?" />
                 <Hyperlink fx:id="teacherSigninLink" layoutX="214.0" layoutY="390.0" onAction="#teacherSigninLinkOnAction" text="Sign In Here" />
                 <TextField fx:id="signupTeacherNameTextField" layoutX="59.0" layoutY="214.0" prefHeight="26.0" prefWidth="282.0" promptText="Teacher Name" styleClass="transparent-text-field" />
@@ -130,7 +130,7 @@
             </Button>
             </children>
         </AnchorPane>
-        <AnchorPane fx:id="student_signin_form" prefHeight="200.0" prefWidth="340.0" styleClass="transparent-pane" stylesheets="@Login.css" visible="false">
+        <AnchorPane fx:id="student_signin_form" prefHeight="200.0" prefWidth="340.0" styleClass="transparent-pane" stylesheets="@Login.css">
             <children>
                 <Text layoutX="52.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-labels" text="Sign In">
                     <font>
