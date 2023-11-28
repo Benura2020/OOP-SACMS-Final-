@@ -1,51 +1,58 @@
 package com.example.oopp;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.SplittableRandom;
 
 public class Student {
-    private String name;
-    private String email;
-    private String username;
-    private String password;
-    //private List<club>
+    private String studentId;
+    private String studentName;
+    private String studentPassword;
 
-    public Student(String name, String email, String username, String password) {
-        this.name = name;
-        this.email = email;
-        this.username = username;
-        this.password = password;
+    //store the clubs that the student has joined
+    private List<Club> joinedClubs;
+
+    public Student(String studentId, String studentName, String studentPassword) {
+        this.studentId = studentId;
+        this.studentName = studentName;
+        this.studentPassword = studentPassword;
+        this.joinedClubs = new ArrayList<>();
     }
 
-    public String getName() {
-        return name;
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
-    public String getEmail() {
-        return email;
+    public String getStudentName() {
+        return studentName;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setStudentName(String studentName) {
+        this.studentName = studentName;
     }
 
-    public String getUsername() {
-        return username;
+    public String getStudentPassword() {
+        return studentPassword;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setStudentPassword(String studentPassword) {
+        this.studentPassword = studentPassword;
     }
 
-    public String getPassword() {
-        return password;
+    public List<Club> getJoinedClubs() {
+        return joinedClubs;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setJoinedClubs(List<Club> joinedClubs) {
+        this.joinedClubs = joinedClubs;
+    }
+
+    //when student joins a club.It'll add the istance to this
+    public void joinClub(Club club){
+        joinedClubs.add(club);
+        System.out.println("You joined the club: "+ club.getClubName());  //change it to alert
     }
 }

@@ -2,187 +2,366 @@ package com.example.oopp;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import java.sql.*;
+
+import static com.example.oopp.StudentController.getStudentFromDatabase;
 
 public class HelloController {
-    @FXML
-    private Button admin_signup;
 
     @FXML
-    private TextField advisor_confirm_pw;
+    private AnchorPane advisor_signin_form;
 
     @FXML
-    private AnchorPane advisor_form;
+    private AnchorPane advisor_signup_form;
 
     @FXML
-    private TextField advisor_mail;
+    private Button mainAdvisorButton;
 
     @FXML
-    private TextField advisor_password;
+    private Button mainStudentButton;
 
     @FXML
-    private Hyperlink advisor_signin_link;
+    private AnchorPane selection_MainMenu;
 
     @FXML
-    private Button advisor_signup;
+    private TextField signinStudentIdTextField;
 
     @FXML
-    private TextField advisor_username;
+    private PasswordField signinStudentPasswordField;
 
     @FXML
-    private Hyperlink create_account_link;
+    private TextField signinTeacherIdTextField;
 
     @FXML
-    private Button signin_button;
+    private PasswordField signinTeacherPasswordField;
 
     @FXML
-    private AnchorPane signin_form;
+    private PasswordField signupStudentConfirmPasswordField;
 
     @FXML
-    private TextField signin_password;
+    private TextField signupStudentIdTextField;
 
     @FXML
-    private TextField signin_username;
+    private TextField signupStudentNameTextField;
 
     @FXML
-    private AnchorPane std_create_account_form;
+    private PasswordField signupStudentPasswordField;
 
     @FXML
-    private TextField student_confirm_pw;
+    private PasswordField signupTeacherConfirmPasswordField;
 
     @FXML
-    private TextField student_email;
+    private TextField signupTeacherIdTextField;
 
     @FXML
-    private TextField student_password;
+    private TextField signupTeacherNameTextField;
 
     @FXML
-    private Hyperlink student_signin_link;
+    private PasswordField signupTeacherPasswordField;
 
     @FXML
-    private Button student_signup;
+    private Button studentSigninButton;
 
     @FXML
-    private TextField student_username;
+    private Hyperlink studentSigninLink;
 
-    private int currentState = 1; // You can use integers to represent different states
+    @FXML
+    private Button studentSignupButton;
+
+    @FXML
+    private Hyperlink studentSignupLink;
+
+    @FXML
+    private AnchorPane student_signin_form;
+
+    @FXML
+    private AnchorPane student_signup_form;
+
+    @FXML
+    private Button teacherSigninButton;
+
+    @FXML
+    private Hyperlink teacherSigninLink;
+
+    @FXML
+    private Button teacherSignupButton;
+
+    @FXML
+    private Hyperlink teacherSignupLink;
+
+    @FXML
+    private Label studentSigninMessageLabel;
+
+    @FXML
+    private Label teacherSigninMessageLabel;
+
+    @FXML
+    private Button studentSigninBackButton;
+
+    @FXML
+    private Button teacherSigninBackButton;
+
+    @FXML
+    private Button studentSignupBackButton;
+
+    @FXML
+    private Button teacherSignupBackButton;
 
 
-    /*@FXML
-    private void initialize() {
-        // Set the initial state (e.g., showing the sign-in form)
-        showSignInForm();
+    // method for showing and hiding anchor panes . also used in other classes
+    public static void toggleVisibility(AnchorPane pane, boolean isVisible) {
+        pane.setVisible(isVisible);
     }
 
-    @FXML
-    private void handleHyperlinkClick(ActionEvent event) {
-        if (event.getSource() == student_signin_link) {
-            // Switch to the student sign-in form
-            showSignInForm();
-        } else if (event.getSource() == create_account_link) {
-            // Switch to the student create account form
-            showStudentCreateAccountForm();
-        } else if (event.getSource() == advisor_signin_link) {
-            // Switch to the advisor sign-in form
-            showSignInForm();
+    //show a desired default pane when launch the application
+    public void showDefaultPane() {
+        // Show default AnchorPane
+        toggleVisibility(selection_MainMenu, true);
+        // Hide other AnchorPanes
+        toggleVisibility(student_signup_form, false);
+        toggleVisibility(student_signin_form, false);
+        toggleVisibility(advisor_signup_form, false);
+        toggleVisibility(advisor_signin_form, false);
+    }
+
+    //-------------------------------------pane switching---------------------------------------------------------------
+
+    //start menu student section
+
+    public void mainStudentButtonOnAction(ActionEvent event){
+        toggleVisibility(selection_MainMenu, false);
+        toggleVisibility(student_signup_form, false);
+        toggleVisibility(student_signin_form, true);
+        toggleVisibility(advisor_signup_form, false);
+        toggleVisibility(advisor_signin_form, false);
+    }
+
+    //start menu club advisor section
+    public void mainAdvisorButtonOnAction(ActionEvent event){
+        toggleVisibility(selection_MainMenu, false);
+        toggleVisibility(student_signup_form, false);
+        toggleVisibility(student_signin_form, false);
+        toggleVisibility(advisor_signup_form, false);
+        toggleVisibility(advisor_signin_form, true);
+    }
+
+    public void studentSigninBackButtonOnAction(ActionEvent event){
+        toggleVisibility(selection_MainMenu, true);
+        toggleVisibility(student_signup_form, false);
+        toggleVisibility(student_signin_form, false);
+        toggleVisibility(advisor_signup_form, false);
+        toggleVisibility(advisor_signin_form, false);
+    }
+
+    public void teacherSigninBackButtonOnAction(ActionEvent event){
+        toggleVisibility(selection_MainMenu, true);
+        toggleVisibility(student_signup_form, false);
+        toggleVisibility(student_signin_form, false);
+        toggleVisibility(advisor_signup_form, false);
+        toggleVisibility(advisor_signin_form, false);
+    }
+
+    public void studentSignupBackButtonOnAction(ActionEvent event){
+        toggleVisibility(selection_MainMenu, false);
+        toggleVisibility(student_signup_form, false);
+        toggleVisibility(student_signin_form, true);
+        toggleVisibility(advisor_signup_form, false);
+        toggleVisibility(advisor_signin_form, false);
+    }
+
+    public void teacherSignupBackButtonOnAction(ActionEvent event){
+        toggleVisibility(selection_MainMenu, false);
+        toggleVisibility(student_signup_form, false);
+        toggleVisibility(student_signin_form, false);
+        toggleVisibility(advisor_signup_form, false);
+        toggleVisibility(advisor_signin_form, true);
+    }
+
+    public void studentSigninLinkOnAction(ActionEvent event){
+        toggleVisibility(selection_MainMenu, false);
+        toggleVisibility(student_signup_form, false);
+        toggleVisibility(student_signin_form, true);
+        toggleVisibility(advisor_signup_form, false);
+        toggleVisibility(advisor_signin_form, false);
+    }
+
+    public void studentSignupLinkOnAction(ActionEvent event){
+        toggleVisibility(selection_MainMenu, false);
+        toggleVisibility(student_signup_form, true);
+        toggleVisibility(student_signin_form, false);
+        toggleVisibility(advisor_signup_form, false);
+        toggleVisibility(advisor_signin_form, false);
+    }
+
+    public void teacherSigninLinkOnAction(ActionEvent event){
+        toggleVisibility(selection_MainMenu, false);
+        toggleVisibility(student_signup_form, false);
+        toggleVisibility(student_signin_form, false);
+        toggleVisibility(advisor_signup_form, false);
+        toggleVisibility(advisor_signin_form, true);
+    }
+
+    public void teacherSignupLinkOnAction(ActionEvent event){
+        toggleVisibility(selection_MainMenu, false);
+        toggleVisibility(student_signup_form, false);
+        toggleVisibility(student_signin_form, false);
+        toggleVisibility(advisor_signup_form, true);
+        toggleVisibility(advisor_signin_form, false);
+    }
+
+    // ---------------------------------------user signin and registration ---------------------------------------------
+
+
+    // alert dialog for student and club advisor signup
+
+    private void showAlertError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    static void showAlertSuccess(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Registration Success");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    // student signup
+
+    public void studentSignupButtonOnAction(){
+        //get user inputs from text fields and password fields
+
+        String studentId = signupStudentIdTextField.getText();
+        String studentName = signupStudentNameTextField.getText();
+        String studentPassword = signupStudentPasswordField.getText();
+        String studentConfirmPassword = signupStudentConfirmPasswordField.getText();
+
+        // Validate student ID
+        if (!InputValidations.validateId(studentId)) {
+            showAlertError("Invalid student ID. Enter a valid one.");
+
+            // Clear all text and password fields
+            signupStudentIdTextField.clear();
+            signupStudentNameTextField.clear();
+            signupStudentPasswordField.clear();
+            signupStudentConfirmPasswordField.clear();
+
+            //Set focus back to student ID text field
+            signupStudentIdTextField.requestFocus();
+            return;
         }
+
+        // Validate password and confirmPassword
+        if (!InputValidations.arePasswordsEqual(studentPassword, studentConfirmPassword)) {
+            showAlertError("Passwords do not match.Please enter same password");
+
+            // Clear both password fields
+            signupStudentPasswordField.clear();
+            signupStudentConfirmPasswordField.clear();
+
+            //set focus back to password field
+            signupStudentPasswordField.requestFocus();
+            return;
+        }
+        // creating the object of the student
+        Student student = new Student(studentId, studentName, studentPassword);
+
+        //Insert user data into database
+        StudentController.insertStudent(student);
     }
 
-    private void showSignInForm() {
-        signin_form.setVisible(true);
-        std_create_account_form.setVisible(false);
-        advisor_form.setVisible(false);
-        currentState = 1; // Set the current state to sign-in
+    // club advisor signup
+
+    public void teacherSignupButtonOnAction(){
+        //get user inputs from text fields and password fields
+
+        String teacherId = signupTeacherIdTextField.getText();
+        String teacherName = signupTeacherNameTextField.getText();
+        String teacherPassword = signupTeacherPasswordField.getText();
+        String teacherConfirmPassword = signupTeacherConfirmPasswordField.getText();
+
+        // Validate teacher ID
+        if (!InputValidations.validateId(teacherId)) {
+            showAlertError("Invalid teacher ID. Enter a valid one.");
+
+            // Clear all text and password fields
+            signupTeacherIdTextField.clear();
+            signupTeacherNameTextField.clear();
+            signupTeacherPasswordField.clear();
+            signupTeacherConfirmPasswordField.clear();
+
+            //Set focus back to teacher ID text field
+            signupTeacherIdTextField.requestFocus();
+            return;
+        }
+
+        // Validate password and confirmPassword
+        if (!InputValidations.arePasswordsEqual(teacherPassword, teacherConfirmPassword)) {
+            showAlertError("Passwords do not match.Please enter same password");
+
+            // Clear both password fields
+            signupTeacherPasswordField.clear();
+            signupTeacherConfirmPasswordField.clear();
+
+            //set focus back to password field
+            signupTeacherPasswordField.requestFocus();
+            return;
+        }
+
+        ClubAdvisor clubAdvisor = new ClubAdvisor(teacherId, teacherName, teacherPassword);
+        //System.out.println(clubAdvisor.getTeacherId());
+        //System.out.println(clubAdvisor.getTeacherName());
     }
 
-    private void showStudentCreateAccountForm() {
-        signin_form.setVisible(false);
-        std_create_account_form.setVisible(true);
-        advisor_form.setVisible(false);
-        currentState = 2; // Set the current state to student create account
-    }*/
+    //------------------------------------------------------------------------------------------------------------------
 
-//    @FXML
-//    private void initialize() {
-//        // Set the initial state (e.g., showing the sign-in form)
-//        showSignInForm();
-//    }
+    // student signin
 
-//    @FXML
-//    private void handleHyperlinkClick(ActionEvent event) {
-//        if (event.getSource() == student_signin_link) {
-//            // Switch to the student sign-in form
-//            showSignInForm();
-//        } else if (event.getSource() == create_account_link) {
-//            // Switch to the student create account form
-//            showStudentCreateAccountForm();
-//        } else if (event.getSource() == advisor_signin_link) {
-//            // Switch to the advisor sign-in form
-//            showSignInForm();
-//        }
-//    }
-//
-//    private void showSignInForm() {
-//        signin_form.setVisible(true);
-//        std_create_account_form.setVisible(false);
-//        advisor_form.setVisible(false);
-//        currentState = 1; // Set the current state to sign-in
-//    }
-//
-//    private void showStudentCreateAccountForm() {
-//        signin_form.setVisible(false);
-//        std_create_account_form.setVisible(true);
-//        advisor_form.setVisible(false);
-//        currentState = 2; // Set the current state to student create account
-//    }
+    public void studentSigninButtonOnAction(ActionEvent event){
+        // Get user inputs from text fields and password field
+        String signinStudentId = signinStudentIdTextField.getText();
+        String signinPassword = signinStudentPasswordField.getText();
+
+        // Validate student ID
+        if (!InputValidations.validateId(signinStudentId)) {
+            showAlertError("Invalid student ID. Enter a valid one.");
+            signinStudentIdTextField.clear();
+            signinStudentIdTextField.requestFocus();
+            return;
+        }
+
+        // Retrieve data from the database based on the student ID
+        Student student = getStudentFromDatabase(signinStudentId);
+
+        // Check if the student is registered
+        if (student == null) {
+            showAlertError("Student with ID " + signinStudentId + " is not registered.");
+            return;
+        }
+
+        // Validate the entered password
+        if (!student.getStudentPassword().equals(signinPassword)) {
+            showAlertError("Incorrect password. Please try again.");
+            signinStudentPasswordField.clear();
+            signinStudentPasswordField.requestFocus();
+            return;
+        }
+
+        // Successful login
+        showAlertSuccess("Student logged in successfully!");
+
+    }
+
+    // teacher signin
+    public void teacherSigninButtonOnAction(ActionEvent event){
+        //
+    }
 
 
-//    private int currentState = 1;
-//        switch (currentState) {
-//        case 1:
-//            std_create_account_form.setVisible(true);
-//            advisor_form.setVisible(false);
-//            signin_form.setVisible(false);
-//            break;
-//        case 2:
-//            pane1.setVisible(false);
-//            pane2.setVisible(true);
-//            pane3.setVisible(false);
-//            break;
-//        case 3:
-//            pane1.setVisible(false);
-//            pane2.setVisible(false);
-//            pane3.setVisible(true);
-//            break;
-//    }
-////    create_account_link.setOnAction(a -> {
-////        std_create_account_form.setVisible(true);
-////        advisor_form.setVisible(false);
-////        signin_form.setVisible(false);
-////        });
-////    student_signin_link.setOnAction(a -> {
-////        std_create_account_form.setVisible(false);
-////        advisor_form.setVisible(false);
-////        signin_form.setVisible(true);
-////        });
-////    admin_signup.setOnAction(a -> {
-////        std_create_account_form.setVisible(false);
-////        advisor_form.setVisible(true);
-////        signin_form.setVisible(false);
-////        });
-////    advisor_signin_link.setOnAction(a -> {
-////        std_create_account_form.setVisible(false);
-////        advisor_form.setVisible(false);
-////        signin_form.setVisible(true);
-////        });
-////    }
-//    @FXML
-//    private void initialize() {
-//        // Set the initial state (e.g., pane1 is visible, and pane2 and pane3 are hidden)
-//        formSwitch();
-//    }
 }
