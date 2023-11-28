@@ -59,7 +59,7 @@ public class EventSheduleDatabaseConnection {
                         String clubName = resultSet.getString("clubName");
                         String clubDescription = resultSet.getString("clubDescription");
 
-                        Club club = new Club(clubName);
+                        new Club(clubName);
 
                         Club club = new Club(clubId,clubName,clubDescription);
 
