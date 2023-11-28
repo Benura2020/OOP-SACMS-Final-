@@ -136,5 +136,95 @@
             </ImageView>
             </children>
         </AnchorPane>
+
+        <AnchorPane fx:id="student_signin_form" prefHeight="200.0" prefWidth="340.0" styleClass="transparent-pane" stylesheets="@Login.css" visible="false">
+            <children>
+                <Text layoutX="52.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-labels" text="Sign In">
+                    <font>
+                        <Font size="18.0" />
+                    </font>
+                </Text>
+                <Text layoutX="50.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-labels" text="StudentID :">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <Text layoutX="50.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-labels" text="Password :">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Text>
+                <TextField fx:id="signinStudentIdTextField" layoutX="145.0" layoutY="200.0" prefHeight="25.0" prefWidth="210.0" styleClass="transparent-text-field" stylesheets="@Login.css" />
+                <Button fx:id="studentSigninButton" layoutX="50.0" layoutY="290.0" mnemonicParsing="false" onAction="#studentSigninButtonOnAction" prefHeight="25.0" prefWidth="310.0" styleClass="transparent-button" stylesheets="@Login.css" text="Sign In" />
+                <Text layoutX="83.0" layoutY="410.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-labels" text="Don't have an account?" />
+                <Hyperlink fx:id="studentSignupLink" layoutX="211.0" layoutY="394.0" onAction="#studentSignupLinkOnAction" text="Create an account." />
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="100.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Pictures/Opera_Snapshot_2023-11-13_232418_app.brandmark.io-removebg-preview.png" />
+               </image>
+            </ImageView>
+            <PasswordField fx:id="signinStudentPasswordField" layoutX="145.0" layoutY="235.0" prefHeight="25.0" prefWidth="210.0" />
+            <Label fx:id="studentSigninMessageLabel" alignment="CENTER" layoutX="56.0" layoutY="350.0" prefHeight="18.0" prefWidth="282.0" textFill="RED" />
+            <Text layoutX="52.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-labels" text="Student">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Button fx:id="studentSigninBackButton" layoutX="50.0" layoutY="450.0" mnemonicParsing="false" onAction="#studentSigninBackButtonOnAction" prefHeight="35.0" prefWidth="35.0" styleClass="transparent-button" stylesheets="@Login.css">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Pictures/icons8-back-96.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+            </children>
+        </AnchorPane>
+      <AnchorPane fx:id="advisor_signin_form" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="340.0" styleClass="transparent-pane" stylesheets="@Login.css">
+         <children>
+            <Text layoutX="52.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-labels" text="Sign In">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Text layoutX="50.0" layoutY="215.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-labels" text="TeacherID :">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Text layoutX="50.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-labels" text="Password :">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <TextField fx:id="signinTeacherIdTextField" layoutX="145.0" layoutY="200.0" prefHeight="25.0" prefWidth="210.0" styleClass="transparent-text-field" stylesheets="@Login.css" />
+            <Button fx:id="teacherSigninButton" layoutX="50.0" layoutY="290.0" mnemonicParsing="false" onAction="#teacherSigninButtonOnAction" prefHeight="25.0" prefWidth="310.0" styleClass="transparent-button" stylesheets="@Login.css" text="Sign In" />
+            <Text layoutX="83.0" layoutY="410.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-labels" text="Don't have an account?" />
+            <Hyperlink fx:id="teacherSignupLink" layoutX="211.0" layoutY="394.0" onAction="#teacherSignupLinkOnAction" text="Create an account." />
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="100.0" layoutY="65.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../Pictures/Opera_Snapshot_2023-11-13_232418_app.brandmark.io-removebg-preview.png" />
+               </image>
+            </ImageView>
+            <PasswordField fx:id="signinTeacherPasswordField" layoutX="145.0" layoutY="235.0" prefHeight="25.0" prefWidth="210.0" />
+            <Label fx:id="teacherSigninMessageLabel" alignment="CENTER" layoutX="56.0" layoutY="350.0" prefHeight="18.0" prefWidth="282.0" textFill="RED" />
+            <Text layoutX="52.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-labels" text="Club Advisor">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Text>
+            <Button fx:id="teacherSigninBackButton" layoutX="50.0" layoutY="450.0" mnemonicParsing="false" onAction="#teacherSigninBackButtonOnAction" prefHeight="35.0" prefWidth="35.0" styleClass="transparent-button" stylesheets="@Login.css">
+               <graphic>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Pictures/icons8-back-96.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </Button>
+         </children>
+      </AnchorPane>
+
     </children>
 </StackPane>
