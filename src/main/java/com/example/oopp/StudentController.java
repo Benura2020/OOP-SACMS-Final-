@@ -1,10 +1,11 @@
 package com.example.oopp;
-
+import com.example.oopp.Club;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -47,10 +48,22 @@ public class StudentController {
     private AnchorPane student_home;
 
     @FXML
-    private TableView<?> student_joined_club_table;
+    private TableView<Club> student_joined_club_table;
 
     @FXML
-    private TableView<?> student_send_club_request_table;
+    private TableView<Club> student_send_club_request_table;
+
+    @FXML
+    private TableColumn<Club, Integer> clubIdColumn;
+
+    @FXML
+    private TableColumn<Club, String> clubNameColumn;
+
+    @FXML
+    private TableColumn<Club, String> clubDescriptionColumn;
+
+    @FXML
+    private TableColumn<Club, String> teacherIdColumn;
 
 
 
@@ -162,6 +175,67 @@ public class StudentController {
     }
 
 // ------------------------------------------table loading--------------------------------------------------------------
+
+
+    public static List<Club> fetchClubsNotJoined(String studentId) {
+        List<Club> clubsNotJoined = new ArrayList<>();
+        String query = "SELECT * FROM club WHERE clubId NOT IN (SELECT clubId FROM student_club WHERE studentId = ?)";
+
+        try (Connection connection = Database.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, studentId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    // Populate Club objects from the result set
+                    Club club = new Club();
+                    club.setClubId(resultSet.getString("clubId"));
+                    club.setClubName(resultSet.getString("clubName"));
+                    club.setClubDescription(resultSet.getString("clubDescription"));
+                    club.setTeacherId(resultSet.getString("teacherId"));
+
+                    clubsNotJoined.add(club);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception as needed
+        }
+
+        return clubsNotJoined;
+    }
+
+    public static List<Club> fetchJoinedClubs(String studentId) {
+        List<Club> joinedClubs = new ArrayList<>();
+        String query = "SELECT club.* FROM club " +
+                "JOIN student_club ON club.clubId = student_club.clubId " +
+                "WHERE student_club.studentId = ?";
+
+        try (Connection connection = Database.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, studentId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    // Populate Club objects from the result set
+                    Club club = new Club();
+                    club.setClubId(resultSet.getString("clubId"));
+                    club.setClubName(resultSet.getString("clubName"));
+                    club.setClubDescription(resultSet.getString("clubDescription"));
+                    club.setTeacherId(resultSet.getString("teacherId"));
+
+                    joinedClubs.add(club);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception as needed
+        }
+
+        return joinedClubs;
+    }
 
 
 }

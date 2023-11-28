@@ -1,10 +1,11 @@
 package com.example.oopp;
-
+import com.example.oopp.Club;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import java.sql.*;
+import java.util.List;
 
 import static com.example.oopp.ClubAdvisorController.getTeacherFromDatabase;
 import static com.example.oopp.StudentController.getStudentFromDatabase;
@@ -361,14 +362,30 @@ public class HelloController {
             return;
         }
 
-        // get signed-in student ID
-        StudentController.signedInStudentId = signinStudentId;
 
+        // After successful login, set the signed-in student ID
+        //StudentController.signedInStudentId = signinStudentId; // Assuming student ID is entered in a text field
+        // or retrieve it from your student object or wherever it is stored
+        // ...
         // Successful login alert
         showAlertSuccess("Student logged in successfully!");
 
+        // Fetch clubs the student has not joined
+        //List<Club> clubsNotJoined = StudentController.fetchClubsNotJoined(StudentController.signedInStudentId);
+        //System.out.println(clubsNotJoined);
+        // Populate the student_send_club_request_table with clubsNotJoined data
+        //student_send_club_request_table.getItems().setAll(clubsNotJoined);
+
+        // Fetch clubs the student has joined
+        ////List<Club> joinedClubs = StudentController.fetchJoinedClubs(StudentController.signedInStudentId);
+        //System.out.println(joinedClubs);
+        // Populate the student_joined_club_table with joinedClubs data
+        //student_joined_club_table.getItems().setAll(joinedClubs);
+
         // Load student FXML after successful registration
         FXMLLoaderUtil.loadFXML("student.fxml", "Student");
+
+
 
     }
 
@@ -382,6 +399,8 @@ public class HelloController {
         // Validate teacher ID
         if (!InputValidations.validateId(signinTeacherId)) {
             showAlertError("Invalid teacher ID. Enter a valid one.");
+            signinTeacherIdTextField.clear();
+            signinTeacherIdTextField.requestFocus();
             return;
         }
 
@@ -397,6 +416,8 @@ public class HelloController {
         // Validate the entered password
         if (!teacher.getTeacherPassword().equals(signinPassword)) {
             showAlertError("Incorrect password. Please try again.");
+            signinTeacherPasswordField.clear();
+            signinTeacherPasswordField.requestFocus();
             return;
         }
 
