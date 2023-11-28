@@ -362,30 +362,11 @@ public class HelloController {
             return;
         }
 
-
-        // After successful login, set the signed-in student ID
-        //StudentController.signedInStudentId = signinStudentId; // Assuming student ID is entered in a text field
-        // or retrieve it from your student object or wherever it is stored
-        // ...
         // Successful login alert
         showAlertSuccess("Student logged in successfully!");
 
-        // Fetch clubs the student has not joined
-        //List<Club> clubsNotJoined = StudentController.fetchClubsNotJoined(StudentController.signedInStudentId);
-        //System.out.println(clubsNotJoined);
-        // Populate the student_send_club_request_table with clubsNotJoined data
-        //student_send_club_request_table.getItems().setAll(clubsNotJoined);
-
-        // Fetch clubs the student has joined
-        ////List<Club> joinedClubs = StudentController.fetchJoinedClubs(StudentController.signedInStudentId);
-        //System.out.println(joinedClubs);
-        // Populate the student_joined_club_table with joinedClubs data
-        //student_joined_club_table.getItems().setAll(joinedClubs);
-
         // Load student FXML after successful registration
         FXMLLoaderUtil.loadFXML("student.fxml", "Student");
-
-
 
     }
 

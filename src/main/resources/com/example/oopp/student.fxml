@@ -127,7 +127,7 @@
                      </font>
                   </Text>
                   <Text layoutX="31.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on the club name on the table and click join button to send join request to club." />
-                  <Button fx:id="studentJoinClubButton" layoutX="171.0" layoutY="275.0" mnemonicParsing="false" onAction="#handleJoinButtonClick" prefHeight="31.0" prefWidth="209.0" styleClass="search-button" stylesheets="@cadvisor.css" text="Join Club" />
+                  <Button fx:id="studentJoinClubButton" layoutX="171.0" layoutY="275.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="209.0" styleClass="search-button" stylesheets="@cadvisor.css" text="Join Club" />
                   <Text layoutX="31.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Joined Clubs">
                      <font>
                         <Font size="16.0" />
