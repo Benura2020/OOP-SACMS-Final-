@@ -130,7 +130,7 @@
             </Button>
             </children>
         </AnchorPane>
-        <AnchorPane fx:id="student_signin_form" prefHeight="200.0" prefWidth="340.0" styleClass="transparent-pane" stylesheets="@Login.css">
+        <AnchorPane fx:id="student_signin_form" prefHeight="200.0" prefWidth="340.0" styleClass="transparent-pane" stylesheets="@Login.css" visible="false">
             <children>
                 <Text layoutX="52.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-labels" text="Sign In">
                     <font>
@@ -174,7 +174,7 @@
             </Button>
             </children>
         </AnchorPane>
-      <AnchorPane fx:id="advisor_signin_form" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="340.0" styleClass="transparent-pane" stylesheets="@Login.css" visible="false">
+      <AnchorPane fx:id="advisor_signin_form" layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="340.0" styleClass="transparent-pane" stylesheets="@Login.css">
          <children>
             <Text layoutX="52.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text-labels" text="Sign In">
                <font>
