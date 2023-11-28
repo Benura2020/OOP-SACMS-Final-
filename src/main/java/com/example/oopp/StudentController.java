@@ -1,5 +1,7 @@
 package com.example.oopp;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -7,11 +9,16 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.example.oopp.Database.getDBConnection;
 import static com.example.oopp.HelloController.showAlertSuccess;
 
 public class StudentController {
+    // Variable to store the signed-in student ID
+    public static String signedInStudentId;
+
     @FXML
     private Button studentClubButton;
 
@@ -25,6 +32,12 @@ public class StudentController {
     private Button studentHomeButton;
 
     @FXML
+    private Button studentJoinClubButton;
+
+    @FXML
+    private Button studentLeaveClubButton;
+
+    @FXML
     private AnchorPane student_club;
 
     @FXML
@@ -32,6 +45,14 @@ public class StudentController {
 
     @FXML
     private AnchorPane student_home;
+
+    @FXML
+    private TableView<?> student_joined_club_table;
+
+    @FXML
+    private TableView<?> student_send_club_request_table;
+
+
 
 
     public void studentHomeButtonOnAction(ActionEvent event){
@@ -139,5 +160,8 @@ public class StudentController {
 
         return null;
     }
+
+// ------------------------------------------table loading--------------------------------------------------------------
+
 
 }
