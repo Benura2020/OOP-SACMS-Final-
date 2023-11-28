@@ -32,7 +32,7 @@ import static com.example.oopp.HelloController.showAlertSuccess;
 
 public class StudentController implements Initializable {
 
-public class StudentController {
+//public class StudentController {
     // Variable to store the signed-in student ID
     public static String signedInStudentId;
 

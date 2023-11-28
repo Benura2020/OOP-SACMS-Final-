@@ -1,11 +1,9 @@
 package com.example.oopp;
-import com.example.oopp.Club;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
-import java.sql.*;
-import java.util.List;
 
 import static com.example.oopp.ClubAdvisorController.getTeacherFromDatabase;
 import static com.example.oopp.StudentController.getStudentFromDatabase;
