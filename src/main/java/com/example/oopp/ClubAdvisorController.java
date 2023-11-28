@@ -222,7 +222,7 @@ public class ClubAdvisorController {
             populateEventSchedulingTable(advisorId);
         } else {
             // If advisor ID doesn't exist, show an alert
-            showAlert("Advisor ID Not Found", "The provided Advisor ID does not exist in the database.");
+            showAlert("Advisor ID Not Found", "Provide a valid Advisor ID");
         }
     }
     @FXML
@@ -240,6 +240,15 @@ public class ClubAdvisorController {
 
 
         String selectedType = EventSchedulingTypeChoiceBox.getValue();
+        if (isDuplicateEventId(eventId)) {
+            // Set red border color for EventSchedulingEventId
+            EventSchedulingEventId.setStyle("-fx-border-color: red;");
+            
+            return;
+        } else {
+            // Reset border color for EventSchedulingEventId
+            EventSchedulingEventId.setStyle(null);
+        }
 
         switch (selectedType){
             case "Meeting":
@@ -265,9 +274,7 @@ public class ClubAdvisorController {
                 break;
 
         }
-//        dbConnection.insertmeetings(meetingList);
-//        dbConnection.insertEvents(eventList);
-//        dbConnection.insertActivities(activityList);
+
 
 
 
@@ -290,6 +297,41 @@ public class ClubAdvisorController {
         populateEventSchedulingTable(advisorId);
 
     }
+
+    public boolean isDuplicateEventId(int eventId) {
+        // Get all events, meetings, and activities
+        List<Event> events = dbConnection.getAllEvents();
+        List<Meeting> meetings = dbConnection.getAllMeetings();
+        List<Activity> activities = dbConnection.getAllActivities();
+
+        // Check for duplicate Event ID in events
+        for (Event event : events) {
+            if (event.getEventId() == eventId) {
+                showAlert("Duplicate Event ID", "An event with the specified ID already exists.");
+                return true;
+            }
+        }
+
+        // Check for duplicate Event ID in meetings
+        for (Meeting meeting : meetings) {
+            if (meeting.getEventId() == eventId) {
+                showAlert("Duplicate Event ID", "A meeting with the specified ID already exists.");
+                return true;
+            }
+        }
+
+        // Check for duplicate Event ID in activities
+        for (Activity activity : activities) {
+            if (activity.getEventId() == eventId) {
+                showAlert("Duplicate Event ID", "An activity with the specified ID already exists.");
+                return true;
+            }
+        }
+
+        // If no duplicate Event ID is found
+        return false;
+    }
+
 
 
 
