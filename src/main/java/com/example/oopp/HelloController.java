@@ -6,7 +6,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 
 import static com.example.oopp.ClubAdvisorController.getTeacherFromDatabase;
-import static com.example.oopp.StudentController.getStudentFromDatabase;
+
 
 public class HelloController {
 
@@ -235,6 +235,7 @@ public class HelloController {
     // -----------------------------------------------------------------------------------------------------------------
 
     // student signup
+    StudentController studentController = new StudentController();
 
     public void studentSignupButtonOnAction(){
         //get user inputs from text fields and password fields
@@ -273,7 +274,7 @@ public class HelloController {
         }
 
         //get registered student ID
-        StudentController.signedInStudentId = studentId;
+        studentController.signedInStudentId = studentId;
         // creating the object of the student
         Student student = new Student(studentId, studentName, studentPassword);
 
@@ -344,7 +345,7 @@ public class HelloController {
         }
 
         // Retrieve data from the database using student ID
-        Student student = getStudentFromDatabase(signinStudentId);
+        Student student = studentController.getStudentFromDatabase(signinStudentId);
 
         // Check if the student is registered
         if (student == null) {
