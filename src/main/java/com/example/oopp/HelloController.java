@@ -4,6 +4,9 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import java.sql.*;
+
+import static com.example.oopp.StudentController.getStudentFromDatabase;
 
 public class HelloController {
 
@@ -107,8 +110,8 @@ public class HelloController {
     private Button teacherSignupBackButton;
 
 
-    // method for showing and hiding anchor panes
-    private void toggleVisibility(AnchorPane pane, boolean isVisible) {
+    // method for showing and hiding anchor panes . also used in other classes
+    public static void toggleVisibility(AnchorPane pane, boolean isVisible) {
         pane.setVisible(isVisible);
     }
 
@@ -122,6 +125,8 @@ public class HelloController {
         toggleVisibility(advisor_signup_form, false);
         toggleVisibility(advisor_signin_form, false);
     }
+
+    //-------------------------------------pane switching---------------------------------------------------------------
 
     //start menu student section
 
@@ -206,6 +211,157 @@ public class HelloController {
         toggleVisibility(advisor_signin_form, false);
     }
 
+    // ---------------------------------------user signin and registration ---------------------------------------------
+
+
+    // alert dialog for student and club advisor signup
+
+    private void showAlertError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    static void showAlertSuccess(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Registration Success");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    // student signup
+
+    public void studentSignupButtonOnAction(){
+        //get user inputs from text fields and password fields
+
+        String studentId = signupStudentIdTextField.getText();
+        String studentName = signupStudentNameTextField.getText();
+        String studentPassword = signupStudentPasswordField.getText();
+        String studentConfirmPassword = signupStudentConfirmPasswordField.getText();
+
+        // Validate student ID
+        if (!InputValidations.validateId(studentId)) {
+            showAlertError("Invalid student ID. Enter a valid one.");
+
+            // Clear all text and password fields
+            signupStudentIdTextField.clear();
+            signupStudentNameTextField.clear();
+            signupStudentPasswordField.clear();
+            signupStudentConfirmPasswordField.clear();
+
+            //Set focus back to student ID text field
+            signupStudentIdTextField.requestFocus();
+            return;
+        }
+
+        // Validate password and confirmPassword
+        if (!InputValidations.arePasswordsEqual(studentPassword, studentConfirmPassword)) {
+            showAlertError("Passwords do not match.Please enter same password");
+
+            // Clear both password fields
+            signupStudentPasswordField.clear();
+            signupStudentConfirmPasswordField.clear();
+
+            //set focus back to password field
+            signupStudentPasswordField.requestFocus();
+            return;
+        }
+        // creating the object of the student
+        Student student = new Student(studentId, studentName, studentPassword);
+
+        //Insert user data into database
+        StudentController.insertStudent(student);
+    }
+
+    // club advisor signup
+
+    public void teacherSignupButtonOnAction(){
+        //get user inputs from text fields and password fields
+
+        String teacherId = signupTeacherIdTextField.getText();
+        String teacherName = signupTeacherNameTextField.getText();
+        String teacherPassword = signupTeacherPasswordField.getText();
+        String teacherConfirmPassword = signupTeacherConfirmPasswordField.getText();
+
+        // Validate teacher ID
+        if (!InputValidations.validateId(teacherId)) {
+            showAlertError("Invalid teacher ID. Enter a valid one.");
+
+            // Clear all text and password fields
+            signupTeacherIdTextField.clear();
+            signupTeacherNameTextField.clear();
+            signupTeacherPasswordField.clear();
+            signupTeacherConfirmPasswordField.clear();
+
+            //Set focus back to teacher ID text field
+            signupTeacherIdTextField.requestFocus();
+            return;
+        }
+
+        // Validate password and confirmPassword
+        if (!InputValidations.arePasswordsEqual(teacherPassword, teacherConfirmPassword)) {
+            showAlertError("Passwords do not match.Please enter same password");
+
+            // Clear both password fields
+            signupTeacherPasswordField.clear();
+            signupTeacherConfirmPasswordField.clear();
+
+            //set focus back to password field
+            signupTeacherPasswordField.requestFocus();
+            return;
+        }
+
+        ClubAdvisor clubAdvisor = new ClubAdvisor(teacherId, teacherName, teacherPassword);
+        //System.out.println(clubAdvisor.getTeacherId());
+        //System.out.println(clubAdvisor.getTeacherName());
+    }
+
+    //------------------------------------------------------------------------------------------------------------------
+
+    // student signin
+
+    public void studentSigninButtonOnAction(ActionEvent event){
+        // Get user inputs from text fields and password field
+        String signinStudentId = signinStudentIdTextField.getText();
+        String signinPassword = signinStudentPasswordField.getText();
+
+        // Validate student ID
+        if (!InputValidations.validateId(signinStudentId)) {
+            showAlertError("Invalid student ID. Enter a valid one.");
+            signinStudentIdTextField.clear();
+            signinStudentIdTextField.requestFocus();
+            return;
+        }
+
+        // Retrieve data from the database based on the student ID
+        Student student = getStudentFromDatabase(signinStudentId);
+
+        // Check if the student is registered
+        if (student == null) {
+            showAlertError("Student with ID " + signinStudentId + " is not registered.");
+            return;
+        }
+
+        // Validate the entered password
+        if (!student.getStudentPassword().equals(signinPassword)) {
+            showAlertError("Incorrect password. Please try again.");
+            signinStudentPasswordField.clear();
+            signinStudentPasswordField.requestFocus();
+            return;
+        }
+
+        // Successful login
+        showAlertSuccess("Student logged in successfully!");
+
+    }
+
+    // teacher signin
+    public void teacherSigninButtonOnAction(ActionEvent event){
+        //
+    }
 
 
 }

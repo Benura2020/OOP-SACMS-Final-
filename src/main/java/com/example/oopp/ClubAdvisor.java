@@ -5,16 +5,16 @@ import java.util.List;
 public class ClubAdvisor {
 
     private String teacherId;
-    private String name;
-    private String password;
+    private String teacherName;
+    private String teacherPassword;
 
     //store the clubs that the club advisor manages
     private List<Club> managedClubs;
 
-    public ClubAdvisor(String teacherId, String name, String password) {
+    public ClubAdvisor(String teacherId, String teacherName, String teacherPassword) {
         this.teacherId = teacherId;
-        this.name = name;
-        this.password = password;
+        this.teacherName = teacherName;
+        this.teacherPassword = teacherPassword;
         this.managedClubs = new ArrayList<>();
     }
 
@@ -26,20 +26,20 @@ public class ClubAdvisor {
         this.teacherId = teacherId;
     }
 
-    public String getName() {
-        return name;
+    public String getTeacherName() {
+        return teacherName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
-    public String getPassword() {
-        return password;
+    public String getTeacherPassword() {
+        return teacherPassword;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setTeacherPassword(String teacherPassword) {
+        this.teacherPassword = teacherPassword;
     }
 
     public List<Club> getManagedClubs() {
@@ -54,7 +54,7 @@ public class ClubAdvisor {
     public void createClub(String clubName){
         Club newClub = new Club(clubName);
         managedClubs.add(newClub);
-        System.out.println(name + " created the club : " + clubName);  //change it to alert
+        System.out.println(teacherName + " created the club : " + clubName);  //change it to alert
     }
 
 }

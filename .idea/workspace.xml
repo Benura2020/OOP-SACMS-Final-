@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b5d82f76-8c2e-4b9a-8e9d-218124c9c6dc" name="Changes" comment="" />
+    <list default="true" id="b5d82f76-8c2e-4b9a-8e9d-218124c9c6dc" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/ClubAdvisorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/ClubAdvisorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/HelloApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/HelloController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/oopp/clubadvisor.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/oopp/clubadvisor.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/oopp/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/oopp/login.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/oopp/student.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/oopp/student.fxml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -33,18 +41,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$USER_HOME$/hi/mysql-connector-j-8.1.0.jar" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.15" />
-    <property name="project.structure.side.proportion" value="0.2" />
-  </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\asus\Java CW OOD main\OOP-SACMS-Final-\src\main\resources\Pictures" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ClubadvisorApplication">
+  <component name="RunManager" selected="Application.Clubadvisor">
     <configuration name="Clubadvisor" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="ALTERNATIVE_JRE_PATH" value="corretto-19" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -54,7 +56,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ClubadvisorApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+    <configuration name="ClubadvisorApplication" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.oopp.ClubadvisorApplication" />
       <module name="OOP-SACMS-Final-" />
       <extension name="coverage">
@@ -87,7 +89,6 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.ClubadvisorApplication" />
         <item itemvalue="Application.HelloApplication" />
       </list>
     </recent_temporary>
@@ -95,7 +96,7 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="a8ad899c-2f36-415c-ae07-f10b528afecb" name="Changes" comment="" />
+      <changelist id="b5d82f76-8c2e-4b9a-8e9d-218124c9c6dc" name="Changes" comment="" />
       <created>1700670998602</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
