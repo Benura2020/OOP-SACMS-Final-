@@ -11,6 +11,8 @@ import java.io.IOException;
 public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
+        Database.getDBConnection();  // create database connection when the application starts
+
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("login.fxml"));
         Parent root = fxmlLoader.load();
 
@@ -23,7 +25,6 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.show();
     }
-
 
     public static void main(String[] args) {
         launch();
