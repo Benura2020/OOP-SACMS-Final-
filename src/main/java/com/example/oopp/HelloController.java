@@ -358,6 +358,10 @@ public class HelloController {
 
     }
 
+    public String getStudentSignInId(){
+        return signinStudentIdTextField.getText();
+    }
+
     // teacher signin
     public void teacherSigninButtonOnAction(ActionEvent event){
         //

@@ -1,17 +1,24 @@
 package com.example.oopp;
 
+import javafx.application.Application;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.net.URL;
 import java.sql.*;
+import java.util.List;
+import java.util.ResourceBundle;
 
 import static com.example.oopp.Database.getDBConnection;
 import static com.example.oopp.HelloController.showAlertSuccess;
 
-public class StudentController {
+public class StudentController implements Initializable {
     @FXML
     private Button studentClubButton;
 
@@ -32,6 +39,14 @@ public class StudentController {
 
     @FXML
     private AnchorPane student_home;
+    @FXML
+    private TableColumn<Club, String> studentClubDescriptionDisplay;
+
+    @FXML
+    private TableView<Club> studentClubDisplayTable;
+
+    @FXML
+    private TableColumn<Club, String> studentClubNameDisplay;
 
 
     public void studentHomeButtonOnAction(ActionEvent event){
@@ -138,6 +153,53 @@ public class StudentController {
         }
 
         return null;
+    }
+
+    EventSheduleDatabaseConnection dbConnection = new EventSheduleDatabaseConnection();
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        List<Club> allClubs = dbConnection.getAllClubs();
+
+        // Set up the club name column
+        studentClubNameDisplay.setCellValueFactory(new PropertyValueFactory<>("clubName"));
+
+        // Set up the club description column (replace "getDescription" with your actual method)
+        studentClubDescriptionDisplay.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getClubDescription()));
+
+        // Add all clubs to the table
+        studentClubDisplayTable.getItems().addAll(allClubs);
+
+
+
+    }
+    HelloController helloController = new HelloController();
+    public void handleJoinButtonClick(ActionEvent event) {
+        // Get the selected club
+        Club selectedClub = studentClubDisplayTable.getSelectionModel().getSelectedItem();
+
+        if (selectedClub != null) {
+            // Get student ID from your controller (replace this with your actual method)
+            String studentId = "S001";
+
+            // Get the club ID from the database
+            int clubId = dbConnection.getClubIdByClubName(selectedClub.getClubName());
+
+            // Insert the membership request
+            dbConnection.insertMembershipRequest(studentId, clubId);
+
+
+        } else {
+            // Handle the case when no club is selected
+            showAlert("Error","Please select a club before clicking Join.");
+        }
+    }
+
+    private void showAlert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
     }
 
 }

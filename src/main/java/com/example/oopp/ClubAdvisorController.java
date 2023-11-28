@@ -916,12 +916,6 @@ public class ClubAdvisorController {
 
 
 
-
-
-
-
-
-
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(title);
