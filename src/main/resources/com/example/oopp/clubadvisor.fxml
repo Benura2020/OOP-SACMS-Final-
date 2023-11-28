@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.oopp.ClubAdvisorController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.oopp.ClubAdvisorController">
    <left>
       <VBox prefHeight="550.0" prefWidth="200.0" styleClass="side-pane" stylesheets="@cadvisor.css" BorderPane.alignment="CENTER">
          <children>
@@ -180,41 +180,6 @@
                   <TextField fx:id="eventSchedulingEnterField" alignment="CENTER" layoutX="139.0" layoutY="47.0" promptText="Enter Advisor ID" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
                   <Button fx:id="EnterAdvisorButton" layoutX="321.0" layoutY="47.0" mnemonicParsing="false" onAction="#enterAdvisorIdClick" text="Enter" />
                   <Button fx:id="EventDeleteUpdateButton" layoutX="368.0" layoutY="11.0" mnemonicParsing="false" onAction="#mainClick" prefHeight="26.0" prefWidth="158.0" text="Delete/Update" />
-                  <ImageView disable="true" fitHeight="23.0" fitWidth="41.0" layoutX="493.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../Pictures/right-arrow.png" />
-                     </image>
-                  </ImageView>
-               </children>
-            </AnchorPane>
-            <AnchorPane fx:id="AttendencePane" prefHeight="200.0" prefWidth="200.0" visible="false">
-               <children>
-                  <Text layoutX="28.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Upcoming Events, Meetings, Activities">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Text>
-                  <TableView layoutX="24.0" layoutY="59.0" prefHeight="216.0" prefWidth="503.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
-                    <columns>
-                      <TableColumn prefWidth="241.0" text="Name" />
-                      <TableColumn prefWidth="125.0" text="Type" />
-                        <TableColumn prefWidth="136.0" text="Attendance" />
-                    </columns>
-                  </TableView>
-                  <TableView layoutX="24.0" layoutY="330.0" prefHeight="206.0" prefWidth="503.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
-                     <columns>
-                        <TableColumn prefWidth="142.0" text="Name" />
-                        <TableColumn prefWidth="104.0" text="Type" />
-                        <TableColumn prefWidth="90.0" text="Venue" />
-                        <TableColumn prefWidth="88.0" text="Date" />
-                        <TableColumn prefWidth="78.0" text="Time" />
-                     </columns>
-                  </TableView>
-                  <Text layoutX="28.0" layoutY="45.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Attendance ">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Text>
                </children>
             </AnchorPane>
             <AnchorPane fx:id="JoinRequestsPane" prefHeight="200.0" prefWidth="200.0" visible="false">
@@ -237,9 +202,9 @@
                </children>
             </AnchorPane>
             </AnchorPane>
-            <AnchorPane fx:id="eventUpdatePane">
+            <AnchorPane fx:id="eventUpdatePane" visible="false">
                <children>
-                  <AnchorPane fx:id="EventDeleteSecondPane" prefHeight="550.0" prefWidth="551.0">
+                  <AnchorPane fx:id="EventDeleteSecondPane" prefHeight="550.0" prefWidth="551.0" visible="false">
                      <children>
                         <Text layoutX="28.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name              :" wrappingWidth="80.59185791015625" />
                         <TextField fx:id="EventUpdateDeleteEventId" alignment="CENTER" layoutX="141.0" layoutY="93.0" prefHeight="20.0" prefWidth="174.0" promptText="Enter Event ID" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
@@ -280,6 +245,49 @@
                      </font>
                   </Text>
                   <Button layoutX="321.0" layoutY="55.0" mnemonicParsing="false" onAction="#enterDeleteAdvisorId" text="Enter" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="AttendencePane">
+               <children>
+                  <AnchorPane fx:id="Attendance2pane" prefHeight="557.0" prefWidth="554.0">
+                     <children>
+                        <TableView fx:id="attendance_table" layoutX="19.0" layoutY="253.0" prefHeight="228.0" prefWidth="514.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
+                          <columns>
+                            <TableColumn fx:id="attendance_StudentID_column" prefWidth="117.60005569458008" text="Student ID" />
+                            <TableColumn fx:id="attendance_StudentName_column" prefWidth="259.9999237060547" text="Student Name" />
+                              <TableColumn fx:id="attendance_Attendance_column" prefWidth="137.5999755859375" text="Attendance" />
+                          </columns>
+                        </TableView>
+                        <Button fx:id="attendance_MarkAttendance_button" layoutX="207.0" layoutY="499.0" mnemonicParsing="false" onAction="#attendance_MarkAttendance_click" prefHeight="26.0" prefWidth="120.0" text="Mark Attendance" />
+                        <Text fx:id="attendance_Club_label" layoutX="34.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select the Club" wrappingWidth="140.93011474609375">
+                           <font>
+                              <Font name="Arial" size="18.0" />
+                           </font>
+                        </Text>
+                        <ChoiceBox fx:id="attendance_Club_choice" layoutX="207.0" layoutY="130.0" prefWidth="150.0" />
+                        <Text fx:id="attendance_EventID_label" layoutX="34.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select the EventID">
+                           <font>
+                              <Font name="Arial" size="18.0" />
+                           </font>
+                        </Text>
+                        <ChoiceBox fx:id="attendance_EventID_choice" layoutX="207.0" layoutY="169.0" prefWidth="150.0" />
+                        <Text fx:id="attendance_StudentID_label" layoutX="27.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the Student ID">
+                           <font>
+                              <Font name="Arial" size="18.0" />
+                           </font>
+                        </Text>
+                        <TextField fx:id="attendance_StudentID_search_bar" layoutX="207.0" layoutY="207.0" prefHeight="26.0" prefWidth="181.0" />
+                        <Button fx:id="attendance_Search_button" layoutX="423.0" layoutY="207.0" mnemonicParsing="false"  text="SEARCH" />
+                        <Button layoutX="389.0" layoutY="130.0" mnemonicParsing="false" onAction="#enterClubNameClick" text="ENTER" />
+                     </children>
+                  </AnchorPane>
+                  <Text fx:id="attendance_starting_label" fill="#764e4e" layoutX="166.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Attendance ">
+                     <font>
+                        <Font name="Times New Roman" size="42.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="attendance_AdvisorID_search" layoutX="192.0" layoutY="78.0" prefHeight="26.0" prefWidth="149.0" promptText="Enter Advisor ID" />
+                  <Button layoutX="389.0" layoutY="78.0" mnemonicParsing="false" onAction="#attendanceAdvisorClick" text="ENTER" />
                </children>
             </AnchorPane>
          </children>
