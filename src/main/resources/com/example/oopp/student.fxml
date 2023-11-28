@@ -122,17 +122,16 @@
             </AnchorPane>
             <AnchorPane fx:id="student_club" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <TableView fx:id="student_send_club_request_table" layoutX="24.0" layoutY="355.0" prefHeight="145.0" prefWidth="503.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
+                  <TableView fx:id="student_joined_club_table" layoutX="24.0" layoutY="355.0" prefHeight="146.0" prefWidth="499.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
                      <columns>
-                        <TableColumn prefWidth="197.0" text="Name" />
-                        <TableColumn prefWidth="141.0" text="Advisor" />
-                        <TableColumn prefWidth="164.0" text="Description" />
+                        <TableColumn fx:id="joinedClubName" prefWidth="243.20008850097656" text="Name" />
+                        <TableColumn fx:id="joinedClubDescription" prefWidth="255.99993896484375" text="Description" />
                      </columns>
                   </TableView>
-                  <TableView fx:id="student_joined_club_table" layoutX="24.0" layoutY="65.0" prefHeight="199.0" prefWidth="503.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
+                  <TableView fx:id="student_send_club_request_table" layoutX="24.0" layoutY="65.0" prefHeight="199.0" prefWidth="503.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
                      <columns>
-                        <TableColumn prefWidth="254.0" text="Name" />
-                        <TableColumn prefWidth="249.0" text="Description" />
+                        <TableColumn fx:id="clubName" prefWidth="254.0" text="Name" />
+                        <TableColumn fx:id="clubDescription" prefWidth="249.0" text="Description" />
                      </columns>
                   </TableView>
                   <Text layoutX="31.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Clubs">
