@@ -277,7 +277,7 @@
                            </font>
                         </Text>
                         <TextField fx:id="attendance_StudentID_search_bar" layoutX="207.0" layoutY="207.0" prefHeight="26.0" prefWidth="181.0" />
-                        <Button fx:id="attendance_Search_button" layoutX="423.0" layoutY="207.0" mnemonicParsing="false"  text="SEARCH" />
+                        <Button fx:id="attendance_Search_button" layoutX="423.0" layoutY="207.0" mnemonicParsing="false" onAction="#attendance_SearchButtonClick" text="SEARCH" />
                         <Button layoutX="389.0" layoutY="130.0" mnemonicParsing="false" onAction="#enterClubNameClick" text="ENTER" />
                      </children>
                   </AnchorPane>

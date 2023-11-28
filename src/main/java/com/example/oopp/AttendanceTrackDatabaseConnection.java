@@ -18,6 +18,11 @@ public class AttendanceTrackDatabaseConnection {
     public static void setCurrentEventId(int eventId) {
         currentEventId = eventId;
     }
+    public AttendanceTrackDatabaseConnection() {
+        this.connection = eventSheduleDatabaseConnection.getConnection();
+    }
+
+    private Connection connection;
 
 
     EventSheduleDatabaseConnection eventSheduleDatabaseConnection = new EventSheduleDatabaseConnection();
@@ -69,12 +74,11 @@ public class AttendanceTrackDatabaseConnection {
 
     public List<Integer> getEventIdsByClubId(int clubId) {
         List<Integer> eventIds = new ArrayList<>();
-        Connection connection = null;
+        Connection connection = eventSheduleDatabaseConnection.getConnection();
 
         try {
             // Retrieve eventIds from clubEvents
             String queryEvents = "SELECT eventId FROM clubEvents WHERE clubId = ?";
-            connection = eventSheduleDatabaseConnection.getConnection();
             try (PreparedStatement preparedStatementEvents = connection.prepareStatement(queryEvents)) {
                 preparedStatementEvents.setInt(1, clubId);
                 try (ResultSet resultSetEvents = preparedStatementEvents.executeQuery()) {
@@ -117,35 +121,40 @@ public class AttendanceTrackDatabaseConnection {
         return eventIds;
     }
 
+
     public Map<String, String> getStudentsByClubId(int clubId) {
         Map<String, String> studentsMap = new HashMap<>();
+        Connection connection = null;
 
-        String query = "SELECT sc.studentId, s.studentName FROM student_club sc " +
-                "JOIN student s ON sc.studentId = s.studentId " +
-                "WHERE sc.clubId = ?";
+        try {
+            String query = "SELECT sc.studentId, s.studentName FROM student_club sc " +
+                    "JOIN student s ON sc.studentId = s.studentId " +
+                    "WHERE sc.clubId = ?";
 
-        try (Connection connection = eventSheduleDatabaseConnection.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            connection = eventSheduleDatabaseConnection.getConnection();
 
-            preparedStatement.setInt(1, clubId);
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setInt(1, clubId);
 
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    String studentId = resultSet.getString("studentId");
-                    String studentName = resultSet.getString("studentName");
-                    studentsMap.put(studentId, studentName);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String studentId = resultSet.getString("studentId");
+                        String studentName = resultSet.getString("studentName");
+                        studentsMap.put(studentId, studentName);
+                    }
                 }
             }
-
         } catch (SQLException e) {
             e.printStackTrace(); // Log or handle the exception appropriately
+        } finally {
+            // Perform other cleanup operations if needed, but do not close the connection
         }
 
         return studentsMap;
     }
 
 
-    public void updateStudentAttendanceTable(List<Attendance> attendanceList, int eventId) {
+    public void updateStudentAttendanceTable(Attendance attendance, int eventId) {
         String query = "INSERT INTO StudentAttendance (eventId, studentId) VALUES (?, ?)";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -156,17 +165,10 @@ public class AttendanceTrackDatabaseConnection {
 
             preparedStatement = connection.prepareStatement(query);
 
-            for (Attendance attendance : attendanceList) {
-                if (attendance.getAttendance()) {
-                    // Insert a record for each attended student
-                    preparedStatement.setInt(1, eventId);
-                    preparedStatement.setString(2, attendance.getStudentId());
-                    preparedStatement.addBatch();
-                }
-            }
-
-            // Execute the batch insert
-            preparedStatement.executeBatch();
+            // Insert a record for the attended student
+            preparedStatement.setInt(1, eventId);
+            preparedStatement.setString(2, attendance.getStudentId());
+            preparedStatement.executeUpdate(); // Execute the insert
 
             connection.commit(); // Commit the transaction
 
@@ -200,7 +202,193 @@ public class AttendanceTrackDatabaseConnection {
             }
         }
     }
+    public void updateStudentAttendanceMeetingsTable(Attendance attendance, int eventId) {
+        String query = "INSERT INTO StudentAttendanceMeetings (eventId, studentId) VALUES (?, ?)";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = eventSheduleDatabaseConnection.getConnection();
+            connection.setAutoCommit(false); // Start transaction
+
+            preparedStatement = connection.prepareStatement(query);
+
+            // Insert a record for the attended student
+            preparedStatement.setInt(1, eventId);
+            preparedStatement.setString(2, attendance.getStudentId());
+            preparedStatement.executeUpdate(); // Execute the insert
+
+            connection.commit(); // Commit the transaction
+
+            System.out.println("Data successfully inserted into the StudentAttendanceMeetings table.");
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log the exception
+
+            try {
+                if (connection != null) {
+                    connection.rollback(); // Rollback the transaction in case of an exception
+                    System.err.println("Rollback performed. Transaction failed.");
+                }
+            } catch (SQLException rollbackException) {
+                rollbackException.printStackTrace(); // Handle rollback exception
+            }
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException closeException) {
+                closeException.printStackTrace(); // Handle the exception appropriately
+            }
+
+
+        }
+    }
+
+    public void updateStudentAttendanceActivityTable(Attendance attendance, int eventId) {
+        String query = "INSERT INTO StudentAttendanceActivity (eventId, studentId) VALUES (?, ?)";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = eventSheduleDatabaseConnection.getConnection();
+            connection.setAutoCommit(false); // Start transaction
+
+            preparedStatement = connection.prepareStatement(query);
+
+            // Insert a record for the attended student
+            preparedStatement.setInt(1, eventId);
+            preparedStatement.setString(2, attendance.getStudentId());
+            preparedStatement.executeUpdate(); // Execute the insert
+
+            connection.commit(); // Commit the transaction
+
+            System.out.println("Data successfully inserted into the StudentAttendanceActivity table.");
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log the exception
+
+            try {
+                if (connection != null) {
+                    connection.rollback(); // Rollback the transaction in case of an exception
+                    System.err.println("Rollback performed. Transaction failed.");
+                }
+            } catch (SQLException rollbackException) {
+                rollbackException.printStackTrace(); // Handle rollback exception
+            }
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException closeException) {
+                closeException.printStackTrace(); // Handle the exception appropriately
+            }
+
+
+        }
+    }
+
+    public String getEventType(int eventId) {
+        String eventType = null;
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = eventSheduleDatabaseConnection.getConnection();
+
+            // Check if the event exists in the clubevents table
+            String queryEvents = "SELECT eventId FROM clubevents WHERE eventId = ?";
+            preparedStatement = connection.prepareStatement(queryEvents);
+            preparedStatement.setInt(1, eventId);
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                eventType = "Event";
+            } else {
+                // Check if the event exists in the clubmeetings table
+                String queryMeetings = "SELECT eventId FROM clubmeetings WHERE eventId = ?";
+                preparedStatement = connection.prepareStatement(queryMeetings);
+                preparedStatement.setInt(1, eventId);
+                resultSet = preparedStatement.executeQuery();
+
+                if (resultSet.next()) {
+                    eventType = "Meeting";
+                } else {
+                    // Check if the event exists in the clubactivities table
+                    String queryActivities = "SELECT eventId FROM clubactivities WHERE eventId = ?";
+                    preparedStatement = connection.prepareStatement(queryActivities);
+                    preparedStatement.setInt(1, eventId);
+                    resultSet = preparedStatement.executeQuery();
+
+                    if (resultSet.next()) {
+                        eventType = "Activity";
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log the exception
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace(); // Log the exception
+            }
+        }
+
+        return eventType;
+    }
+
+
+    // Add the following method to the AttendanceTrackDatabaseConnection class
+
+    public Map<String, String> searchStudentsByStudentIdAndClub(String studentId, int clubId) {
+        Map<String, String> searchResults = new HashMap<>();
+        Connection connection = null;
+
+        try {
+            String query = "SELECT sc.studentId, s.studentName FROM student_club sc " +
+                    "JOIN student s ON sc.studentId = s.studentId " +
+                    "WHERE sc.clubId = ? AND s.studentId = ?";
+
+            connection = eventSheduleDatabaseConnection.getConnection();
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setInt(1, clubId);
+                preparedStatement.setString(2, studentId);
+
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String resultStudentId = resultSet.getString("studentId");
+                        String resultStudentName = resultSet.getString("studentName");
+                        searchResults.put(resultStudentId, resultStudentName);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log or handle the exception appropriately
+        } finally {
+            // Perform other cleanup operations if needed, but do not close the connection
+        }
+
+        return searchResults;
+    }
 
 
 
+    public void closeConnection() {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately
+        }
+    }
 }

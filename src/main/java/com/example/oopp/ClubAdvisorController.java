@@ -731,7 +731,6 @@ public class ClubAdvisorController implements Initializable {
 
     AttendanceTrackDatabaseConnection attendanceTrackDatabaseConnection = new AttendanceTrackDatabaseConnection();
 
-    ArrayList<Attendance> AttendanceList = new ArrayList<>();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -784,7 +783,6 @@ public class ClubAdvisorController implements Initializable {
             // Initialize the Attendance object with a default attendance status of false
             Attendance attendance = new Attendance(studentId, studentName, studentId, false);
 
-            AttendanceList.add(attendance);
 
             // Set the checkbox value in the Attendance object when the property changes
             attendance.attendanceProperty().addListener((obs, oldValue, newValue) -> attendance.setAttendance(newValue));
@@ -825,12 +823,12 @@ public class ClubAdvisorController implements Initializable {
             // Set the current event ID
             AttendanceTrackDatabaseConnection.setCurrentEventId(selectedEvent);
 
-            // Debug: Print the current event ID
-            AttendanceTrackDatabaseConnection.getCurrentEventId();
-
-            // Call the method to handle the button click
+            // Get the event type
+            String eventType = attendanceTrackDatabaseConnection.getEventType(selectedEvent);
             ObservableList<Map.Entry<String, String>> selectedItems = attendance_table.getSelectionModel().getSelectedItems();
 
+            // Debug: Print the event type
+            System.out.println("Event Type: " + eventType);
             for (Map.Entry<String, String> selectedItem : selectedItems) {
                 String studentId = selectedItem.getKey();
 
@@ -838,14 +836,92 @@ public class ClubAdvisorController implements Initializable {
                 System.out.println("Student ID: " + studentId);
                 System.out.println("Event ID: " + AttendanceTrackDatabaseConnection.getCurrentEventId());
                 System.out.println("----------------------");
+                if ("Event".equals(eventType)) {
+                    Attendance attendance = new Attendance(studentId, "Student Name", studentId, false);
+                    attendanceTrackDatabaseConnection.updateStudentAttendanceTable(attendance, selectedEvent);
+                } else if ("Meeting".equals(eventType)) {
+                    Attendance attendance = new Attendance(studentId, "Student Name", studentId, false);
+                    attendanceTrackDatabaseConnection.updateStudentAttendanceMeetingsTable(attendance, selectedEvent);
+                } else if ("Activity".equals(eventType)) {
+                    Attendance attendance = new Attendance(studentId, "Student Name", studentId, false);
+                    attendanceTrackDatabaseConnection.updateStudentAttendanceActivityTable(attendance, selectedEvent);
+                }
+
+                // Create an Attendance object with default attendance status of false
+
             }
 
-            // Update the StudentAttendance table with attendance data
-            attendanceTrackDatabaseConnection.updateStudentAttendanceTable(AttendanceList, selectedEvent);
         } else {
             // Handle the case when no event is selected, e.g., show an alert
             System.out.println("No event selected");
         }
+
+    }
+
+
+    @FXML
+    public void attendance_SearchButtonClick(ActionEvent event) {
+        // Get the entered student ID from the search bar
+        String studentId = attendance_StudentID_search_bar.getText();
+
+        // Get the selected club name from the ChoiceBox
+        String selectedClub = attendance_Club_choice.getValue();
+
+        // Check if both student ID and club are entered
+        if (!studentId.isEmpty() && selectedClub != null) {
+            int clubId = dbConnection.getClubIdByClubName(selectedClub);
+
+            // Perform the search in the database
+            Map<String, String> searchResults = attendanceTrackDatabaseConnection.searchStudentsByStudentIdAndClub(studentId, clubId);
+
+            // Update the GUI to display the search results
+            updateSearchResultsOnGUI(searchResults);
+        } else {
+            // Handle the case when either student ID or club is not selected
+            // Show an alert or provide appropriate feedback to the user
+        }
+    }
+
+    private void updateSearchResultsOnGUI(Map<String, String> searchResults) {
+        // Clear the existing data in the table
+        attendance_table.getItems().clear();
+
+        // Create an observable list for the table
+        ObservableList<Map.Entry<String, String>> data = FXCollections.observableArrayList(searchResults.entrySet());
+
+        // Set the cell value factories for the existing columns
+        attendance_StudentID_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getKey()));
+        attendance_StudentName_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue()));
+
+        // Create a new TableColumn for attendance checkbox
+        TableColumn<Map.Entry<String, String>, Boolean> attendance_Column = new TableColumn<>("Attendance");
+        attendance_Column.setCellValueFactory(cellData -> {
+            String studentId = cellData.getValue().getKey();
+            String studentName = cellData.getValue().getValue();
+
+            // Initialize the Attendance object with a default attendance status of false
+            Attendance attendance = new Attendance(studentId, studentName, studentId, false);
+
+            // Set the checkbox value in the Attendance object when the property changes
+            attendance.attendanceProperty().addListener((obs, oldValue, newValue) -> attendance.setAttendance(newValue));
+
+            // Create a CheckBoxTableCell that displays the checkbox and allows manual interaction
+            CheckBoxTableCell<Map.Entry<String, String>, Boolean> checkBoxTableCell = new CheckBoxTableCell<>();
+            checkBoxTableCell.setSelectedStateCallback(index -> attendance.attendanceProperty());
+
+            return attendance.attendanceProperty().asObject();
+        });
+
+        attendance_Column.setCellFactory(CheckBoxTableCell.forTableColumn(attendance_Column));
+
+        // Add the columns in the desired order to the table
+        attendance_table.getColumns().clear();
+        attendance_table.getColumns().addAll(attendance_StudentID_column, attendance_StudentName_column, attendance_Column);
+
+        attendance_Attendance_column.setEditable(true);
+
+        // Set the data to the table
+        attendance_table.setItems(data);
     }
 
 
