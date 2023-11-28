@@ -32,7 +32,11 @@ import static com.example.oopp.HelloController.showAlertSuccess;
 
 public class StudentController implements Initializable {
 
+
 //public class StudentController {
+
+
+
     // Variable to store the signed-in student ID
     public static String signedInStudentId;
 
@@ -105,7 +109,7 @@ public class StudentController implements Initializable {
         HelloController.toggleVisibility(student_event, false);
     }
 
-    public void studentEventButtonOnAction(ActionEvent event){
+    public void studentEventButtonOnAction(){
         HelloController.toggleVisibility(student_home, false);
         HelloController.toggleVisibility(student_club, false);
         HelloController.toggleVisibility(student_event, true);
@@ -203,41 +207,41 @@ public class StudentController implements Initializable {
     EventSheduleDatabaseConnection dbConnection = new EventSheduleDatabaseConnection();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        List<Club> allClubs = dbConnection.getAllClubs();
-
-        // Set up the club name column
-        studentClubNameDisplay.setCellValueFactory(new PropertyValueFactory<>("clubName"));
-
-        // Set up the club description column (replace "getDescription" with your actual method)
-        studentClubDescriptionDisplay.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getClubDescription()));
-
-        // Add all clubs to the table
-        studentClubDisplayTable.getItems().addAll(allClubs);
+//        List<Club> allClubs = dbConnection.getAllClubs();
+//
+//        // Set up the club name column
+//        studentClubNameDisplay.setCellValueFactory(new PropertyValueFactory<>("clubName"));
+//
+//        // Set up the club description column (replace "getDescription" with your actual method)
+//        studentClubDescriptionDisplay.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getClubDescription()));
+//
+//        // Add all clubs to the table
+//        studentClubDisplayTable.getItems().addAll(allClubs);
 
 
 
     }
-    HelloController helloController = new HelloController();
-    public void handleJoinButtonClick(ActionEvent event) {
-        // Get the selected club
-        Club selectedClub = studentClubDisplayTable.getSelectionModel().getSelectedItem();
 
-        if (selectedClub != null) {
-            // Get student ID from your controller (replace this with your actual method)
-            String studentId = "S001";
-
-            // Get the club ID from the database
-            int clubId = dbConnection.getClubIdByClubName(selectedClub.getClubName());
-
-            // Insert the membership request
-            dbConnection.insertMembershipRequest(studentId, clubId);
-
-
-        } else {
-            // Handle the case when no club is selected
-            showAlert("Error","Please select a club before clicking Join.");
-        }
-    }
+//    public void handleJoinButtonClick(ActionEvent event) {
+//        // Get the selected club
+//        Club selectedClub = studentClubDisplayTable.getSelectionModel().getSelectedItem();
+//
+//        if (selectedClub != null) {
+//            // Get student ID from your controller (replace this with your actual method)
+//            String studentId = "S001";
+//
+//            // Get the club ID from the database
+//            int clubId = dbConnection.getClubIdByClubName(selectedClub.getClubName());
+//
+//            // Insert the membership request
+//            dbConnection.insertMembershipRequest(studentId, clubId);
+//
+//
+//        } else {
+//            // Handle the case when no club is selected
+//            showAlert("Error","Please select a club before clicking Join.");
+//        }
+//    }
 
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

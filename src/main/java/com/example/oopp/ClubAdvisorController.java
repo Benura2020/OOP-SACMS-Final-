@@ -127,6 +127,12 @@ public class ClubAdvisorController {
     private TextField EventUpdateTypeOrAgenda;
     @FXML
     private TextField EventUpdateDeleteEventId;
+    @FXML
+    private TableView<String> advisorJoinReqTable;
+    @FXML
+    private TableColumn<String,String> joinReqStudentName;
+    @FXML
+    private TableColumn<String,String> joinReqClubName;
 
 
 
