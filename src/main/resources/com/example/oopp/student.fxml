@@ -27,11 +27,11 @@
                </VBox.margin>
             </ImageView>
 
-            <Button fx:id="studentHomeButton" mnemonicParsing="false" onAction="#studentHomeButtonOnAction" prefHeight="70.0" prefWidth="200.0" styleClass="side-button" stylesheets="@cadvisor.css" text="Home">
+            <!--<Button fx:id="studentHomeButton" mnemonicParsing="false" onAction="#studentHomeButtonOnAction" prefHeight="70.0" prefWidth="200.0" styleClass="side-button" stylesheets="@cadvisor.css" text="Home"></Button>-->
                <VBox.margin>
                   <Insets top="15.0" />
 
-            <Label prefHeight="60.0" prefWidth="50.0">
+
                <graphic>
                   <ImageView fitHeight="35.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -42,7 +42,7 @@
                <VBox.margin>
                   <Insets left="80.0" top="10.0" />
                </VBox.margin>
-            </Label>
+
 
             <Button fx:id="studentHomeButton" mnemonicParsing="false" onAction="#studentHomeButtonOnAction" prefHeight="70.0" prefWidth="200.0" styleClass="side-button" stylesheets="@cadvisor.css" text="Home">
                <VBox.margin>
@@ -140,9 +140,9 @@
                         <TableColumn fx:id="studentRequestClubDescriptionColumn" prefWidth="249.0" text="Description" />
 
 
-                  <TableView fx:id="studentClubDisplayTable" layoutX="24.0" layoutY="65.0" prefHeight="199.0" prefWidth="503.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
-                     <columns>
-                        <TableColumn fx:id="studentClubNameDisplay" prefWidth="254.0" text="Name" />
+                  <TableView fx:id="" layoutX="24.0" layoutY="65.0" prefHeight="199.0" prefWidth="503.0" styleClass="table-row-cell" stylesheets="@cadvisor.css"></TableView>
+
+
 
                   <TableView fx:id="student_send_club_request_table" layoutX="24.0" layoutY="65.0" prefHeight="199.0" prefWidth="503.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
                      <columns>
@@ -159,9 +159,9 @@
                   </Text>
                   <Text layoutX="31.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on the club name on the table and click join button to send join request to club." />
 
-                  <Button fx:id="studentJoinClubButton" layoutX="171.0" layoutY="275.0" mnemonicParsing="false" onAction="#handleJoinButtonClick" prefHeight="31.0" prefWidth="209.0" styleClass="search-button" stylesheets="@cadvisor.css" text="Join Club" />
+                  <Button fx:id="" layoutX="171.0" layoutY="275.0" mnemonicParsing="false" onAction="#handleJoinButtonClick" prefHeight="31.0" prefWidth="209.0" styleClass="search-button" stylesheets="@cadvisor.css" text="Join Club" />
 
-                  <Button fx:id="studentJoinClubButton" layoutX="171.0" layoutY="275.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="209.0" styleClass="search-button" stylesheets="@cadvisor.css" text="Join Club" />
+                  <Button fx:id="" layoutX="171.0" layoutY="275.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="209.0" styleClass="search-button" stylesheets="@cadvisor.css" text="Join Club" />
 
                   <Text layoutX="31.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Joined Clubs">
                      <font>
