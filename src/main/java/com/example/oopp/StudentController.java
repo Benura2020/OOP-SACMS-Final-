@@ -251,65 +251,7 @@ public class StudentController {
 // ------------------------------------------table loading--------------------------------------------------------------
 
 
-    public static List<Club> fetchClubsNotJoined(String studentId) {
-        List<Club> clubsNotJoined = new ArrayList<>();
-        String query = "SELECT * FROM club WHERE clubId NOT IN (SELECT clubId FROM student_club WHERE studentId = ?)";
 
-        try (Connection connection = Database.getDBConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
-            preparedStatement.setString(1, studentId);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    // Populate Club objects from the result set
-                    Club club = new Club();
-                    club.setClubId(resultSet.getString("clubId"));
-                    club.setClubName(resultSet.getString("clubName"));
-                    club.setClubDescription(resultSet.getString("clubDescription"));
-                    club.setTeacherId(resultSet.getString("teacherId"));
-
-                    clubsNotJoined.add(club);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle the exception as needed
-        }
-
-        return clubsNotJoined;
-    }
-
-    public static List<Club> fetchJoinedClubs(String studentId) {
-        List<Club> joinedClubs = new ArrayList<>();
-        String query = "SELECT club.* FROM club " +
-                "JOIN student_club ON club.clubId = student_club.clubId " +
-                "WHERE student_club.studentId = ?";
-
-        try (Connection connection = Database.getDBConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-
-            preparedStatement.setString(1, studentId);
-
-            try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                while (resultSet.next()) {
-                    // Populate Club objects from the result set
-                    Club club = new Club();
-                    club.setClubId(resultSet.getString("clubId"));
-                    club.setClubName(resultSet.getString("clubName"));
-                    club.setClubDescription(resultSet.getString("clubDescription"));
-                    club.setTeacherId(resultSet.getString("teacherId"));
-
-                    joinedClubs.add(club);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle the exception as needed
-        }
-
-        return joinedClubs;
-    }
 
 
 
