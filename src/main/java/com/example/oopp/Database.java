@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public class Database {
 
-    private static final String databaseName = "ood";
+    private static final String databaseName = "sacms";
     private static final String databaseUser = "root";
     private static final String databasePassword = "1234";
     private static final String url = "jdbc:mysql://localhost/"+databaseName;
