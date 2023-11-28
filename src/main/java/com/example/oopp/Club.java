@@ -3,6 +3,15 @@ package com.example.oopp;
 public class Club {
     private String clubId;
     private String clubName;
+
+    public String getClubDescription() {
+        return clubDescription;
+    }
+
+    public void setClubDescription(String clubDescription) {
+        this.clubDescription = clubDescription;
+    }
+
     private String clubDescription;
 
     public ClubAdvisor getClubAdvisor() {

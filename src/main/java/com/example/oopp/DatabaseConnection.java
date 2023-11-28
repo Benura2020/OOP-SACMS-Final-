@@ -5,7 +5,7 @@ public class DatabaseConnection {
     public Connection databaseLink;
 
     public Connection getConnection(){
-        String databaseName = "sacms";
+        String databaseName = "ood";
         String databaseUser = "root";
         String databasePassword = "1234";
         String url = "jdbc:mysql://localhost/"+databaseName;

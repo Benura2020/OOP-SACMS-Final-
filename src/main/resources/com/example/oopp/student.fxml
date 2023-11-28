@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.oopp.StudentController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.oopp.StudentController">
    <left>
       <VBox prefHeight="550.0" prefWidth="200.0" styleClass="side-pane" stylesheets="@cadvisor.css" BorderPane.alignment="CENTER">
          <children>
@@ -26,6 +26,24 @@
                   <Insets left="5.0" top="10.0" />
                </VBox.margin>
             </ImageView>
+
+            <Button fx:id="studentHomeButton" mnemonicParsing="false" onAction="#studentHomeButtonOnAction" prefHeight="70.0" prefWidth="200.0" styleClass="side-button" stylesheets="@cadvisor.css" text="Home">
+               <VBox.margin>
+                  <Insets top="15.0" />
+
+            <Label prefHeight="60.0" prefWidth="50.0">
+               <graphic>
+                  <ImageView fitHeight="35.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Pictures/icons8-student-96.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+               <VBox.margin>
+                  <Insets left="80.0" top="10.0" />
+               </VBox.margin>
+            </Label>
+
             <Button fx:id="studentHomeButton" mnemonicParsing="false" onAction="#studentHomeButtonOnAction" prefHeight="70.0" prefWidth="200.0" styleClass="side-button" stylesheets="@cadvisor.css" text="Home">
                <VBox.margin>
                   <Insets top="15.0" />
@@ -115,10 +133,23 @@
                         <TableColumn fx:id="studentJoinedClubDescriptionColumn" prefWidth="252.0" text="Description" />
                      </columns>
                   </TableView>
+
                   <TableView fx:id="studentClubDisplayTable" layoutX="24.0" layoutY="65.0" prefHeight="199.0" prefWidth="503.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
                      <columns>
                         <TableColumn fx:id="studentRequestClubNameColumn" prefWidth="254.0" text="Name" />
                         <TableColumn fx:id="studentRequestClubDescriptionColumn" prefWidth="249.0" text="Description" />
+
+
+                  <TableView fx:id="studentClubDisplayTable" layoutX="24.0" layoutY="65.0" prefHeight="199.0" prefWidth="503.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
+                     <columns>
+                        <TableColumn fx:id="studentClubNameDisplay" prefWidth="254.0" text="Name" />
+
+                  <TableView fx:id="student_send_club_request_table" layoutX="24.0" layoutY="65.0" prefHeight="199.0" prefWidth="503.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
+                     <columns>
+                        <TableColumn fx:id="clubName" prefWidth="254.0" text="Name" />
+                        <TableColumn fx:id="clubDescription" prefWidth="249.0" text="Description" />
+
+
                      </columns>
                   </TableView>
                   <Text layoutX="31.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Clubs">
@@ -127,7 +158,11 @@
                      </font>
                   </Text>
                   <Text layoutX="31.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on the club name on the table and click join button to send join request to club." />
+
+                  <Button fx:id="studentJoinClubButton" layoutX="171.0" layoutY="275.0" mnemonicParsing="false" onAction="#handleJoinButtonClick" prefHeight="31.0" prefWidth="209.0" styleClass="search-button" stylesheets="@cadvisor.css" text="Join Club" />
+
                   <Button fx:id="studentJoinClubButton" layoutX="171.0" layoutY="275.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="209.0" styleClass="search-button" stylesheets="@cadvisor.css" text="Join Club" />
+
                   <Text layoutX="31.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Joined Clubs">
                      <font>
                         <Font size="16.0" />

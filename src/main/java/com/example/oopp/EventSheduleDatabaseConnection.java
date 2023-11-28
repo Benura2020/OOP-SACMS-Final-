@@ -658,6 +658,51 @@ public class EventSheduleDatabaseConnection {
             }
         }
     }
+    public List<Club> getAllClubs() {
+        List<Club> clubs = new ArrayList<>();
+
+        try {
+            // Assuming you have a "Club" table with columns "clubName" and "clubDescription"
+            String query = "SELECT clubId, clubName, clubDescription FROM Club";
+            try (Statement statement = connection.createStatement();
+                 ResultSet resultSet = statement.executeQuery(query)) {
+
+                while (resultSet.next()) {
+                    String clubId = resultSet.getString("clubId");
+                    String clubName = resultSet.getString("clubName");
+                    String clubDescription = resultSet.getString("clubDescription");
+
+                    // Create a Club object and add it to the list
+                    Club club = new Club(clubId , clubName, clubDescription);
+                    clubs.add(club);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception based on your application's needs
+        }
+
+        return clubs;
+    }
+
+    public void insertMembershipRequest(String studentId, int clubId) {
+        String insertQuery = "INSERT INTO membershiprequests (clubId, studentId) VALUES (?, ?)";
+
+        try (Connection connection = getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+
+            // Set parameters
+            preparedStatement.setInt(1, clubId);
+            preparedStatement.setString(2, studentId);
+
+            // Execute the update
+            preparedStatement.executeUpdate();
+
+            System.out.println("Membership request inserted successfully.");
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately based on your application's needs
+        }
+    }
 
 
 
