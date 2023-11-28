@@ -1,7 +1,13 @@
 package com.example.oopp;
 
+
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
+
+import com.example.oopp.Club;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -12,13 +18,25 @@ import javafx.stage.Stage;
 
 import java.net.URL;
 import java.sql.*;
+
 import java.util.List;
 import java.util.ResourceBundle;
+
+import java.util.ArrayList;
+import java.util.List;
+
 
 import static com.example.oopp.Database.getDBConnection;
 import static com.example.oopp.HelloController.showAlertSuccess;
 
+
 public class StudentController implements Initializable {
+
+public class StudentController {
+    // Variable to store the signed-in student ID
+    public static String signedInStudentId;
+
+
     @FXML
     private Button studentClubButton;
 
@@ -30,6 +48,12 @@ public class StudentController implements Initializable {
 
     @FXML
     private Button studentHomeButton;
+
+    @FXML
+    private Button studentJoinClubButton;
+
+    @FXML
+    private Button studentLeaveClubButton;
 
     @FXML
     private AnchorPane student_club;
@@ -47,6 +71,26 @@ public class StudentController implements Initializable {
 
     @FXML
     private TableColumn<Club, String> studentClubNameDisplay;
+
+    @FXML
+    private TableView<Club> student_joined_club_table;
+
+    @FXML
+    private TableView<Club> student_send_club_request_table;
+
+    @FXML
+    private TableColumn<Club, Integer> clubIdColumn;
+
+    @FXML
+    private TableColumn<Club, String> clubNameColumn;
+
+    @FXML
+    private TableColumn<Club, String> clubDescriptionColumn;
+
+    @FXML
+    private TableColumn<Club, String> teacherIdColumn;
+
+
 
 
     public void studentHomeButtonOnAction(ActionEvent event){
@@ -155,6 +199,7 @@ public class StudentController implements Initializable {
         return null;
     }
 
+
     EventSheduleDatabaseConnection dbConnection = new EventSheduleDatabaseConnection();
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -201,5 +246,71 @@ public class StudentController implements Initializable {
         alert.setContentText(content);
         alert.showAndWait();
     }
+
+
+// ------------------------------------------table loading--------------------------------------------------------------
+
+
+    public static List<Club> fetchClubsNotJoined(String studentId) {
+        List<Club> clubsNotJoined = new ArrayList<>();
+        String query = "SELECT * FROM club WHERE clubId NOT IN (SELECT clubId FROM student_club WHERE studentId = ?)";
+
+        try (Connection connection = Database.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, studentId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    // Populate Club objects from the result set
+                    Club club = new Club();
+                    club.setClubId(resultSet.getString("clubId"));
+                    club.setClubName(resultSet.getString("clubName"));
+                    club.setClubDescription(resultSet.getString("clubDescription"));
+                    club.setTeacherId(resultSet.getString("teacherId"));
+
+                    clubsNotJoined.add(club);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception as needed
+        }
+
+        return clubsNotJoined;
+    }
+
+    public static List<Club> fetchJoinedClubs(String studentId) {
+        List<Club> joinedClubs = new ArrayList<>();
+        String query = "SELECT club.* FROM club " +
+                "JOIN student_club ON club.clubId = student_club.clubId " +
+                "WHERE student_club.studentId = ?";
+
+        try (Connection connection = Database.getDBConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, studentId);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                while (resultSet.next()) {
+                    // Populate Club objects from the result set
+                    Club club = new Club();
+                    club.setClubId(resultSet.getString("clubId"));
+                    club.setClubName(resultSet.getString("clubName"));
+                    club.setClubDescription(resultSet.getString("clubDescription"));
+                    club.setTeacherId(resultSet.getString("teacherId"));
+
+                    joinedClubs.add(club);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception as needed
+        }
+
+        return joinedClubs;
+    }
+
+
 
 }

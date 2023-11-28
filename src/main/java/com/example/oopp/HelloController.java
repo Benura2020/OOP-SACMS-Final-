@@ -1,11 +1,13 @@
 package com.example.oopp;
-
+import com.example.oopp.Club;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import java.sql.*;
+import java.util.List;
 
+import static com.example.oopp.ClubAdvisorController.getTeacherFromDatabase;
 import static com.example.oopp.StudentController.getStudentFromDatabase;
 
 public class HelloController {
@@ -232,6 +234,8 @@ public class HelloController {
         alert.showAndWait();
     }
 
+    // -----------------------------------------------------------------------------------------------------------------
+
     // student signup
 
     public void studentSignupButtonOnAction(){
@@ -269,6 +273,9 @@ public class HelloController {
             signupStudentPasswordField.requestFocus();
             return;
         }
+
+        //get registered student ID
+        StudentController.signedInStudentId = studentId;
         // creating the object of the student
         Student student = new Student(studentId, studentName, studentPassword);
 
@@ -314,9 +321,11 @@ public class HelloController {
             return;
         }
 
+        //creating the object of the club advisor
         ClubAdvisor clubAdvisor = new ClubAdvisor(teacherId, teacherName, teacherPassword);
-        //System.out.println(clubAdvisor.getTeacherId());
-        //System.out.println(clubAdvisor.getTeacherName());
+
+        //Insert user data into database
+        ClubAdvisorController.insertTeacher(clubAdvisor);
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -324,7 +333,7 @@ public class HelloController {
     // student signin
 
     public void studentSigninButtonOnAction(ActionEvent event){
-        // Get user inputs from text fields and password field
+        // Get student inputs from text fields and password field
         String signinStudentId = signinStudentIdTextField.getText();
         String signinPassword = signinStudentPasswordField.getText();
 
@@ -336,7 +345,7 @@ public class HelloController {
             return;
         }
 
-        // Retrieve data from the database based on the student ID
+        // Retrieve data from the database using student ID
         Student student = getStudentFromDatabase(signinStudentId);
 
         // Check if the student is registered
@@ -353,8 +362,30 @@ public class HelloController {
             return;
         }
 
-        // Successful login
+
+        // After successful login, set the signed-in student ID
+        //StudentController.signedInStudentId = signinStudentId; // Assuming student ID is entered in a text field
+        // or retrieve it from your student object or wherever it is stored
+        // ...
+        // Successful login alert
         showAlertSuccess("Student logged in successfully!");
+
+        // Fetch clubs the student has not joined
+        //List<Club> clubsNotJoined = StudentController.fetchClubsNotJoined(StudentController.signedInStudentId);
+        //System.out.println(clubsNotJoined);
+        // Populate the student_send_club_request_table with clubsNotJoined data
+        //student_send_club_request_table.getItems().setAll(clubsNotJoined);
+
+        // Fetch clubs the student has joined
+        ////List<Club> joinedClubs = StudentController.fetchJoinedClubs(StudentController.signedInStudentId);
+        //System.out.println(joinedClubs);
+        // Populate the student_joined_club_table with joinedClubs data
+        //student_joined_club_table.getItems().setAll(joinedClubs);
+
+        // Load student FXML after successful registration
+        FXMLLoaderUtil.loadFXML("student.fxml", "Student");
+
+
 
     }
 
@@ -363,9 +394,45 @@ public class HelloController {
     }
 
     // teacher signin
-    public void teacherSigninButtonOnAction(ActionEvent event){
-        //
+
+    public void teacherSigninButtonOnAction(ActionEvent event) {
+        // Get teacher inputs from text fields and password field
+        String signinTeacherId = signinTeacherIdTextField.getText();
+        String signinPassword = signinTeacherPasswordField.getText();
+
+        // Validate teacher ID
+        if (!InputValidations.validateId(signinTeacherId)) {
+            showAlertError("Invalid teacher ID. Enter a valid one.");
+            signinTeacherIdTextField.clear();
+            signinTeacherIdTextField.requestFocus();
+            return;
+        }
+
+        // Retrieve data from the database using teacher ID
+        ClubAdvisor teacher = getTeacherFromDatabase(signinTeacherId);
+
+        // Check if the teacher is registered
+        if (teacher == null) {
+            showAlertError("Teacher with ID " + signinTeacherId + " is not registered.");
+            return;
+        }
+
+        // Validate the entered password
+        if (!teacher.getTeacherPassword().equals(signinPassword)) {
+            showAlertError("Incorrect password. Please try again.");
+            signinTeacherPasswordField.clear();
+            signinTeacherPasswordField.requestFocus();
+            return;
+        }
+
+        // Successful login alert
+        showAlertSuccess("Club advisor logged in successfully!");
+
+        // Load student FXML after successful registration
+        FXMLLoaderUtil.loadFXML("clubadvisor.fxml", "Club Advisor");
+
     }
+
 
 
 }
