@@ -135,6 +135,60 @@
                   <Button layoutX="444.0" layoutY="289.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" styleClass="delete-button" stylesheets="@cadvisor.css" text="Delete" />
                </children></AnchorPane>
             </AnchorPane>
+
+            <AnchorPane fx:id="eventSchedulingPane" visible="false">
+               <children>
+                  <AnchorPane fx:id="eventSchedulingSecondPane" prefHeight="550.0" prefWidth="550.0">
+                     <children>
+                        <Text layoutX="24.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name             :" />
+                        <Text layoutX="24.0" layoutY="145.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type               :" />
+                        <Text layoutX="24.0" layoutY="320.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location         :        " />
+                        <TextField fx:id="EventSchedulingEventName" layoutX="138.0" layoutY="197.0" prefHeight="26.0" prefWidth="150.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                        <TextField fx:id="EventSchedulingLocation" layoutX="138.0" layoutY="304.0" prefHeight="25.0" prefWidth="150.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                        <Text layoutX="24.0" layoutY="252.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date               :" />
+                        <DatePicker fx:id="EventSchedulingDatePicker" layoutX="138.0" layoutY="234.0" prefWidth="150.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                        <Text layoutX="327.0" layoutY="251.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time               :" />
+                        <TextField fx:id="EventSchedulingTime" layoutX="435.0" layoutY="233.0" prefHeight="26.0" prefWidth="78.0" promptText="Eg : 12am" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                        <Button layoutX="400.0" layoutY="161.0" mnemonicParsing="false" onAction="#eventScheduleClick" prefHeight="40.0" prefWidth="70.0" styleClass="search-button" stylesheets="@cadvisor.css" text="Schedule" />
+                        <ChoiceBox fx:id="EventSchedulingTypeChoiceBox" layoutX="137.0" layoutY="129.0" prefWidth="150.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                        <Text layoutX="25.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Club               :" wrappingWidth="92.18164443969727" />
+                        <ChoiceBox fx:id="eventSchedulingChoiceBox" layoutX="136.0" layoutY="91.0" prefWidth="150.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                        <Text layoutX="24.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type/Agenda :" wrappingWidth="103.944580078125" />
+                        <TextField fx:id="EventSchedulingTypeOrAgenda" layoutX="139.0" layoutY="337.0" prefWidth="150.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                        <Text layoutX="25.0" layoutY="177.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Event ID         :" wrappingWidth="86.25701904296875" />
+                        <TextField fx:id="EventSchedulingEventId" layoutX="138.0" layoutY="162.0" prefWidth="150.0" promptText="Eg : 1234" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                        <TableView fx:id="EventSchedulingTable" layoutX="15.0" layoutY="369.0" prefHeight="174.0" prefWidth="520.0" styleClass="clubtable" stylesheets="@cadvisor.css">
+                           <columns>
+                              <TableColumn fx:id="EventIdColumn" prefWidth="61.60005569458008" text="Event ID" />
+                              <TableColumn fx:id="EventClubName" prefWidth="71.199951171875" text="Club Name" />
+                              <TableColumn fx:id="EventName" prefWidth="73.60003662109375" text="Name" />
+                              <TableColumn fx:id="eventType" prefWidth="51.19999694824219" text="Type" />
+                              <TableColumn fx:id="eventScheduleDate" minWidth="0.0" prefWidth="62.39996337890625" text="Date" />
+                              <TableColumn fx:id="eventScheduleTime" prefWidth="53.60003662109375" text="Time" />
+                              <TableColumn fx:id="EventScheduleLocation" prefWidth="54.39996337890625" text="Location" />
+                              <TableColumn fx:id="EventScheduleDescription" prefWidth="93.5999755859375" text="Description" />
+                           </columns>
+                        </TableView>
+                        <Text layoutX="25.0" layoutY="288.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description    :" />
+                        <TextField fx:id="EventSchedulingDescription" layoutX="139.0" layoutY="271.0" prefWidth="150.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                     </children>
+                  </AnchorPane>
+                  <Text layoutX="18.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Event Scheduling">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <TextField fx:id="eventSchedulingEnterField" alignment="CENTER" layoutX="139.0" layoutY="47.0" promptText="Enter Advisor ID" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                  <Button fx:id="EnterAdvisorButton" layoutX="321.0" layoutY="47.0" mnemonicParsing="false" onAction="#enterAdvisorIdClick" text="Enter" />
+                  <Button fx:id="EventDeleteUpdateButton" layoutX="368.0" layoutY="11.0" mnemonicParsing="false" onAction="#mainClick" prefHeight="26.0" prefWidth="158.0" text="Delete/Update" />
+                  <ImageView disable="true" fitHeight="23.0" fitWidth="41.0" layoutX="493.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../Pictures/right-arrow.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+
             <AnchorPane fx:id="AttendencePane" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
                   <Text layoutX="28.0" layoutY="313.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Upcoming Events, Meetings, Activities">
@@ -187,7 +241,46 @@
             </AnchorPane>
             <AnchorPane fx:id="eventSchedulingPane" prefHeight="200.0" prefWidth="200.0">
                <children>
+
                   <Text layoutX="29.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Event Scheduling">
+
+                  <AnchorPane fx:id="EventDeleteSecondPane" prefHeight="550.0" prefWidth="551.0">
+                     <children>
+                        <Text layoutX="28.0" layoutY="159.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name              :" wrappingWidth="80.59185791015625" />
+                        <TextField fx:id="EventUpdateDeleteEventId" alignment="CENTER" layoutX="141.0" layoutY="93.0" prefHeight="20.0" prefWidth="174.0" promptText="Enter Event ID" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                        <TextField fx:id="EventUpdateName" layoutX="148.0" layoutY="141.0" prefHeight="20.0" prefWidth="174.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                        <Text layoutX="25.0" layoutY="190.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Date                :" wrappingWidth="86.10821533203125" />
+                        <DatePicker fx:id="EventUpdateDate" layoutX="148.0" layoutY="173.0" prefHeight="20.0" prefWidth="174.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                        <Text layoutX="28.0" layoutY="224.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Time               :" wrappingWidth="95.40472412109375" />
+                        <Text layoutX="28.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Location          :" wrappingWidth="89.92303466796875" />
+                        <Text layoutX="26.0" layoutY="296.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description      :" wrappingWidth="92.71484375" />
+                        <TextField fx:id="EventUpdateTime" layoutX="148.0" layoutY="207.0" prefHeight="26.0" prefWidth="173.0" promptText="Eg : 12am" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                        <TextField fx:id="EventUpdateLocation" layoutX="148.0" layoutY="245.0" prefHeight="20.0" prefWidth="174.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                        <TextField fx:id="EventUpdateDescription" layoutX="148.0" layoutY="280.0" prefHeight="20.0" prefWidth="174.0" styleClass="transparent-text-field" />
+                        <Text layoutX="28.0" layoutY="332.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Type/Agenda  :" wrappingWidth="96.3739013671875" />
+                        <TextField fx:id="EventUpdateTypeOrAgenda" layoutX="148.0" layoutY="315.0" prefHeight="20.0" prefWidth="174.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                        <Button layoutX="386.0" layoutY="187.0" mnemonicParsing="false" onAction="#updateEventsClick" prefHeight="40.0" prefWidth="70.0" styleClass="update-button" stylesheets="@cadvisor.css" text="Update" />
+                        <Button layoutX="386.0" layoutY="255.0" mnemonicParsing="false" onAction="#eventDeleteClick" prefHeight="40.0" prefWidth="70.0" styleClass="delete-button" stylesheets="@cadvisor.css" text="Delete" />
+                        <Text layoutX="27.0" layoutY="360.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on table row to fill the contex in update/delete event section." />
+                        <TableView fx:id="EventUpdateDeleteTable" layoutX="17.0" layoutY="368.0" prefHeight="174.0" prefWidth="520.0" styleClass="clubtable" stylesheets="@cadvisor.css">
+                           <columns>
+                              <TableColumn fx:id="EventDeleteId" prefWidth="61.60005569458008" text="Event ID" />
+                              <TableColumn fx:id="EventDeleteName" prefWidth="56.7999267578125" text="Name" />
+                              <TableColumn fx:id="EventDeleteActivityType" text="Activity Type" />
+                              <TableColumn fx:id="EventDeleteDate" prefWidth="76.00004577636719" text="Date" />
+                              <TableColumn fx:id="EventDeleteTime" minWidth="0.0" prefWidth="45.59991455078125" text="Time" />
+                              <TableColumn fx:id="EventDeleteLocation" prefWidth="66.4000244140625" text="Location" />
+                              <TableColumn fx:id="EventDeleteTypeAgenda" prefWidth="52.800048828125" text="Type" />
+                              <TableColumn fx:id="EventDeleteDescription" prefWidth="83.9998779296875" text="Description" />
+                           </columns>
+                        </TableView>
+                        <Text layoutX="18.0" layoutY="58.0" strokeType="OUTSIDE" strokeWidth="0.0" />
+                        <Button layoutX="369.0" layoutY="93.0" mnemonicParsing="false" onAction="#eventSearchClick" text="Search" />
+                     </children>
+                  </AnchorPane>
+                  <TextField fx:id="EventDeleteAdvisorId" alignment="CENTER" layoutX="141.0" layoutY="56.0" promptText="Enter Advisor ID" stylesheets="@cadvisor.css" />
+                  <Text layoutX="22.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Update/Delete Events">
+
                      <font>
                         <Font size="16.0" />
                      </font>

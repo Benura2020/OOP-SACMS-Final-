@@ -8,10 +8,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
+
 import java.sql.*;
 
+
 import static com.example.oopp.ClubAdvisorController.getTeacherFromDatabase;
-import static com.example.oopp.StudentController.getStudentFromDatabase;
+
 
 
 public class HelloController {
@@ -225,6 +227,7 @@ public class HelloController {
     // -----------------------------------------------------------------------------------------------------------------
 
     // student signup
+    StudentController studentController = new StudentController();
 
     public void studentSignupButtonOnAction(){
         //get user inputs from text fields and password fields
@@ -263,7 +266,7 @@ public class HelloController {
         }
 
         //get registered student ID
-        StudentController.signedInStudentId = studentId;
+        studentController.signedInStudentId = studentId;
         // creating the object of the student
         Student student = new Student(studentId, studentName, studentPassword);
 
@@ -419,7 +422,7 @@ public class HelloController {
         }
 
         // Retrieve data from the database using student ID
-        Student student = getStudentFromDatabase(signinStudentId);
+        Student student = studentController.getStudentFromDatabase(signinStudentId);
 
         // Check if the student is registered
         if (student == null) {
@@ -435,15 +438,16 @@ public class HelloController {
             return;
         }
 
-        // get signed-in student ID
-        StudentController.signedInStudentId = signinStudentId;
-
         // Successful login alert
         showAlertSuccess("Student logged in successfully!");
 
         // Load student FXML after successful registration
         FXMLLoaderUtil.loadFXML("student.fxml", "Student");
 
+    }
+
+    public String getStudentSignInId(){
+        return signinStudentIdTextField.getText();
     }
 
     // teacher signin
@@ -456,6 +460,8 @@ public class HelloController {
         // Validate teacher ID
         if (!InputValidations.validateId(signinTeacherId)) {
             showAlertError("Invalid teacher ID. Enter a valid one.");
+            signinTeacherIdTextField.clear();
+            signinTeacherIdTextField.requestFocus();
             return;
         }
 
@@ -471,6 +477,8 @@ public class HelloController {
         // Validate the entered password
         if (!teacher.getTeacherPassword().equals(signinPassword)) {
             showAlertError("Incorrect password. Please try again.");
+            signinTeacherPasswordField.clear();
+            signinTeacherPasswordField.requestFocus();
             return;
         }
 
