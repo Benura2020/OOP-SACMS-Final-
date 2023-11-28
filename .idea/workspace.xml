@@ -5,14 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b5d82f76-8c2e-4b9a-8e9d-218124c9c6dc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/FXMLLoaderUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/ClubAdvisor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/ClubAdvisor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/ClubAdvisorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/ClubAdvisorController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/HelloController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/Student.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/StudentController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/oopp/login.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/oopp/login.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/oopp/student.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/oopp/student.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
