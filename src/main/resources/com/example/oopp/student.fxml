@@ -145,7 +145,7 @@
                      </font>
                   </Text>
 
-                  <TableView layoutX="16.0" layoutY="62.0" prefHeight="213.0" prefWidth="520.0">
+                  <TableView layoutX="16.0" layoutY="62.0" prefHeight="213.0" prefWidth="520.0"></TableView>
                      <columns>
                         <TableColumn prefWidth="87.0" text="Date" />
                         <TableColumn prefWidth="135.0" text="Event Name" />
