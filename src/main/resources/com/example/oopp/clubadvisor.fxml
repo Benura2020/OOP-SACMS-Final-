@@ -217,13 +217,13 @@
                   </Text>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="JoinRequestsPane" prefHeight="200.0" prefWidth="200.0" visible="false">
+            <AnchorPane fx:id="JoinRequestsPane" prefHeight="200.0" prefWidth="200.0">
             <AnchorPane fx:id="JoinRequests" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <TableView layoutX="23.0" layoutY="125.0" prefHeight="387.0" prefWidth="503.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
+                  <TableView fx:id="advisorJoinReqTable" layoutX="23.0" layoutY="125.0" prefHeight="387.0" prefWidth="503.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
                      <columns>
-                        <TableColumn prefWidth="257.6000518798828" text="Student Name" />
-                        <TableColumn prefWidth="245.5999755859375" text="Club Name" />
+                        <TableColumn fx:id="joinReqStudentName" prefWidth="257.6000518798828" text="Student Name" />
+                        <TableColumn fx:id="joinReqClubName" prefWidth="245.5999755859375" text="Club Name" />
                      </columns>
                   </TableView>
                   <Text layoutX="28.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Requests">
@@ -232,12 +232,12 @@
                      </font>
                   </Text>
                   <Text layoutX="28.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Student/Students from bellow table and accept/decline request using buttons bellow." />
-                  <Button layoutX="137.0" layoutY="72.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" styleClass="add-button" stylesheets="@cadvisor.css" text="Accept" />
-                  <Button layoutX="293.0" layoutY="72.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="120.0" styleClass="delete-button" stylesheets="@cadvisor.css" text="Decline" />
+                  <Button layoutX="137.0" layoutY="72.0" mnemonicParsing="false" onAction="#handleAcceptButton" prefHeight="40.0" prefWidth="120.0" styleClass="add-button" stylesheets="@cadvisor.css" text="Accept" />
+                  <Button layoutX="293.0" layoutY="72.0" mnemonicParsing="false" onAction="#handleDeclineButton" prefHeight="40.0" prefWidth="120.0" styleClass="delete-button" stylesheets="@cadvisor.css" text="Decline" />
                </children>
             </AnchorPane>
             </AnchorPane>
-            <AnchorPane fx:id="eventUpdatePane">
+            <AnchorPane fx:id="eventUpdatePane" visible="false">
                <children>
                   <AnchorPane fx:id="EventDeleteSecondPane" prefHeight="550.0" prefWidth="551.0">
                      <children>

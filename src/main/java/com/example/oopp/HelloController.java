@@ -330,14 +330,14 @@ public class HelloController {
     //------------------------------------------------------------------------------------------------------------------
 
     // student signin
-
+    static String signInStudentId;
     public void studentSigninButtonOnAction(ActionEvent event){
         // Get student inputs from text fields and password field
-        String signinStudentId = signinStudentIdTextField.getText();
+        signInStudentId = signinStudentIdTextField.getText();
         String signinPassword = signinStudentPasswordField.getText();
 
         // Validate student ID
-        if (!InputValidations.validateId(signinStudentId)) {
+        if (!InputValidations.validateId(signInStudentId)) {
             showAlertError("Invalid student ID. Enter a valid one.");
             signinStudentIdTextField.clear();
             signinStudentIdTextField.requestFocus();
@@ -345,11 +345,11 @@ public class HelloController {
         }
 
         // Retrieve data from the database using student ID
-        Student student = studentController.getStudentFromDatabase(signinStudentId);
+        Student student = studentController.getStudentFromDatabase(signInStudentId);
 
         // Check if the student is registered
         if (student == null) {
-            showAlertError("Student with ID " + signinStudentId + " is not registered.");
+            showAlertError("Student with ID " + signInStudentId + " is not registered.");
             return;
         }
 
@@ -369,15 +369,13 @@ public class HelloController {
 
     }
 
-    public String getStudentSignInId(){
-        return signinStudentIdTextField.getText();
-    }
+
 
     // teacher signin
-
+    static String signinTeacherId;
     public void teacherSigninButtonOnAction(ActionEvent event) {
         // Get teacher inputs from text fields and password field
-        String signinTeacherId = signinTeacherIdTextField.getText();
+        signinTeacherId = signinTeacherIdTextField.getText();
         String signinPassword = signinTeacherPasswordField.getText();
 
         // Validate teacher ID
