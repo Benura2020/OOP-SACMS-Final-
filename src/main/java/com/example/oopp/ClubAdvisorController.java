@@ -6,7 +6,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
@@ -144,6 +146,7 @@ public class ClubAdvisorController {
     private static List<Meeting> meetingList = new ArrayList<>();
     private static List<Activity> activityList = new ArrayList<>();
 
+
     @FXML
     public void mainClick(ActionEvent event){
         if (event.getSource()==ManageClubButton){
@@ -198,6 +201,7 @@ public class ClubAdvisorController {
 
 
     EventSheduleDatabaseConnection dbConnection = new EventSheduleDatabaseConnection();
+
     @FXML
     public void enterAdvisorIdClick(ActionEvent event) {
         String advisorId = eventSchedulingEnterField.getText();
@@ -239,6 +243,7 @@ public class ClubAdvisorController {
             showAlert("Advisor ID Not Found", "Provide a valid Advisor ID");
         }
     }
+
     @FXML
     public void eventScheduleClick(ActionEvent event) {
         try {
@@ -483,9 +488,11 @@ public class ClubAdvisorController {
         // Add the data to the table
         EventSchedulingTable.getItems().addAll(allActivities);
     }
+
     private String getClubName(int clubId) {
         return dbConnection.getClubNameById(clubId);
     }
+
     private String getCombinedNames(ScheduleActivity scheduleActivity) {
         if (scheduleActivity instanceof Event) {
             return ((Event) scheduleActivity).getTitle();
@@ -497,6 +504,7 @@ public class ClubAdvisorController {
             return "";
         }
     }
+
     private String getType(ScheduleActivity scheduleActivity) {
         if (scheduleActivity instanceof Event) {
             return "Event";
@@ -546,7 +554,6 @@ public class ClubAdvisorController {
 
         EventUpdateDeleteTable.getItems().addAll(allActivities);
 
-
         EventUpdateDeleteTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 // Populate the text fields with the details of the selected event
@@ -591,6 +598,7 @@ public class ClubAdvisorController {
             return "";
         }
     }
+
     @FXML
     public void eventDeleteClick(ActionEvent event){
         try {
@@ -676,6 +684,7 @@ public class ClubAdvisorController {
             showAlert("Event Not Found", "The specified Event ID was not found for the advisor.");
         }
     }
+
     @FXML
     public void eventSearchClick(ActionEvent event) {
         try {
@@ -779,6 +788,7 @@ public class ClubAdvisorController {
         EventUpdateDescription.setText(activity.getDescription());
         EventUpdateTypeOrAgenda.setText(activity.getActivityType());
     }
+
     @FXML
     public void updateEventsClick(ActionEvent event){
         try {
@@ -891,6 +901,8 @@ public class ClubAdvisorController {
             }
         }
 
+        boolean meetingFound = false;
+
         // Similar changes for meetings
         Iterator<Meeting> meetingIterator = meetings.iterator();
         while (meetingIterator.hasNext()) {
@@ -905,6 +917,8 @@ public class ClubAdvisorController {
                 break; // Exit the loop once the meeting is found and deleted
             }
         }
+
+        boolean activityFound = false;
 
         // Similar changes for activities
         Iterator<Activity> activityIterator = activities.iterator();
@@ -926,6 +940,7 @@ public class ClubAdvisorController {
             showAlert("Event Not Found", "The specified Event ID was not found for the advisor.");
         }
     }
+
 
 
 
@@ -1033,6 +1048,37 @@ public class ClubAdvisorController {
 
         joinReqStudentName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStudentId()));
         joinReqClubName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getClubName()));
+    public void attendanceAdvisorClick(ActionEvent event) {
+        // Get the advisor ID from the search field
+        String advisorId = attendance_AdvisorID_search.getText();
+
+        // Check if the advisor ID is empty or null
+        if (advisorId == null || advisorId.trim().isEmpty()) {
+            showAlert("Null Advisor ID", "Please enter an Advisor ID.");
+            return;
+        }
+
+        // Check if the advisor ID is a valid integer
+        try {
+            Integer.parseInt(advisorId);
+            showAlert("Invalid Advisor ID", "Advisor ID should not be a full-numeric value.");
+            return;
+        } catch (NumberFormatException e) {
+            // Advisor ID is not a valid integer, continue with the check
+        }
+
+        // Check if the advisor ID exists in the database
+        if (dbConnection.isAdvisorIdExists(advisorId)) {
+            Attendance2pane.setVisible(true);
+            List<String> clubNames = attendanceTrackDatabaseConnection.getClubNamesByAdvisorId(advisorId);
+            attendance_Club_choice.getItems().addAll(clubNames);
+        } else {
+            // If advisor ID does not exist, show an alert
+            showAlert("Advisor ID Not Found", "No records found for the provided Advisor ID.");
+        }
+        Attendance2pane.setVisible(true);
+    }
+
 
         advisorJoinReqTable.setItems(data);
     }
@@ -1084,7 +1130,93 @@ public class ClubAdvisorController {
         List<Event> allEvents = dbConnection.getAllClubEvents();
         EventScheduleReport eventScheduleReport = new EventScheduleReport();
         eventScheduleReport.generateAttendanceReport(allEvents);
-        
+
+    public void attendance_MarkAttendance_click(ActionEvent event) {
+        System.out.println("Attended Student : ");
+
+        // Get the selected event from the ChoiceBox
+        int selectedEvent = attendance_EventID_choice.getValue();
+
+        // Check if an event is selected
+        if (selectedEvent != 0) {
+            // Set the current event ID
+            AttendanceTrackDatabaseConnection.setCurrentEventId(selectedEvent);
+
+            // Get the event type
+            String eventType = attendanceTrackDatabaseConnection.getEventType(selectedEvent);
+            ObservableList<Map.Entry<String, String>> selectedItems = attendance_table.getSelectionModel().getSelectedItems();
+
+            // Debug: Print the event type
+            System.out.println("Event Type: " + eventType);
+            for (Map.Entry<String, String> selectedItem : selectedItems) {
+                String studentId = selectedItem.getKey();
+
+                // Print the details to the console
+                System.out.println("Student ID: " + studentId);
+                System.out.println("Event ID: " + AttendanceTrackDatabaseConnection.getCurrentEventId());
+                System.out.println("----------------------");
+                if ("Event".equals(eventType)) {
+                    Attendance attendance = new Attendance(studentId, "Student Name", studentId, false);
+                    attendanceTrackDatabaseConnection.updateStudentAttendanceTable(attendance, selectedEvent);
+                } else  if ("Meeting".equals(eventType)) {
+                    Attendance attendance = new Attendance(studentId, "Student Name", studentId, false);
+                    attendanceTrackDatabaseConnection.updateStudentAttendanceMeetingsTable(attendance, selectedEvent);
+                } else if ("Activity".equals(eventType)) {
+                    Attendance attendance = new Attendance(studentId, "Student Name", studentId, false);
+                    attendanceTrackDatabaseConnection.updateStudentAttendanceActivityTable(attendance, selectedEvent);
+                }
+
+                // Create an Attendance object with default attendance status of false
+
+            }
+
+        } else {
+            // Handle the case when no event is selected, e.g., show an alert
+            System.out.println("No event selected");
+        }
+
+    }
+
+
+    @FXML
+    public void attendance_SearchButtonClick(ActionEvent event) {
+        // Get the entered student ID from the search bar
+        String studentId = attendance_StudentID_search_bar.getText();
+
+        // Get the selected club name from the ChoiceBox
+        String selectedClub = attendance_Club_choice.getValue();
+
+        // Check if both student ID and club are entered
+        if (studentId == null || studentId.trim().isEmpty()) {
+            showAlert("Null Student ID", "Please enter a Student ID.");
+            return;
+        }
+
+        try {
+            Integer.parseInt(studentId);
+            showAlert("Invalid Student ID", "Student ID should not be a full-numeric value.");
+            return;
+        } catch (NumberFormatException e) {
+            // Advisor ID is not a valid integer, continue with the check
+        }
+
+        if (selectedClub == null) {
+            showAlert("Club not selected", "Please select a Club.");
+            return;
+        }
+
+        int clubId = dbConnection.getClubIdByClubName(selectedClub);
+
+        // Perform the search in the database
+        Map<String, String> searchResults = attendanceTrackDatabaseConnection.searchStudentsByStudentIdAndClub(studentId, clubId);
+
+        if (searchResults.isEmpty()) {
+            showAlert("Student not found", "Student ID not found in the relevant club.");
+            return;
+        }
+
+        // Update the GUI to display the search results
+        updateSearchResultsOnGUI(searchResults);
     }
 
 

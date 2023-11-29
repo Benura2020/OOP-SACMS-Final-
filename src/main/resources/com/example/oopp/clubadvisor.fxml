@@ -250,7 +250,7 @@
             </AnchorPane>
             <AnchorPane fx:id="AttendencePane">
                <children>
-                  <AnchorPane fx:id="Attendance2pane" prefHeight="557.0" prefWidth="554.0">
+                  <AnchorPane fx:id="Attendance2pane" layoutX="2.0" layoutY="1.0" prefHeight="550.0" prefWidth="548.0" visible="false">
                      <children>
                         <TableView fx:id="attendance_table" layoutX="19.0" layoutY="253.0" prefHeight="228.0" prefWidth="514.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
                           <columns>
@@ -260,26 +260,26 @@
                           </columns>
                         </TableView>
                         <Button fx:id="attendance_MarkAttendance_button" layoutX="207.0" layoutY="499.0" mnemonicParsing="false" onAction="#attendance_MarkAttendance_click" prefHeight="26.0" prefWidth="120.0" text="Mark Attendance" />
-                        <Text fx:id="attendance_Club_label" layoutX="34.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select the Club" wrappingWidth="140.93011474609375">
+                        <Text fx:id="attendance_Club_label" layoutX="26.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select the Club" wrappingWidth="140.93011474609375">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
                         </Text>
                         <ChoiceBox fx:id="attendance_Club_choice" layoutX="207.0" layoutY="130.0" prefWidth="150.0" />
-                        <Text fx:id="attendance_EventID_label" layoutX="34.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select the EventID">
+                        <Text fx:id="attendance_EventID_label" layoutX="22.0" layoutY="188.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select the EventID">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
                         </Text>
                         <ChoiceBox fx:id="attendance_EventID_choice" layoutX="207.0" layoutY="169.0" prefWidth="150.0" />
-                        <Text fx:id="attendance_StudentID_label" layoutX="27.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the Student ID">
+                        <Text fx:id="attendance_StudentID_label" layoutX="22.0" layoutY="226.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the Student ID">
                            <font>
                               <Font name="Arial" size="18.0" />
                            </font>
                         </Text>
                         <TextField fx:id="attendance_StudentID_search_bar" layoutX="207.0" layoutY="207.0" prefHeight="26.0" prefWidth="181.0" />
-                        <Button fx:id="attendance_Search_button" layoutX="423.0" layoutY="207.0" mnemonicParsing="false" onAction="#attendance_SearchButtonClick" text="SEARCH" />
-                        <Button layoutX="389.0" layoutY="130.0" mnemonicParsing="false" onAction="#enterClubNameClick" text="ENTER" />
+                        <Button fx:id="attendance_Search_button" layoutX="419.0" layoutY="207.0" mnemonicParsing="false" onAction="#attendance_SearchButtonClick" text="SEARCH" />
+                        <Button layoutX="423.0" layoutY="130.0" mnemonicParsing="false" onAction="#enterClubNameClick" text="ENTER" />
                      </children>
                   </AnchorPane>
                   <Text fx:id="attendance_starting_label" fill="#764e4e" layoutX="166.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Attendance ">
@@ -287,8 +287,8 @@
                         <Font name="Times New Roman" size="42.0" />
                      </font>
                   </Text>
-                  <TextField fx:id="attendance_AdvisorID_search" layoutX="192.0" layoutY="78.0" prefHeight="26.0" prefWidth="149.0" promptText="Enter Advisor ID" />
-                  <Button layoutX="389.0" layoutY="78.0" mnemonicParsing="false" onAction="#attendanceAdvisorClick" text="ENTER" />
+                  <Button layoutX="424.0" layoutY="89.0" mnemonicParsing="false" onAction="#attendanceAdvisorClick" text="ENTER" />
+                  <TextField fx:id="attendance_AdvisorID_search" layoutX="208.0" layoutY="89.0" prefHeight="26.0" prefWidth="152.0" promptText="Enter Advisor ID" />
                </children>
             </AnchorPane>
          </children>

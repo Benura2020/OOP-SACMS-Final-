@@ -1,5 +1,7 @@
 package com.example.oopp;
 
+import javafx.scene.control.Alert;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +20,15 @@ public class AttendanceTrackDatabaseConnection {
     public static void setCurrentEventId(int eventId) {
         currentEventId = eventId;
     }
+
+    private void attendance_show_Alert(String title, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
+
     public AttendanceTrackDatabaseConnection() {
         this.connection = eventSheduleDatabaseConnection.getConnection();
     }
@@ -75,6 +86,7 @@ public class AttendanceTrackDatabaseConnection {
     public List<Integer> getEventIdsByClubId(int clubId) {
         List<Integer> eventIds = new ArrayList<>();
         Connection connection = eventSheduleDatabaseConnection.getConnection();
+
 
         try {
             // Retrieve eventIds from clubEvents
@@ -154,7 +166,7 @@ public class AttendanceTrackDatabaseConnection {
     }
 
 
-    public void updateStudentAttendanceTable(Attendance attendance, int eventId) {
+     public void updateStudentAttendanceTable(Attendance attendance, int eventId) {
         String query = "INSERT INTO StudentAttendance (eventId, studentId) VALUES (?, ?)";
         Connection connection = null;
         PreparedStatement preparedStatement = null;
@@ -202,6 +214,9 @@ public class AttendanceTrackDatabaseConnection {
             }
         }
     }
+
+
+
     public void updateStudentAttendanceMeetingsTable(Attendance attendance, int eventId) {
         String query = "INSERT INTO StudentAttendanceMeetings (eventId, studentId) VALUES (?, ?)";
         Connection connection = null;
@@ -221,6 +236,14 @@ public class AttendanceTrackDatabaseConnection {
             connection.commit(); // Commit the transaction
 
             System.out.println("Data successfully inserted into the StudentAttendanceMeetings table.");
+
+        } catch (SQLIntegrityConstraintViolationException duplicateException) {
+            // Handle the exception for duplicate entry
+            System.err.println("Duplicate entry: " + duplicateException.getMessage());
+
+            attendance_show_Alert("Error", "Duplicate entry: A duplicate entry already exists.");
+
+            // You can choose to log the error, show a message to the user, or take other appropriate actions.
         } catch (SQLException e) {
             e.printStackTrace(); // Log the exception
 
@@ -264,6 +287,13 @@ public class AttendanceTrackDatabaseConnection {
             connection.commit(); // Commit the transaction
 
             System.out.println("Data successfully inserted into the StudentAttendanceActivity table.");
+        } catch (SQLIntegrityConstraintViolationException duplicateException) {
+            // Handle the exception for duplicate entry
+            System.err.println("Duplicate entry: " + duplicateException.getMessage());
+
+            attendance_show_Alert("Error", "Duplicate entry: A duplicate entry already exists.");
+
+            // You can choose to log the error, show a message to the user, or take other appropriate actions.
         } catch (SQLException e) {
             e.printStackTrace(); // Log the exception
 
@@ -346,8 +376,6 @@ public class AttendanceTrackDatabaseConnection {
     }
 
 
-    // Add the following method to the AttendanceTrackDatabaseConnection class
-
     public Map<String, String> searchStudentsByStudentIdAndClub(String studentId, int clubId) {
         Map<String, String> searchResults = new HashMap<>();
         Connection connection = null;
@@ -381,14 +409,4 @@ public class AttendanceTrackDatabaseConnection {
     }
 
 
-
-    public void closeConnection() {
-        try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
-            }
-        } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately
-        }
-    }
 }
