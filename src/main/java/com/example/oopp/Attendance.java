@@ -3,7 +3,6 @@ package com.example.oopp;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.CheckBox;
-
 import java.util.AbstractMap;
 import java.util.Map;
 
@@ -12,7 +11,6 @@ public class Attendance {
     private SimpleStringProperty studentName;
     private SimpleBooleanProperty attendance;
     private CheckBox attendanceCheckBox;
-
 
 
 
@@ -34,8 +32,6 @@ public class Attendance {
     public void setSelected(boolean selected) {
         attendanceCheckBox.setSelected(selected);
     }
-
-
 
 
     public CheckBox getAttendanceCheckBox() {

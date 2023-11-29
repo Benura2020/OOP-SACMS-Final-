@@ -739,14 +739,36 @@ public class ClubAdvisorController implements Initializable {
 
     @FXML
     public void attendanceAdvisorClick(ActionEvent event) {
+        // Get the advisor ID from the search field
         String advisorId = attendance_AdvisorID_search.getText();
+
+        // Check if the advisor ID is empty or null
+        if (advisorId == null || advisorId.trim().isEmpty()) {
+            showAlert("Null Advisor ID", "Please enter an Advisor ID.");
+            return;
+        }
+
+        // Check if the advisor ID is a valid integer
+        try {
+            Integer.parseInt(advisorId);
+            showAlert("Invalid Advisor ID", "Advisor ID should not be a full-numeric value.");
+            return;
+        } catch (NumberFormatException e) {
+            // Advisor ID is not a valid integer, continue with the check
+        }
+
+        // Check if the advisor ID exists in the database
         if (dbConnection.isAdvisorIdExists(advisorId)) {
             Attendance2pane.setVisible(true);
             List<String> clubNames = attendanceTrackDatabaseConnection.getClubNamesByAdvisorId(advisorId);
             attendance_Club_choice.getItems().addAll(clubNames);
+        } else {
+            // If advisor ID does not exist, show an alert
+            showAlert("Advisor ID Not Found", "No records found for the provided Advisor ID.");
         }
-
+        Attendance2pane.setVisible(true);
     }
+
 
     @FXML
     public void enterClubNameClick(ActionEvent event) {
@@ -839,7 +861,7 @@ public class ClubAdvisorController implements Initializable {
                 if ("Event".equals(eventType)) {
                     Attendance attendance = new Attendance(studentId, "Student Name", studentId, false);
                     attendanceTrackDatabaseConnection.updateStudentAttendanceTable(attendance, selectedEvent);
-                } else if ("Meeting".equals(eventType)) {
+                } else  if ("Meeting".equals(eventType)) {
                     Attendance attendance = new Attendance(studentId, "Student Name", studentId, false);
                     attendanceTrackDatabaseConnection.updateStudentAttendanceMeetingsTable(attendance, selectedEvent);
                 } else if ("Activity".equals(eventType)) {
@@ -868,18 +890,36 @@ public class ClubAdvisorController implements Initializable {
         String selectedClub = attendance_Club_choice.getValue();
 
         // Check if both student ID and club are entered
-        if (!studentId.isEmpty() && selectedClub != null) {
-            int clubId = dbConnection.getClubIdByClubName(selectedClub);
-
-            // Perform the search in the database
-            Map<String, String> searchResults = attendanceTrackDatabaseConnection.searchStudentsByStudentIdAndClub(studentId, clubId);
-
-            // Update the GUI to display the search results
-            updateSearchResultsOnGUI(searchResults);
-        } else {
-            // Handle the case when either student ID or club is not selected
-            // Show an alert or provide appropriate feedback to the user
+        if (studentId == null || studentId.trim().isEmpty()) {
+            showAlert("Null Student ID", "Please enter a Student ID.");
+            return;
         }
+
+        try {
+            Integer.parseInt(studentId);
+            showAlert("Invalid Student ID", "Student ID should not be a full-numeric value.");
+            return;
+        } catch (NumberFormatException e) {
+            // Advisor ID is not a valid integer, continue with the check
+        }
+
+        if (selectedClub == null) {
+            showAlert("Club not selected", "Please select a Club.");
+            return;
+        }
+
+        int clubId = dbConnection.getClubIdByClubName(selectedClub);
+
+        // Perform the search in the database
+        Map<String, String> searchResults = attendanceTrackDatabaseConnection.searchStudentsByStudentIdAndClub(studentId, clubId);
+
+        if (searchResults.isEmpty()) {
+            showAlert("Student not found", "Student ID not found in the relevant club.");
+            return;
+        }
+
+        // Update the GUI to display the search results
+        updateSearchResultsOnGUI(searchResults);
     }
 
     private void updateSearchResultsOnGUI(Map<String, String> searchResults) {
