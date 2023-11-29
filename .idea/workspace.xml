@@ -4,7 +4,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+
     <list default="true" id="e0682eee-d566-4366-b90f-70cf817deda7" name="Changes" comment="" />
+
+    <list default="true" id="a8ad899c-2f36-415c-ae07-f10b528afecb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/MembershipRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/Club.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/Club.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/ClubAdvisorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/ClubAdvisorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/EventSheduleDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/EventSheduleDatabaseConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/HelloController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/StudentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/oopp/clubadvisor.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/oopp/clubadvisor.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/oopp/student.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/oopp/student.fxml" afterDir="false" />
+    </list>
+
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -52,7 +66,11 @@
       <recent name="C:\Users\asus\Java CW OOD main\OOP-SACMS-Final-\src\main\resources\Pictures" />
     </key>
   </component>
+
   <component name="RunManager">
+
+  <component name="RunManager" selected="Application.HelloApplication">
+
     <configuration name="ClubadvisorApplication" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.oopp.ClubadvisorApplication" />
       <module name="OOP-SACMS-Final-" />
@@ -120,5 +138,16 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/example/oopp/StudentController.java</url>
+          <line>341</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
