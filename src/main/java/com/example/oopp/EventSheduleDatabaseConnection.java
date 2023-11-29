@@ -65,7 +65,7 @@ public class EventSheduleDatabaseConnection {
                         Club club = new Club(clubId,clubName,clubDescription);
 
 
-                        Club club = new Club(clubId, clubName, clubDescription);
+                        //Club club = new Club(clubId, clubName, clubDescription);
 
                         clubs.add(club);
                     }
