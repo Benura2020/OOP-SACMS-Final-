@@ -5,20 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a8ad899c-2f36-415c-ae07-f10b528afecb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/jasper/EventScheduleReport.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/oopp/EventReport.jrxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/ClubAdvisorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/ClubAdvisorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/Event.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/EventSheduleDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/EventSheduleDatabaseConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/ScheduleActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/ScheduleActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/AttendanceTrackDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/AttendanceTrackDatabaseConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/ClubAdvisorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/ClubAdvisorController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/oopp/clubadvisor.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/oopp/clubadvisor.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,7 +55,7 @@
       <recent name="com.example.oopp" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ClubadvisorApplication">
+  <component name="RunManager" selected="Application.HelloApplication">
     <configuration name="ClubadvisorApplication" type="Application" factoryName="Application" nameIsGenerated="true">
       <method v="2">
         <option name="Make" enabled="true" />
