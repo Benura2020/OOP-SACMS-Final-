@@ -1,5 +1,6 @@
 package com.example.oopp;
 
+import jasper.EventScheduleReport;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -1077,6 +1078,13 @@ public class ClubAdvisorController {
             // Refresh the table after declining the request
             refreshTable();
         }
+    }
+    @FXML
+    public void reportGenarateClick(ActionEvent event){
+        List<Event> allEvents = dbConnection.getAllClubEvents();
+        EventScheduleReport eventScheduleReport = new EventScheduleReport();
+        eventScheduleReport.generateAttendanceReport(allEvents);
+        
     }
 
 

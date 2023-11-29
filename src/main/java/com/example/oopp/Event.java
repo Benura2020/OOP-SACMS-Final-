@@ -3,6 +3,10 @@ package com.example.oopp;
 public class Event extends ScheduleActivity {
     private String eventType;
 
+    public Event() {
+        super();
+    }
+
     public String getEventType() {
         return eventType;
     }

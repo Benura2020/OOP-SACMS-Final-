@@ -2,6 +2,7 @@ package com.example.oopp;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class EventSheduleDatabaseConnection {
@@ -1077,5 +1078,42 @@ public class EventSheduleDatabaseConnection {
 
         return clubActivities;
     }
+
+
+
+
+    public List<Event> getAllClubEvents() {
+        List<Event> clubEvents = new ArrayList<>();
+
+        // Using try-with-resources to automatically close resources
+        try (Connection connection = getConnection();
+             PreparedStatement statement = connection.prepareStatement("SELECT * FROM clubevents");
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                // Assuming you have a ClubEvent class to represent the entity
+                Event clubEvent = new Event();
+                clubEvent.setEventId(resultSet.getInt("eventId"));
+                clubEvent.setEventName(resultSet.getString("eventName"));
+                clubEvent.setEventDate(resultSet.getString("eventDate"));
+                clubEvent.setEventTime(resultSet.getString("eventTime"));
+                clubEvent.setEventLocation(resultSet.getString("eventLocation"));
+                clubEvent.setEventDescription(resultSet.getString("eventDescription"));
+                clubEvent.setClubId(resultSet.getInt("clubId"));
+                clubEvent.setTeacherId(resultSet.getString("teacherId"));
+                clubEvent.setEventType(resultSet.getString("eventType"));
+
+                clubEvents.add(clubEvent);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception as needed (e.g., logging, throwing a custom exception)
+        }
+
+        return clubEvents;
+    }
+
+
 
 }
