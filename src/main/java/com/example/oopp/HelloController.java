@@ -213,6 +213,7 @@ public class HelloController {
         toggleVisibility(advisor_signin_form, false);
     }
 
+
     // ---------------------------------------user signin and registration ---------------------------------------------
 
 
@@ -431,6 +432,7 @@ public class HelloController {
         FXMLLoaderUtil.loadFXML("clubadvisor.fxml", "Club Advisor");
 
     }
+
 
 
 
