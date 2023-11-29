@@ -1,19 +1,20 @@
 package com.example.oopp;
 
 public class Club {
-    private String clubId;
+    private int clubId;
     private String clubName;
+    private String advisorId;
 
-    public Club(String clubId, String clubName, String clubDescription) {
+    public Club(int clubId, String clubName, String clubDescription) {
         this.clubId = clubId;
         this.clubName = clubName;
         this.clubDescription = clubDescription;
     }
 
-    public Club(String clubName, String clubDescription, ClubAdvisor clubAdvisor) {
+    public Club(String clubName, String clubDescription,  String advisorId) {
         this.clubName = clubName;
         this.clubDescription = clubDescription;
-        this.clubAdvisor = clubAdvisor;
+        this.advisorId = advisorId;
     }
 
     public Club(String clubName, String clubDescription) {
@@ -29,17 +30,13 @@ public class Club {
 
     private String clubDescription;
 
-    public ClubAdvisor getClubAdvisor() {
-        return clubAdvisor;
+    public String getAdvisorId() {
+        return advisorId;
     }
 
-
-    public void setClubAdvisor(ClubAdvisor clubAdvisor) {
-        this.clubAdvisor = clubAdvisor;
-
+    public void setAdvisorId(String advisorId) {
+        this.advisorId = advisorId;
     }
-
-    private ClubAdvisor clubAdvisor;
 
     public Club() {
         this.clubId = clubId;

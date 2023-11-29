@@ -13,21 +13,20 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.util.StringConverter;
 
+import java.net.URL;
 import java.time.DateTimeException;
 import java.sql.*;
 
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 
 import static com.example.oopp.Database.getDBConnection;
 import static com.example.oopp.HelloController.showAlertSuccess;
 
-public class ClubAdvisorController {
+public class ClubAdvisorController  implements Initializable{
     @FXML
     private AnchorPane AttendencePane;
 
@@ -138,6 +137,50 @@ public class ClubAdvisorController {
     private TableColumn<MembershipRequest, String> joinReqStudentName;
     @FXML
     private TableColumn<MembershipRequest, String> joinReqClubName;
+    @FXML
+    private TextField attendance_AdvisorID_search;
+    @FXML
+    private AnchorPane Attendance2pane;
+    @FXML
+    private TableColumn<Attendance, Boolean> attendance_Attendance_column;
+
+    @FXML
+    private ChoiceBox<String> attendance_Club_choice;
+    @FXML
+    private ChoiceBox<Integer> attendance_EventID_choice;
+
+    @FXML
+    private Button attendance_MarkAttendance_button;
+
+
+    @FXML
+    private TableColumn<Map.Entry<String, String>, String> attendance_StudentID_column;
+
+    @FXML
+    private TextField attendance_StudentID_search_bar;
+
+    @FXML
+    private TableColumn<Map.Entry<String, String>, String> attendance_StudentName_column;
+
+
+    @FXML
+    private TableView<Map.Entry<String, String>> attendance_table;
+    @FXML
+    private TextField createClubName;
+    @FXML
+    private TextArea createClubDescription;
+    @FXML
+    private TableColumn<Club,String> createClubNameCol;
+    @FXML
+    private TableView<Club> createClubsTable;
+    @FXML
+    private TableColumn<Club,String> createClubDescriptionCol;
+    @FXML
+    private TextField clubUpdateDeleteName;
+    @FXML
+    private TextArea ClubUpdateDeleteDescription;
+
+
 
 
 
@@ -198,9 +241,42 @@ public class ClubAdvisorController {
 
         }
     }
+    List<Club> clubs = new ArrayList<>();
 
 
     EventSheduleDatabaseConnection dbConnection = new EventSheduleDatabaseConnection();
+    public void createClubClick(ActionEvent event) {
+        String clubName = createClubName.getText();
+        String clubDescription = createClubDescription.getText();
+        String advisorId = HelloController.signinTeacherId;
+
+        if (dbConnection.isClubNameExists(clubName)) {
+            showAlert("Error", "Club Name is already exists!!");
+            createClubName.setStyle("-fx-border-color: red;");
+        } else if (clubName.isEmpty()||clubDescription.isEmpty()){
+            showAlert("Error", "Please fill the Fields");
+            createClubName.setStyle("-fx-border-color: red;");
+            createClubDescription.setStyle("-fx-border-color: red;");
+        }else {
+            createClub(clubName,clubDescription,advisorId);
+            refreshTableClub();
+
+            dbConnection.insertClubs(clubs);
+            createClubName.setStyle(null);
+            createClubDescription.setStyle(null);
+            createClubName.clear();
+            createClubDescription.clear();
+        }
+
+    }
+
+    private void createClub(String clubName, String clubDescription,String advisorId){
+        Club club  = new Club(clubName, clubDescription,advisorId);
+        clubs.add(club);
+
+    }
+
+
 
     @FXML
     public void enterAdvisorIdClick(ActionEvent event) {
@@ -224,7 +300,7 @@ public class ClubAdvisorController {
                 }
             }
 
-            // Set a custom cell factory for the ChoiceBox to display club names
+
             eventSchedulingChoiceBox.setConverter(new StringConverter<Club>() {
                 @Override
                 public String toString(Club club) {
@@ -349,11 +425,11 @@ public class ClubAdvisorController {
                 showAlert("Invalid Input", "Please select a valid Event Date.");
                 return;
             } else {
-                // Reset border color for EventSchedulingDatePicker
+                
                 EventSchedulingDatePicker.setStyle(null);
             }
 
-// Convert LocalDate to String
+
             String eventDate = eventDateLocal.toString();
 
 
@@ -401,8 +477,6 @@ public class ClubAdvisorController {
 
         } catch (NumberFormatException e) {
             EventSchedulingEventId.setStyle("-fx-border-color: red;");
-            // The input is not a valid integer for Event ID
-            // Show an error message or alert to the user
             showAlert("Invalid Event ID", "Please enter a valid integer for Event ID.");
         }
     }
@@ -475,7 +549,7 @@ public class ClubAdvisorController {
         allActivities.addAll(dbConnection.getMeetingsByAdvisorId(advisorId));
         allActivities.addAll(dbConnection.getActivitiesByAdvisorId(advisorId));
 
-        // Set cell value factories for each column
+
         EventIdColumn.setCellValueFactory(new PropertyValueFactory<>("eventId"));
         EventClubName.setCellValueFactory(param -> new SimpleStringProperty(getClubName(param.getValue().getClubId())));
         EventName.setCellValueFactory(cellData -> new SimpleStringProperty(getCombinedNames(cellData.getValue())));
@@ -1031,6 +1105,8 @@ public class ClubAdvisorController {
         return null;
     }
 
+    AttendanceTrackDatabaseConnection attendanceTrackDatabaseConnection = new AttendanceTrackDatabaseConnection();
+
     @FXML
     public void initialize() {
         // Assuming you have a method to get the advisorId (replace it with your actual logic)
@@ -1048,6 +1124,9 @@ public class ClubAdvisorController {
 
         joinReqStudentName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStudentId()));
         joinReqClubName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getClubName()));
+    }
+
+    @FXML
     public void attendanceAdvisorClick(ActionEvent event) {
         // Get the advisor ID from the search field
         String advisorId = attendance_AdvisorID_search.getText();
@@ -1080,8 +1159,9 @@ public class ClubAdvisorController {
     }
 
 
-        advisorJoinReqTable.setItems(data);
-    }
+
+
+
     @FXML
     private void handleAcceptButton(ActionEvent event) {
         // Get the selected membership request
@@ -1125,11 +1205,15 @@ public class ClubAdvisorController {
             refreshTable();
         }
     }
+
+
+
     @FXML
-    public void reportGenarateClick(ActionEvent event){
+    public void reportGenarateClick(ActionEvent event) {
         List<Event> allEvents = dbConnection.getAllClubEvents();
         EventScheduleReport eventScheduleReport = new EventScheduleReport();
         eventScheduleReport.generateAttendanceReport(allEvents);
+    }
 
     public void attendance_MarkAttendance_click(ActionEvent event) {
         System.out.println("Attended Student : ");
@@ -1158,24 +1242,83 @@ public class ClubAdvisorController {
                 if ("Event".equals(eventType)) {
                     Attendance attendance = new Attendance(studentId, "Student Name", studentId, false);
                     attendanceTrackDatabaseConnection.updateStudentAttendanceTable(attendance, selectedEvent);
-                } else  if ("Meeting".equals(eventType)) {
+                } else if ("Meeting".equals(eventType)) {
                     Attendance attendance = new Attendance(studentId, "Student Name", studentId, false);
                     attendanceTrackDatabaseConnection.updateStudentAttendanceMeetingsTable(attendance, selectedEvent);
                 } else if ("Activity".equals(eventType)) {
                     Attendance attendance = new Attendance(studentId, "Student Name", studentId, false);
                     attendanceTrackDatabaseConnection.updateStudentAttendanceActivityTable(attendance, selectedEvent);
+                } else {
+                    // Handle the case when no event is selected, e.g., show an alert
+                    System.out.println("No event selected");
                 }
-
-                // Create an Attendance object with default attendance status of false
-
             }
-
-        } else {
-            // Handle the case when no event is selected, e.g., show an alert
-            System.out.println("No event selected");
         }
 
     }
+
+    @FXML
+    public void enterClubNameClick(ActionEvent event) {
+        String clubName = attendance_Club_choice.getValue();
+        int clubId = dbConnection.getClubIdByClubName(clubName);
+        List<Integer> eventIds = attendanceTrackDatabaseConnection.getEventIdsByClubId(clubId);
+        attendance_EventID_choice.getItems().addAll(eventIds);
+        populateAttendanceTable(clubId);
+
+    }
+    @FXML
+    public void populateAttendanceTable(int clubId) {
+        // Call the method to get student details by clubId
+        Map<String, String> studentsMap = attendanceTrackDatabaseConnection.getStudentsByClubId(clubId);
+
+        // Create an observable list for the table
+        ObservableList<Map.Entry<String, String>> data = FXCollections.observableArrayList(studentsMap.entrySet());
+
+        // Clear existing columns
+        attendance_table.getColumns().clear();
+
+        // Set the cell value factories for the existing columns
+        attendance_StudentID_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getKey()));
+        attendance_StudentName_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue()));
+
+        // Create a new TableColumn for attendance checkbox
+        TableColumn<Map.Entry<String, String>, Boolean> attendance_Column = new TableColumn<>("Attendance");
+        attendance_Column.setCellValueFactory(cellData -> {
+            String studentId = cellData.getValue().getKey();
+            String studentName = cellData.getValue().getValue();
+
+
+            // Initialize the Attendance object with a default attendance status of false
+            Attendance attendance = new Attendance(studentId, studentName, studentId, false);
+
+
+            // Set the checkbox value in the Attendance object when the property changes
+            attendance.attendanceProperty().addListener((obs, oldValue, newValue) -> attendance.setAttendance(newValue));
+
+            // Create a CheckBoxTableCell that displays the checkbox and allows manual interaction
+            CheckBoxTableCell<Map.Entry<String, String>, Boolean> checkBoxTableCell = new CheckBoxTableCell<>();
+            checkBoxTableCell.setSelectedStateCallback(index -> attendance.attendanceProperty());
+
+
+            return attendance.attendanceProperty().asObject();
+
+        });
+
+        attendance_Column.setCellFactory(CheckBoxTableCell.forTableColumn(attendance_Column));
+
+        // Add the columns in the desired order to the table
+        attendance_table.getColumns().addAll(attendance_StudentID_column, attendance_StudentName_column, attendance_Column);
+
+        attendance_Attendance_column.setEditable(true);
+
+        attendance_table.setEditable(true);
+
+        // Set the data to the table
+        attendance_table.setItems(data);
+
+
+    }
+
 
 
     @FXML
@@ -1219,6 +1362,101 @@ public class ClubAdvisorController {
         updateSearchResultsOnGUI(searchResults);
     }
 
+    private void updateSearchResultsOnGUI(Map<String, String> searchResults) {
+        // Clear the existing data in the table
+        attendance_table.getItems().clear();
 
+        // Create an observable list for the table
+        ObservableList<Map.Entry<String, String>> data = FXCollections.observableArrayList(searchResults.entrySet());
+
+        // Set the cell value factories for the existing columns
+        attendance_StudentID_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getKey()));
+        attendance_StudentName_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getValue()));
+
+        // Create a new TableColumn for attendance checkbox
+        TableColumn<Map.Entry<String, String>, Boolean> attendance_Column = new TableColumn<>("Attendance");
+        attendance_Column.setCellValueFactory(cellData -> {
+            String studentId = cellData.getValue().getKey();
+            String studentName = cellData.getValue().getValue();
+
+            // Initialize the Attendance object with a default attendance status of false
+            Attendance attendance = new Attendance(studentId, studentName, studentId, false);
+
+            // Set the checkbox value in the Attendance object when the property changes
+            attendance.attendanceProperty().addListener((obs, oldValue, newValue) -> attendance.setAttendance(newValue));
+
+            // Create a CheckBoxTableCell that displays the checkbox and allows manual interaction
+            CheckBoxTableCell<Map.Entry<String, String>, Boolean> checkBoxTableCell = new CheckBoxTableCell<>();
+            checkBoxTableCell.setSelectedStateCallback(index -> attendance.attendanceProperty());
+
+            return attendance.attendanceProperty().asObject();
+        });
+
+        attendance_Column.setCellFactory(CheckBoxTableCell.forTableColumn(attendance_Column));
+
+        // Add the columns in the desired order to the table
+        attendance_table.getColumns().clear();
+        attendance_table.getColumns().addAll(attendance_StudentID_column, attendance_StudentName_column, attendance_Column);
+
+        attendance_Attendance_column.setEditable(true);
+
+        // Set the data to the table
+        attendance_table.setItems(data);
+    }
+
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        createClubNameCol.setCellValueFactory(new PropertyValueFactory<>("clubName"));
+        createClubDescriptionCol.setCellValueFactory(new PropertyValueFactory<>("clubDescription"));
+
+        // Populate the TableView with data
+        List<Club> clubs = dbConnection.getClubsByAdvisorId(HelloController.signinTeacherId);
+        ObservableList<Club> clubObservableList = FXCollections.observableArrayList(clubs);
+        createClubsTable.setItems(clubObservableList);
+
+        // Listen for selection changes and update the text fields and text area
+        createClubsTable.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> {
+                    if (newValue != null) {
+                        // Set the selected data into the text fields and text area
+                        clubUpdateDeleteName.setText(newValue.getClubName());
+                        ClubUpdateDeleteDescription.setText(newValue.getClubDescription());
+                    }
+                }
+        );
+
+        refreshTableClub();
+
+
+
+    }
+
+
+    @FXML
+    private void updateClubDescriptionClick(ActionEvent event) {
+        String clubName = clubUpdateDeleteName.getText();
+        String newDescription = ClubUpdateDeleteDescription.getText();
+
+        if (clubName == null || clubName.isEmpty() || newDescription == null || newDescription.isEmpty()) {
+            showAlert("Error", "Please fill in both Club Name and Description.");
+        } else {
+            dbConnection.updateClubDescription(clubName, newDescription);
+            ClubUpdateDeleteDescription.clear();
+            ClubUpdateDeleteDescription.setStyle(null);
+            clubUpdateDeleteName.clear();
+            clubUpdateDeleteName.setStyle(null);
+            refreshTableClub();
+
+
+            // Optionally, update the table or perform other actions after updating
+        }
+    }
+
+    private void refreshTableClub() {
+        List<Club> updatedClubs = dbConnection.getClubsByAdvisorId(HelloController.signinTeacherId);
+        createClubsTable.getItems().clear();
+        createClubsTable.getItems().addAll(updatedClubs);
+    }
 
 }

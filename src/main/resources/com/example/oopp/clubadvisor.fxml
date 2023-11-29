@@ -18,7 +18,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.oopp.ClubAdvisorController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.oopp.ClubAdvisorController">
    <left>
       <VBox prefHeight="550.0" prefWidth="200.0" styleClass="side-pane" stylesheets="@cadvisor.css" BorderPane.alignment="CENTER">
          <children>
@@ -91,11 +91,11 @@
       <StackPane prefHeight="550.0" prefWidth="550.0" styleClass="advisor-main-pane" stylesheets="@cadvisor.css" BorderPane.alignment="CENTER">
          <children>
 
-            <AnchorPane fx:id="createClubAnchorPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@cadvisor.css" visible="false">
+            <AnchorPane fx:id="createClubAnchorPane" prefHeight="200.0" prefWidth="200.0" stylesheets="@cadvisor.css">
 
             <AnchorPane fx:id="Manage" prefHeight="200.0" prefWidth="200.0" stylesheets="@cadvisor.css">
                <children>
-                  <TextField layoutX="112.0" layoutY="59.0" prefHeight="25.0" prefWidth="306.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                  <TextField fx:id="createClubName" layoutX="112.0" layoutY="59.0" prefHeight="25.0" prefWidth="306.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
                   <Text layoutX="30.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Create Club">
                      <font>
                         <Font size="16.0" />
@@ -103,17 +103,17 @@
                   </Text>
                   <Text layoutX="30.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name            :" />
                   <Text layoutX="30.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description   :" />
-                  <TextArea layoutX="112.0" layoutY="95.0" prefHeight="66.0" prefWidth="305.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                  <TextArea fx:id="createClubDescription" layoutX="112.0" layoutY="95.0" prefHeight="66.0" prefWidth="305.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
                   <Text layoutX="30.0" layoutY="189.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Update/Delete Club">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
-                  <Button layoutX="444.0" layoutY="83.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" styleClass="add-button" stylesheets="@cadvisor.css" text="Create" />
-                  <TextField layoutX="112.0" layoutY="244.0" prefHeight="25.0" prefWidth="306.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                  <Button layoutX="444.0" layoutY="83.0" mnemonicParsing="false" onAction="#createClubClick" prefHeight="40.0" prefWidth="70.0" styleClass="add-button" stylesheets="@cadvisor.css" text="Create" />
+                  <TextField fx:id="clubUpdateDeleteName" layoutX="112.0" layoutY="244.0" prefHeight="25.0" prefWidth="306.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
                   <Text layoutX="30.0" layoutY="261.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name            :" />
                   <Text layoutX="30.0" layoutY="293.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description   :" />
-                  <TextArea layoutX="112.0" layoutY="280.0" prefHeight="66.0" prefWidth="305.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
+                  <TextArea fx:id="ClubUpdateDeleteDescription" layoutX="112.0" layoutY="280.0" prefHeight="66.0" prefWidth="305.0" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
                   <TextField layoutX="29.0" layoutY="205.0" prefHeight="25.0" prefWidth="256.0" promptText="Search club to update/delete by name" styleClass="transparent-text-field" stylesheets="@cadvisor.css" />
                   <Button layoutX="304.0" layoutY="201.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" styleClass="search-button" stylesheets="@cadvisor.css">
                      <graphic>
@@ -124,18 +124,17 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <TableView layoutX="25.0" layoutY="376.0" prefHeight="160.0" prefWidth="500.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
+                  <TableView fx:id="createClubsTable" layoutX="25.0" layoutY="376.0" prefHeight="160.0" prefWidth="500.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
                     <columns>
-                      <TableColumn prefWidth="162.0" text="Club Name" />
-                      <TableColumn prefWidth="338.0" text="Description" />
+                      <TableColumn fx:id="createClubNameCol" prefWidth="162.0" text="Club Name" />
+                      <TableColumn fx:id="createClubDescriptionCol" prefWidth="338.0" text="Description" />
                     </columns>
                   </TableView>
                   <Text layoutX="29.0" layoutY="366.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on table row to fill the contex in update/delete club section." />
-                  <Button layoutX="444.0" layoutY="236.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" styleClass="update-button" stylesheets="@cadvisor.css" text="Update" />
-                  <Button layoutX="444.0" layoutY="289.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="70.0" styleClass="delete-button" stylesheets="@cadvisor.css" text="Delete" />
+                  <Button layoutX="444.0" layoutY="280.0" mnemonicParsing="false" onAction="#updateClubDescriptionClick" prefHeight="40.0" prefWidth="70.0" styleClass="update-button" stylesheets="@cadvisor.css" text="Update" />
                </children></AnchorPane>
             </AnchorPane>
-            <AnchorPane fx:id="eventSchedulingPane">
+            <AnchorPane fx:id="eventSchedulingPane" visible="false">
                <children>
                   <AnchorPane fx:id="eventSchedulingSecondPane" prefHeight="550.0" prefWidth="550.0">
                      <children>
@@ -248,7 +247,7 @@
                   <Button layoutX="321.0" layoutY="55.0" mnemonicParsing="false" onAction="#enterDeleteAdvisorId" text="Enter" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="AttendencePane">
+            <AnchorPane fx:id="AttendencePane" visible="false">
                <children>
                   <AnchorPane fx:id="Attendance2pane" layoutX="2.0" layoutY="1.0" prefHeight="550.0" prefWidth="548.0" visible="false">
                      <children>

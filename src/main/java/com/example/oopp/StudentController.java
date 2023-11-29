@@ -117,20 +117,14 @@ public class StudentController implements Initializable {
 
 
 
-    public void studentHomeButtonOnAction(ActionEvent event){
-        HelloController.toggleVisibility(student_home, true); //method for showing and hiding anchor panes in HelloController
-        HelloController.toggleVisibility(student_club, false);
-        HelloController.toggleVisibility(student_event, false);
-    }
+
 
     public void studentClubButtonOnAction(ActionEvent event){
-        HelloController.toggleVisibility(student_home, false);
         HelloController.toggleVisibility(student_club, true);
         HelloController.toggleVisibility(student_event, false);
     }
 
     public void studentEventButtonOnAction(){
-        HelloController.toggleVisibility(student_home, false);
         HelloController.toggleVisibility(student_club, false);
         HelloController.toggleVisibility(student_event, true);
         upcommingEvents();

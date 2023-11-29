@@ -6,7 +6,12 @@
   <component name="ChangeListManager">
     <list default="true" id="a8ad899c-2f36-415c-ae07-f10b528afecb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/Club.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/Club.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/ClubAdvisorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/ClubAdvisorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/EventSheduleDatabaseConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/EventSheduleDatabaseConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/oopp/StudentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/oopp/StudentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/oopp/clubadvisor.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/oopp/clubadvisor.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/example/oopp/student.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/example/oopp/student.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +62,7 @@
   </component>
   <component name="RunManager" selected="Application.HelloApplication">
     <configuration name="ClubadvisorApplication" type="Application" factoryName="Application" nameIsGenerated="true">
+      <module name="OOP-SACMS-Final-" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -105,9 +111,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Unnamed" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.oopp.ClubadvisorApplication" />
+      <module name="OOP-SACMS-Final-" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.StudentApplication" />
       <item itemvalue="Application.ClubadvisorApplication" />
+      <item itemvalue="Application.Unnamed" />
       <item itemvalue="Application.HelloApplication" />
     </list>
     <recent_temporary>
@@ -143,7 +157,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/example/oopp/StudentController.java</url>
-          <line>341</line>
+          <line>335</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

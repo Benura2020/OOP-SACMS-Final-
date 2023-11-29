@@ -2,13 +2,12 @@ package com.example.oopp;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class EventSheduleDatabaseConnection {
 
 
-    private static final String URL = "jdbc:mysql://localhost:3306/database";
+    private static final String URL = "jdbc:mysql://localhost:3306/ood";
 
     private static final String USER = "root";
     private static final String PASSWORD = "1234";
@@ -54,15 +53,15 @@ public class EventSheduleDatabaseConnection {
     public List<Club> getClubsByAdvisorId(String advisorId) {
         List<Club> clubs = new ArrayList<>();
         try {
-            String query = "SELECT clubId, clubName, clubDescription FROM club WHERE teacherId = ?";
+            String query = "SELECT  clubName, clubDescription FROM club WHERE teacherId = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setString(1, advisorId);
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
-                        String clubId = resultSet.getString("clubId");
+
                         String clubName = resultSet.getString("clubName");
                         String clubDescription = resultSet.getString("clubDescription");
-                        Club club = new Club(clubId, clubName, clubDescription);
+                        Club club = new Club(clubName, clubDescription);
                         clubs.add(club);
                     }
                 }
@@ -696,7 +695,7 @@ public class EventSheduleDatabaseConnection {
 
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
                     while (resultSet.next()) {
-                        String clubId = resultSet.getString("clubId");
+                        int clubId = resultSet.getInt("clubId");
                         String clubName = resultSet.getString("clubName");
                         String clubDescription = resultSet.getString("clubDescription");
 
@@ -1116,6 +1115,105 @@ public class EventSheduleDatabaseConnection {
 
         return clubEvents;
     }
+
+    public void insertClubs(List<Club> clubs) {
+        // Using try-with-resources to automatically close resources
+        try (Connection connection = getConnection()) {
+            // Disable auto-commit to manage transactions
+            connection.setAutoCommit(false);
+
+            // SQL query to insert data into the club table
+            String insertQuery = "INSERT INTO club ( clubName, clubDescription,teacherId) VALUES (?, ?, ?)";
+
+            try (PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+                // Loop through the list of clubs and insert each one
+                for (Club club : clubs) {
+                    preparedStatement.setString(1, club.getClubName());
+                    preparedStatement.setString(2, club.getClubDescription());
+                    preparedStatement.setString(3, club.getAdvisorId());
+
+                    // Add more parameters as needed based on your Club class properties
+
+                    preparedStatement.addBatch();  // Add the statement to the batch
+                }
+
+                // Execute the batch insert
+                preparedStatement.executeBatch();
+
+                // Commit the transaction
+                connection.commit();
+
+                System.out.println("Clubs inserted successfully.");
+            } catch (SQLException e) {
+                // Rollback the transaction in case of an error
+                connection.rollback();
+                e.printStackTrace();
+                System.out.println("Error inserting clubs into the database.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error establishing database connection.");
+        }
+    }
+
+    public boolean isClubNameExists(String clubName) {
+        // SQL query to check if the club name already exists in the club table
+        String checkQuery = "SELECT COUNT(*) FROM club WHERE clubName = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(checkQuery)) {
+            preparedStatement.setString(1, clubName);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int count = resultSet.getInt(1);
+                    return count > 0;  // If count is greater than 0, the club name already exists
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception as needed (e.g., logging, throwing a custom exception)
+        }
+
+        return false;  // Default to false in case of an exception
+    }
+
+    public Club getClubByAdvisorId(String advisorId) {
+        Club club = null;
+        try {
+            String query = "SELECT clubName, clubDescription FROM club WHERE teacherId = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, advisorId);
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String clubName = resultSet.getString("clubName");
+                        String clubDescription = resultSet.getString("clubDescription");
+                        club = new Club(clubName, clubDescription);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log or handle the exception as needed
+        }
+        return club;
+    }
+
+
+
+
+    public void updateClubDescription(String clubName, String newDescription) {
+        try {
+            String updateQuery = "UPDATE club SET clubDescription = ? WHERE clubName = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
+                preparedStatement.setString(1, newDescription);
+                preparedStatement.setString(2, clubName);
+                preparedStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            // Handle SQL exceptions
+            e.printStackTrace();
+        }
+    }
+
 
 
 
