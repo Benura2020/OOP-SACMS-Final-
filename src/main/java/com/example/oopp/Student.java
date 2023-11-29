@@ -55,4 +55,5 @@ public class Student {
         joinedClubs.add(club);
         System.out.println("You joined the club: "+ club.getClubName());  //change it to alert
     }
+
 }

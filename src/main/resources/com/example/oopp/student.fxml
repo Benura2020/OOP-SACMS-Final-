@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.oopp.StudentController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.oopp.StudentController">
    <left>
       <VBox prefHeight="550.0" prefWidth="200.0" styleClass="side-pane" stylesheets="@cadvisor.css" BorderPane.alignment="CENTER">
          <children>
@@ -77,7 +77,7 @@
    <center>
       <StackPane prefHeight="550.0" prefWidth="550.0" styleClass="advisor-main-pane" stylesheets="@cadvisor.css" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane fx:id="student_home" prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane fx:id="student_home" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
                   <Text layoutX="28.0" layoutY="308.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Upcoming Events, Meetings, Activities">
                      <font>
@@ -105,37 +105,6 @@
                         <Font size="16.0" />
                      </font>
                   </Text>
-               </children>
-            </AnchorPane>
-            <AnchorPane fx:id="student_club" prefHeight="200.0" prefWidth="200.0" visible="false">
-               <children>
-                  <TableView layoutX="24.0" layoutY="355.0" prefHeight="145.0" prefWidth="503.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
-                     <columns>
-                        <TableColumn prefWidth="197.0" text="Name" />
-                        <TableColumn prefWidth="141.0" text="Advisor" />
-                        <TableColumn prefWidth="164.0" text="Description" />
-                     </columns>
-                  </TableView>
-                  <TableView layoutX="24.0" layoutY="65.0" prefHeight="199.0" prefWidth="503.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
-                     <columns>
-                        <TableColumn prefWidth="254.0" text="Name" />
-                        <TableColumn prefWidth="249.0" text="Description" />
-                     </columns>
-                  </TableView>
-                  <Text layoutX="31.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Clubs">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="31.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on the club name on the table and click join button to send join request to club." />
-                  <Button layoutX="171.0" layoutY="275.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="209.0" styleClass="search-button" stylesheets="@cadvisor.css" text="Join Club" />
-                  <Text layoutX="31.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Joined Clubs">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Text>
-                  <Text layoutX="31.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on the club name on the table and click leave button to send leave request to club." />
-                  <Button layoutX="171.0" layoutY="506.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="209.0" styleClass="search-button" stylesheets="@cadvisor.css" text="Leave Club" />
                </children>
             </AnchorPane>
             <AnchorPane fx:id="student_event" prefHeight="200.0" prefWidth="200.0" visible="false">
@@ -172,6 +141,36 @@
                   <Text layoutX="25.0" layoutY="357.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on the event name on the table and click miss button to miss the event, meeting, activity." />
                   <Button layoutX="162.0" layoutY="280.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="229.0" styleClass="search-button" stylesheets="@cadvisor.css" text="Attend" />
                   <Button layoutX="162.0" layoutY="509.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="229.0" styleClass="delete-button" stylesheets="@cadvisor.css" text="Miss" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="student_club" prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <TableView layoutX="24.0" layoutY="355.0" prefHeight="145.0" prefWidth="503.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
+                     <columns>
+                        <TableColumn fx:id="studentJoinedClubNameColumn" prefWidth="215.20008850097656" text="Name" />
+                        <TableColumn fx:id="studentJoinedClubDescriptionColumn" prefWidth="287.99993896484375" text="Description" />
+                     </columns>
+                  </TableView>
+                  <TableView fx:id="studentJoinClubNameColumn" layoutX="24.0" layoutY="65.0" prefHeight="199.0" prefWidth="503.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
+                     <columns>
+                        <TableColumn fx:id="studentRequestClubNameColumn" prefWidth="216.80006408691406" text="Name" />
+                        <TableColumn fx:id="studentRequestClubDescriptionColumn" prefWidth="287.20001220703125" text="Description" />
+                     </columns>
+                  </TableView>
+                  <Text layoutX="31.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Clubs">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="31.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on the club name on the table and click join button to send join request to club." />
+                  <Button fx:id="studentJoinClubButton" layoutX="171.0" layoutY="275.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="209.0" styleClass="search-button" stylesheets="@cadvisor.css" text="Join Club" />
+                  <Text layoutX="31.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Joined Clubs">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="31.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on the club name on the table and click leave button to send leave request to club." />
+                  <Button fx:id="studentLeaveClubButton" layoutX="171.0" layoutY="506.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="209.0" styleClass="search-button" stylesheets="@cadvisor.css" text="Leave Club" />
                </children>
             </AnchorPane>
          </children>
