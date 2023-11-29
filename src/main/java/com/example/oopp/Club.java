@@ -10,6 +10,16 @@ public class Club {
         this.clubDescription = clubDescription;
     }
 
+    public Club(String clubName, String clubDescription, ClubAdvisor clubAdvisor) {
+        this.clubName = clubName;
+        this.clubDescription = clubDescription;
+        this.clubAdvisor = clubAdvisor;
+    }
+
+    public Club(String clubName, String clubDescription) {
+        this.clubName = clubName;
+        this.clubDescription = clubDescription;
+    }
 
     public String getClubDescription() {
         return clubDescription;
@@ -19,12 +29,14 @@ public class Club {
 
     private String clubDescription;
 
-//    public ClubAdvisor getClubAdvisor() {
-//        return clubAdvisor;
-//    }
+    public ClubAdvisor getClubAdvisor() {
+        return clubAdvisor;
+    }
+
 
     public void setClubAdvisor(ClubAdvisor clubAdvisor) {
         this.clubAdvisor = clubAdvisor;
+
     }
 
     private ClubAdvisor clubAdvisor;
@@ -34,6 +46,7 @@ public class Club {
         this.clubName = clubName;
         this.clubDescription = clubDescription;
     }
+
 
     public Club(String clubName) {
         this.clubName = clubName;
@@ -56,4 +69,5 @@ public class Club {
 
     public void setTeacherId(String teacherId) {
     }
+
 }

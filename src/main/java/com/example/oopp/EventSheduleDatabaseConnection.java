@@ -58,7 +58,7 @@ public class EventSheduleDatabaseConnection {
                         String clubId = resultSet.getString("clubId");
                         String clubName = resultSet.getString("clubName");
                         String clubDescription = resultSet.getString("clubDescription");
-                        Club club = new Club(clubId,clubName,clubDescription);
+                        Club club = new Club(clubId, clubName, clubDescription);
                         clubs.add(club);
                     }
                 }
@@ -68,25 +68,41 @@ public class EventSheduleDatabaseConnection {
         }
         return clubs;
     }
+
     public int getClubIdByClubName(String clubName) {
         int clubId = -1;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
         try {
             String query = "SELECT clubId FROM club WHERE TRIM(clubName) = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setString(1, clubName.trim());
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, clubName.trim());
 
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        clubId = resultSet.getInt("clubId");
-                        System.out.println("Found clubId: " + clubId);
-                    } else {
-                        System.out.println("No matching club found.");
-                    }
-                }
+            resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                clubId = resultSet.getInt("clubId");
+                System.out.println("Found clubId: " + clubId);
+            } else {
+                System.out.println("No matching club found.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            // Close ResultSet and PreparedStatement in the reverse order of creation
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+
         return clubId;
     }
 
@@ -343,6 +359,7 @@ public class EventSheduleDatabaseConnection {
         }
         return activities;
     }
+
     public String getClubNameById(int clubId) {
         String clubName = null;
         try {
@@ -360,6 +377,7 @@ public class EventSheduleDatabaseConnection {
         }
         return clubName;
     }
+
     public List<Event> getEventsByAdvisorId(String advisorId) {
         List<Event> events = new ArrayList<>();
         String query = "SELECT * FROM clubEvents WHERE teacherId = ?";
@@ -658,23 +676,30 @@ public class EventSheduleDatabaseConnection {
             }
         }
     }
-    public List<Club> getAllClubs() {
+
+    public List<Club> getAvailableClubsForStudent(String studentId) {
         List<Club> clubs = new ArrayList<>();
 
         try {
-            // Assuming you have a "Club" table with columns "clubName" and "clubDescription"
-            String query = "SELECT clubId, clubName, clubDescription FROM Club";
-            try (Statement statement = connection.createStatement();
-                 ResultSet resultSet = statement.executeQuery(query)) {
+            // Assuming you have a "Club" table with columns "clubId", "clubName", and "clubDescription"
+            // and a "Student_Club" table with columns "studentId" and "clubId"
+            String query = "SELECT c.clubId, c.clubName, c.clubDescription " +
+                    "FROM Club c " +
+                    "WHERE NOT EXISTS (SELECT 1 FROM Student_Club sc " +
+                    "WHERE sc.studentId = ? AND sc.clubId = c.clubId)";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, studentId);
 
-                while (resultSet.next()) {
-                    String clubId = resultSet.getString("clubId");
-                    String clubName = resultSet.getString("clubName");
-                    String clubDescription = resultSet.getString("clubDescription");
+                try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    while (resultSet.next()) {
+                        String clubId = resultSet.getString("clubId");
+                        String clubName = resultSet.getString("clubName");
+                        String clubDescription = resultSet.getString("clubDescription");
 
-                    // Create a Club object and add it to the list
-                    Club club = new Club(clubId , clubName, clubDescription);
-                    clubs.add(club);
+                        // Create a Club object and add it to the list
+                        Club club = new Club(clubId, clubName, clubDescription);
+                        clubs.add(club);
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -684,11 +709,15 @@ public class EventSheduleDatabaseConnection {
         return clubs;
     }
 
+
     public void insertMembershipRequest(String studentId, int clubId) {
         String insertQuery = "INSERT INTO membershiprequests (clubId, studentId) VALUES (?, ?)";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
 
-        try (Connection connection = getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery)) {
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(insertQuery);
 
             // Set parameters
             preparedStatement.setInt(1, clubId);
@@ -700,21 +729,353 @@ public class EventSheduleDatabaseConnection {
             System.out.println("Membership request inserted successfully.");
 
         } catch (SQLException e) {
-            e.printStackTrace(); // Handle the exception appropriately based on your application's needs
+            e.printStackTrace();
+        } finally {
+
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 
 
+    public List<MembershipRequest> getMembershipRequestsByAdvisorId(String advisorId) {
+        List<MembershipRequest> membershipRequests = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = getConnection();
 
 
+            String query = "SELECT c.clubName, m.studentId " +
+                    "FROM membershiprequests m " +
+                    "JOIN Club c ON m.clubId = c.clubId " +
+                    "WHERE c.teacherId = ?";
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, advisorId);
+            resultSet = preparedStatement.executeQuery();
+
+            // Process the results
+            while (resultSet.next()) {
+                String clubName = resultSet.getString("clubName");
+                String studentId = resultSet.getString("studentId");
+
+                // Create a MembershipRequest object and add it to the list
+                MembershipRequest membershipRequest = new MembershipRequest(clubName, studentId);
+                membershipRequests.add(membershipRequest);
+            }
+
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return membershipRequests;
+    }
+
+    public void acceptMembershipRequest(String studentId, int clubId) {
+        Connection connection = null;
+        PreparedStatement deleteStatement = null;
+        PreparedStatement insertStatement = null;
+
+        try {
+            connection = getConnection();
 
 
+            String deleteQuery = "DELETE FROM membershiprequests WHERE studentId = ? AND clubId = ?";
+            deleteStatement = connection.prepareStatement(deleteQuery);
+            deleteStatement.setString(1, studentId);
+            deleteStatement.setInt(2, clubId);
+            deleteStatement.executeUpdate();
 
 
+            String insertQuery = "INSERT INTO student_club (studentId, clubId) VALUES (?, ?)";
+            insertStatement = connection.prepareStatement(insertQuery);
+            insertStatement.setString(1, studentId);
+            insertStatement.setInt(2, clubId);
+            insertStatement.executeUpdate();
 
 
+        } catch (SQLException e) {
+            e.printStackTrace();
 
+        } finally {
+            // Close resources
+            try {
+                if (deleteStatement != null) {
+                    deleteStatement.close();
+                }
+                if (insertStatement != null) {
+                    insertStatement.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
+    public void declineMembershipRequest(String studentId, String clubName) {
+        try {
+            int clubId = getClubIdByClubName(clubName);
 
+            if (clubId != -1) {
+                String deleteQuery = "DELETE FROM membershiprequests WHERE studentId = ? AND clubId = ?";
+                try (PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
+                    deleteStatement.setString(1, studentId);
+                    deleteStatement.setInt(2, clubId);
+
+                    int rowsAffected = deleteStatement.executeUpdate();
+
+                    if (rowsAffected > 0) {
+                        System.out.println("Membership request declined and deleted.");
+                    } else {
+                        System.out.println("No matching membership request found.");
+                    }
+                }
+            } else {
+                System.out.println("No matching club found.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Club> getJoinedClubsByStudentId(String studentId) {
+        List<Club> joinedClubs = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            connection = getConnection();
+
+            // Query to retrieve joined clubs based on student ID
+            String query = "SELECT c.clubName, c.clubDescription " +
+                    "FROM Club c " +
+                    "JOIN Student_club sc ON c.clubId = sc.clubId " +
+                    "WHERE sc.studentId = ?";
+
+            preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, studentId);
+            resultSet = preparedStatement.executeQuery();
+
+            // Process the results
+            while (resultSet.next()) {
+                String clubName = resultSet.getString("clubName");
+
+                String clubDescription = resultSet.getString("clubDescription");
+
+                // Create a Club object and add it to the list
+                Club joinedClub = new Club(clubName, clubDescription);
+                joinedClubs.add(joinedClub);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Log the exception or handle it based on your application's needs
+        } finally {
+            // Close resources in the reverse order of their creation to avoid potential issues
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace(); // Log the exception or handle it based on your needs
+            }
+        }
+
+        return joinedClubs;
+    }
+
+    public void leaveClub(String studentId, int clubId) {
+        String deleteQuery = "DELETE FROM student_club WHERE studentId = ? AND clubId = ?";
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+
+        try {
+            connection = getConnection();
+            preparedStatement = connection.prepareStatement(deleteQuery);
+
+            // Set parameters
+            preparedStatement.setString(1, studentId);
+            preparedStatement.setInt(2, clubId);
+
+            // Execute the update
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) {
+                System.out.println("Membership record deleted successfully.");
+            } else {
+                System.out.println("No matching membership record found.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception appropriately based on your application's needs
+        } finally {
+            // Close PreparedStatement (Connection will remain open)
+            if (preparedStatement != null) {
+                try {
+                    preparedStatement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace(); // Handle the exception appropriately
+                }
+            }
+            // Note: Do not close the Connection here
+        }
+    }
+
+    public List<Event> getClubEventsByStudentId(String studentId) {
+        List<Event> clubEvents = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            String query = "SELECT * FROM ClubEvents WHERE clubId IN (SELECT clubId FROM student_club WHERE studentId = ?)";
+            preparedStatement = connection.prepareStatement(query);
+
+            // Set parameter
+            preparedStatement.setString(1, studentId);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Event event = new Event(
+                        resultSet.getInt("eventId"),
+                        resultSet.getString("eventName"),
+                        resultSet.getString("eventDate"),
+                        resultSet.getString("eventTime"),
+                        resultSet.getString("eventLocation"),
+                        resultSet.getString("eventDescription"),
+                        resultSet.getInt("clubId"),
+                        resultSet.getString("teacherId"),
+                        resultSet.getString("eventType")
+                );
+                clubEvents.add(event);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception based on your application's needs
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace(); // Handle the exception based on your application's needs
+            }
+        }
+
+        return clubEvents;
+    }
+
+    public List<Meeting> getClubMeetingsByStudentId(String studentId) {
+        List<Meeting> clubMeetings = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            String query = "SELECT * FROM ClubMeetings WHERE clubId IN (SELECT clubId FROM student_club WHERE studentId = ?)";
+            preparedStatement = connection.prepareStatement(query);
+
+            // Set parameter
+            preparedStatement.setString(1, studentId);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Meeting meeting = new Meeting(
+                        resultSet.getInt("eventId"),
+                        resultSet.getString("meetingName"),
+                        resultSet.getString("meetingDate"),
+                        resultSet.getString("meetingTime"),
+                        resultSet.getString("meetingLocation"),
+                        resultSet.getString("meetingDescription"),
+                        resultSet.getInt("clubId"),
+                        resultSet.getString("teacherId"),
+                        resultSet.getString("meetingAgenda")
+                );
+                clubMeetings.add(meeting);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception based on your application's needs
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace(); // Handle the exception based on your application's needs
+            }
+        }
+
+        return clubMeetings;
+    }
+
+    public List<Activity> getClubActivitiesByStudentId(String studentId) {
+        List<Activity> clubActivities = new ArrayList<>();
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+
+        try {
+            String query = "SELECT * FROM ClubActivities WHERE clubId IN (SELECT clubId FROM student_club WHERE studentId = ?)";
+            preparedStatement = connection.prepareStatement(query);
+
+            // Set parameter
+            preparedStatement.setString(1, studentId);
+            resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Activity activity = new Activity(
+                        resultSet.getInt("eventId"),
+                        resultSet.getString("activityName"),
+                        resultSet.getString("activityDate"),
+                        resultSet.getString("activityTime"),
+                        resultSet.getString("activityLocation"),
+                        resultSet.getString("activityDescription"),
+                        resultSet.getInt("clubId"),
+                        resultSet.getString("teacherId"),
+                        resultSet.getString("activityType")
+                );
+                clubActivities.add(activity);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace(); // Handle the exception based on your application's needs
+        } finally {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace(); // Handle the exception based on your application's needs
+            }
+        }
+
+        return clubActivities;
+    }
 
 }
