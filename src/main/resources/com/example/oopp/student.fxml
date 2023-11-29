@@ -107,14 +107,53 @@
                   </Text>
                </children>
             </AnchorPane>
+
             <AnchorPane fx:id="student_event" prefHeight="200.0" prefWidth="200.0" visible="false">
+
+            <AnchorPane fx:id="student_club" prefHeight="200.0" prefWidth="200.0" visible="false">
+               <children>
+                  <TableView fx:id="studentJoinedClubs" layoutX="24.0" layoutY="355.0" prefHeight="145.0" prefWidth="503.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
+                     <columns>
+                        <TableColumn fx:id="joinClubNameCol" prefWidth="197.0" text="Name" />
+                        <TableColumn fx:id="joinedClubDescriptionCol" prefWidth="304.7999267578125" text="Description" />
+                     </columns>
+                  </TableView>
+                  <TableView fx:id="studentClubDisplayTable" layoutX="24.0" layoutY="65.0" prefHeight="199.0" prefWidth="503.0" styleClass="table-row-cell" stylesheets="@cadvisor.css">
+                     <columns>
+                        <TableColumn fx:id="studentClubNameDisplay" prefWidth="254.0" text="Name" />
+                        <TableColumn fx:id="studentClubDescriptionDisplay" prefWidth="249.0" text="Description" />
+                     </columns>
+                  </TableView>
+                  <Text layoutX="31.0" layoutY="35.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Clubs">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="31.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on the club name on the table and click join button to send join request to club." />
+                  <Button layoutX="171.0" layoutY="275.0" mnemonicParsing="false" onAction="#handleJoinButtonClick" prefHeight="31.0" prefWidth="209.0" styleClass="search-button" stylesheets="@cadvisor.css" text="Join Club" />
+                  <Text layoutX="31.0" layoutY="324.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Joined Clubs">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="31.0" layoutY="344.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on the club name on the table and click leave button to send leave request to club." />
+                  <Button layoutX="171.0" layoutY="506.0" mnemonicParsing="false" onAction="#handleLeaveButtonClick" prefHeight="31.0" prefWidth="209.0" styleClass="search-button" stylesheets="@cadvisor.css" text="Leave Club" />
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="student_event" prefHeight="200.0" prefWidth="200.0">
+
                <children>
                   <Text layoutX="26.0" layoutY="26.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Upcoming Events, Meetings, Activities">
                      <font>
                         <Font size="16.0" />
                      </font>
                   </Text>
+
                   <TableView layoutX="16.0" layoutY="62.0" prefHeight="213.0" prefWidth="520.0">
+
+
+                  <TableView layoutX="16.0" layoutY="62.0" prefHeight="213.0" prefWidth="520.0"></TableView>
+
                      <columns>
                         <TableColumn prefWidth="87.0" text="Date" />
                         <TableColumn prefWidth="135.0" text="Event Name" />
@@ -122,6 +161,18 @@
                         <TableColumn prefWidth="73.0" text="Time" />
                         <TableColumn prefWidth="134.0" text="Venue" />
                      </columns>
+
+
+                  <TableView fx:id="upcommingEventsTable" layoutX="16.0" layoutY="62.0" prefHeight="213.0" prefWidth="520.0">
+                    <columns>
+                      <TableColumn fx:id="upcomingEventDate" prefWidth="87.0" text="Date" />
+                      <TableColumn fx:id="upcomingEventName" prefWidth="135.0" text="Event Name" />
+                        <TableColumn fx:id="upcomingClubName" prefWidth="90.0" text="Club Name" />
+                        <TableColumn fx:id="upcomingTime" prefWidth="73.0" text="Time" />
+                        <TableColumn fx:id="upcomingLocation" prefWidth="134.0" text="Venue" />
+                    </columns>
+
+
                   </TableView>
                   <Text layoutX="26.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Click on the event name on the table and click attend button." />
                   <Text layoutX="25.0" layoutY="334.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Attending Events, Meetings, Activities">

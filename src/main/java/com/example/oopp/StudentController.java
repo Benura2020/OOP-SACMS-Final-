@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 
 import com.example.oopp.Club;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -15,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.net.URL;
 import java.sql.*;
@@ -39,6 +41,7 @@ public class StudentController implements Initializable {
 
     // Variable to store the signed-in student ID
     public static String signedInStudentId;
+
 
 
     @FXML
@@ -93,6 +96,27 @@ public class StudentController implements Initializable {
 
     @FXML
     private TableColumn<Club, String> teacherIdColumn;
+    @FXML
+    private TableView<Club> studentJoinedClubs;
+    @FXML
+    private TableColumn<Club, String> joinClubNameCol;
+    @FXML
+    private TableColumn<Club, String> joinedClubAdvisorIdCol;
+    @FXML
+    private TableColumn<Club, String> joinedClubDescriptionCol;
+    @FXML
+    private TableView<ScheduleActivity> upcommingEventsTable;
+    @FXML
+    private TableColumn<ScheduleActivity,String> upcomingEventDate;
+    @FXML
+    private TableColumn<ScheduleActivity , String> upcomingEventName;
+    @FXML
+    private TableColumn<ScheduleActivity,String> upcomingClubName;
+    @FXML
+    private TableColumn<ScheduleActivity,String> upcomingTime;
+    @FXML
+    private TableColumn<ScheduleActivity,String> upcomingLocation;
+
 
 
 
@@ -113,6 +137,7 @@ public class StudentController implements Initializable {
         HelloController.toggleVisibility(student_home, false);
         HelloController.toggleVisibility(student_club, false);
         HelloController.toggleVisibility(student_event, true);
+        upcommingEvents();
     }
 
     public void studentExitButtonOnAction(ActionEvent event){
@@ -205,43 +230,113 @@ public class StudentController implements Initializable {
 
 
     EventSheduleDatabaseConnection dbConnection = new EventSheduleDatabaseConnection();
+    private Club selectedClub;
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-//        List<Club> allClubs = dbConnection.getAllClubs();
-//
-//        // Set up the club name column
-//        studentClubNameDisplay.setCellValueFactory(new PropertyValueFactory<>("clubName"));
-//
-//        // Set up the club description column (replace "getDescription" with your actual method)
-//        studentClubDescriptionDisplay.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getClubDescription()));
-//
-//        // Add all clubs to the table
-//        studentClubDisplayTable.getItems().addAll(allClubs);
+        List<Club> allClubs = dbConnection.getAvailableClubsForStudent(HelloController.signInStudentId);
+
+        // Set up the club name column
+        studentClubNameDisplay.setCellValueFactory(new PropertyValueFactory<>("clubName"));
+
+        // Set up the club description column (replace "getDescription" with your actual method)
+        studentClubDescriptionDisplay.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getClubDescription()));
+
+        // Add all clubs to the table
+        studentClubDisplayTable.getItems().addAll(allClubs);
 
 
+
+        joinClubNameCol.setCellValueFactory(new PropertyValueFactory<>("clubName"));
+
+        // Set up the club description column
+        joinedClubDescriptionCol.setCellValueFactory(new PropertyValueFactory<>("clubDescription"));
+
+        // Add row selection listener
+        studentJoinedClubs.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                selectedClub = newSelection;
+            }
+        });
+
+        // Clear existing items in the table
+        studentJoinedClubs.getItems().clear();
+
+        // Add data to the table
+        List<Club> joinedClubs = dbConnection.getJoinedClubsByStudentId(HelloController.signInStudentId);
+        studentJoinedClubs.getItems().addAll(joinedClubs);
 
     }
 
-//    public void handleJoinButtonClick(ActionEvent event) {
-//        // Get the selected club
-//        Club selectedClub = studentClubDisplayTable.getSelectionModel().getSelectedItem();
-//
-//        if (selectedClub != null) {
-//            // Get student ID from your controller (replace this with your actual method)
-//            String studentId = "S001";
-//
-//            // Get the club ID from the database
-//            int clubId = dbConnection.getClubIdByClubName(selectedClub.getClubName());
-//
-//            // Insert the membership request
-//            dbConnection.insertMembershipRequest(studentId, clubId);
-//
-//
-//        } else {
-//            // Handle the case when no club is selected
-//            showAlert("Error","Please select a club before clicking Join.");
-//        }
-//    }
+    @FXML
+    private void handleLeaveButtonClick(ActionEvent event) {
+        if (selectedClub != null) {
+            // Get student ID from your controller (replace this with your actual method)
+            String studentId = HelloController.signInStudentId;
+
+            // Get the club ID from the selected club
+            int clubId = dbConnection.getClubIdByClubName(selectedClub.getClubName());
+
+            // Remove the membership record
+            dbConnection.leaveClub(studentId, clubId);
+
+            // Refresh the table to reflect the changes
+            refreshJoinedClubsTable();
+        } else {
+            // Handle the case when no club is selected
+            showAlert("Error", "Please select a club before clicking Leave.");
+        }
+    }
+
+    // Add the refreshJoinedClubsTable method
+    private void refreshJoinedClubsTable() {
+        // Clear existing items in the table
+        studentJoinedClubs.getItems().clear();
+
+        // Add data to the table
+        List<Club> joinedClubs = dbConnection.getJoinedClubsByStudentId(HelloController.signInStudentId);
+        studentJoinedClubs.getItems().addAll(joinedClubs);
+    }
+    private void refreshTable() {
+        // Clear existing items from the table
+        studentClubDisplayTable.getItems().clear();
+
+        // Fetch the updated list of available clubs for the student
+        List<Club> allClubs = dbConnection.getAvailableClubsForStudent(HelloController.signInStudentId);
+
+        // Set up the club name column
+        studentClubNameDisplay.setCellValueFactory(new PropertyValueFactory<>("clubName"));
+
+        // Set up the club description column
+        studentClubDescriptionDisplay.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getClubDescription()));
+
+        // Add all clubs to the table
+        studentClubDisplayTable.getItems().addAll(allClubs);
+
+    }
+
+
+    public void handleJoinButtonClick(ActionEvent event) {
+        // Get the selected club
+        Club selectedClub = studentClubDisplayTable.getSelectionModel().getSelectedItem();
+
+        if (selectedClub != null) {
+            // Get student ID from your controller (replace this with your actual method)
+            String studentId = HelloController.signInStudentId;
+
+            // Get the club ID from the database
+            int clubId = dbConnection.getClubIdByClubName(selectedClub.getClubName());
+
+            // Insert the membership request
+            dbConnection.insertMembershipRequest(studentId, clubId);
+
+            // Remove the selected club from the table
+            studentClubDisplayTable.getItems().remove(selectedClub);
+        } else {
+            // Handle the case when no club is selected
+            showAlert("Error", "Please select a club before clicking Join.");
+        }
+    }
+
 
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -253,6 +348,45 @@ public class StudentController implements Initializable {
 
 
 // ------------------------------------------table loading--------------------------------------------------------------
+
+
+
+
+
+    public void upcommingEvents(){
+        String studentId = HelloController.signInStudentId;
+        upcommingEventsTable.getItems().clear();
+        List<ScheduleActivity> allActivities = new ArrayList<>();
+        allActivities.addAll(dbConnection.getClubEventsByStudentId(studentId));
+        allActivities.addAll(dbConnection.getMeetingsByAdvisorId(studentId));
+        allActivities.addAll(dbConnection.getClubActivitiesByStudentId(studentId));
+
+        upcomingEventDate.setCellValueFactory(new PropertyValueFactory<>("date"));
+        upcomingEventName.setCellValueFactory(cellData -> new SimpleStringProperty(getCombinedNames(cellData.getValue())));
+        upcomingClubName.setCellValueFactory(param -> new SimpleStringProperty(getClubName(param.getValue().getClubId())));
+        upcomingTime.setCellValueFactory(new PropertyValueFactory<>("time"));
+        upcomingLocation.setCellValueFactory(new PropertyValueFactory<>("location"));
+
+        upcommingEventsTable.getItems().addAll(allActivities);
+
+
+    }
+    private String getCombinedNames(ScheduleActivity scheduleActivity) {
+        if (scheduleActivity instanceof Event) {
+            return ((Event) scheduleActivity).getTitle();
+        } else if (scheduleActivity instanceof Meeting) {
+            return ((Meeting) scheduleActivity).getTitle();
+        } else if (scheduleActivity instanceof Activity) {
+            return ((Activity) scheduleActivity).getTitle();
+        } else {
+            return "";
+        }
+    }
+    private String getClubName(int clubId) {
+        return dbConnection.getClubNameById(clubId);
+    }
+
+
 
 
 

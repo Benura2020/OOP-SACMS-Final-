@@ -1,6 +1,8 @@
 package com.example.oopp;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -128,11 +130,11 @@ public class ClubAdvisorController {
     @FXML
     private TextField EventUpdateDeleteEventId;
     @FXML
-    private TableView<String> advisorJoinReqTable;
+    private TableView<MembershipRequest> advisorJoinReqTable;
     @FXML
-    private TableColumn<String,String> joinReqStudentName;
+    private TableColumn<MembershipRequest, String> joinReqStudentName;
     @FXML
-    private TableColumn<String,String> joinReqClubName;
+    private TableColumn<MembershipRequest, String> joinReqClubName;
 
 
 
@@ -542,6 +544,7 @@ public class ClubAdvisorController {
         EventDeleteDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
 
         EventUpdateDeleteTable.getItems().addAll(allActivities);
+
 
         EventUpdateDeleteTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
@@ -1011,6 +1014,71 @@ public class ClubAdvisorController {
 
         return null;
     }
+
+    @FXML
+    public void initialize() {
+        // Assuming you have a method to get the advisorId (replace it with your actual logic)
+        String advisorId = HelloController.signinTeacherId;
+
+        // Fetch membership requests for the advisor
+        List<MembershipRequest> membershipRequests = dbConnection.getMembershipRequestsByAdvisorId(advisorId);
+
+        // Populate the table
+        populateTable(membershipRequests);
+    }
+
+    private void populateTable(List<MembershipRequest> membershipRequests) {
+        ObservableList<MembershipRequest> data = FXCollections.observableArrayList(membershipRequests);
+
+        joinReqStudentName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getStudentId()));
+        joinReqClubName.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getClubName()));
+
+        advisorJoinReqTable.setItems(data);
+    }
+    @FXML
+    private void handleAcceptButton(ActionEvent event) {
+        // Get the selected membership request
+        MembershipRequest selectedRequest = advisorJoinReqTable.getSelectionModel().getSelectedItem();
+
+        // Check if a request is selected
+        if (selectedRequest != null) {
+            // Assuming you have a method to get the advisorId (replace it with your actual logic)
+            String advisorId = HelloController.signinTeacherId;
+
+            // Get the clubId based on clubName
+            int clubId = dbConnection.getClubIdByClubName(selectedRequest.getClubName());
+
+            // Accept the membership request
+            dbConnection.acceptMembershipRequest(selectedRequest.getStudentId(), clubId);
+
+            // Refresh the table
+            refreshTable();
+        }
+    }
+
+    // Add this method to refresh the table after accepting a request
+    private void refreshTable() {
+        // Fetch membership requests for the advisor
+        List<MembershipRequest> membershipRequests = dbConnection.getMembershipRequestsByAdvisorId(HelloController.signinTeacherId);
+
+        // Populate the table
+        populateTable(membershipRequests);
+    }
+    @FXML
+    private void handleDeclineButton(ActionEvent event) {
+        // Get the selected membership request
+        MembershipRequest selectedRequest = advisorJoinReqTable.getSelectionModel().getSelectedItem();
+
+        // Check if a request is selected
+        if (selectedRequest != null) {
+            // Decline the membership request
+            dbConnection.declineMembershipRequest(selectedRequest.getStudentId(), selectedRequest.getClubName());
+
+            // Refresh the table after declining the request
+            refreshTable();
+        }
+    }
+
 
 
 }
